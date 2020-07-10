@@ -1,0 +1,14 @@
+<div class="container mt-5 col-sm-6">
+  <nz-steps [nzCurrent]="current">
+    <nz-step nzTitle="Time" [nzIcon]="calendarTemplate"></nz-step>
+      <ng-template #calendarTemplate><i class="fa fa-calendar"></i></ng-template>
+    <nz-step nzTitle="Data" [nzIcon]="fileTextTemplate"></nz-step>
+      <ng-template #fileTextTemplate><i class="fa fa-file-text-o"></i></ng-template>
+    <nz-step nzTitle="Agreements" [nzIcon]="checkSquareTemplate"></nz-step>
+    <ng-template #checkSquareTemplate><i class="fa fa-thumbs-o-up"></i></ng-template>
+    <nz-step nzTitle="Save" [nzIcon]="saveTemplate"></nz-step>
+      <ng-template #saveTemplate><i class="fa fa-database"></i></ng-template>
+    <nz-step nzTitle="Done" [nzIcon]="checkTemplate"></nz-step>
+    <ng-template #checkTemplate><i class="fa fa-check"></i></ng-template>
+  </nz-steps>
+</div>
