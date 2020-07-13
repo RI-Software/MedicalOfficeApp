@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const appRoutes: Routes = [
   { path: '', redirectTo: 'signup/time', pathMatch: 'full' }, // tmp
   {
-    path: 'signup/time',
+    path: 'signup',
     loadChildren: () =>
       import('./client/client.module').then((m) => m.ClientModule),
   },
