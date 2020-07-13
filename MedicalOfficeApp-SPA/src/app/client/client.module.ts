@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 import { ClientComponent } from './client.component';
 import { clientRoutes } from './client.routes';
@@ -20,6 +21,7 @@ import { StepService } from './services/step.service';
   imports: [
     CommonModule,
     NzStepsModule,
+    NzCardModule,
     RouterModule.forChild(clientRoutes)
   ],
   providers: [
