@@ -1,3 +1,6 @@
-// nz-card {
-//     height: 500px;
-// }
+nz-card {
+  ::ng-deep .ant-card-body {
+    height: calc(100% - 65px);
+  }
+  height: 500px;
+}
