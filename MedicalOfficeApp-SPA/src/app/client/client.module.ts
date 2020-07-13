@@ -6,11 +6,13 @@ import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { ClientComponent } from './client.component';
 import { clientRoutes } from './client.routes';
 import { StepsComponent } from './components/steps/steps.component';
+import { TimeComponent } from './components/time/time.component';
 
 @NgModule({
   declarations: [
     ClientComponent,
-    StepsComponent
+    StepsComponent,
+    TimeComponent
   ],
   imports: [
     CommonModule,
