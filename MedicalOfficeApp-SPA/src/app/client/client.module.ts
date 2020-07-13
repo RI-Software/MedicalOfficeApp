@@ -10,13 +10,21 @@ import { StepsComponent } from './components/steps/steps.component';
 import { StepControlComponent } from './components/step-control/step-control.component';
 import { TimeComponent } from './components/time/time.component';
 import { StepService } from './services/step.service';
+import { DataComponent } from './components/data/data.component';
+import { DoneComponent } from './components/done/done.component';
+import { SaveComponent } from './components/save/save.component';
+import { AgreementsComponent } from './components/agreements/agreements.component';
 
 @NgModule({
   declarations: [
     ClientComponent,
     StepsComponent,
     StepControlComponent,
-    TimeComponent
+    TimeComponent,
+    DataComponent,
+    AgreementsComponent,
+    SaveComponent,
+    DoneComponent,
   ],
   imports: [
     CommonModule,
