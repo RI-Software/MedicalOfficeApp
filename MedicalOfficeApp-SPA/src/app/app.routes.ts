@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 export const appRoutes: Routes = [
-  { path: '', redirectTo: 'signup/time', pathMatch: 'full' }, // tmp
+  { path: '', redirectTo: 'signup', pathMatch: 'full' }, // tmp
   {
     path: 'signup',
     loadChildren: () =>
@@ -12,5 +12,5 @@ export const appRoutes: Routes = [
     loadChildren: () =>
       import('./admin/admin.module').then((m) => m.AdminModule),
   },
-  { path: '**', redirectTo: 'signup/time', pathMatch: 'full' }
+  { path: '**', redirectTo: 'signup', pathMatch: 'full' }
 ];
