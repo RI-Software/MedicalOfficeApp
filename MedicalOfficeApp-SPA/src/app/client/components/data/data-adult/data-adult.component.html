@@ -1,0 +1,27 @@
+<form [formGroup]="adultRegisterForm" (ngSubmit)="this.register()">
+
+  <div class="form-group">
+      <input type="text" class="form-control" formControlName="name" placeholder="Name">
+  </div>
+  
+  <div class="form-group">
+      <input type="text" class="form-control" formControlName="surname" placeholder="Surname">
+  </div>
+
+  <div class="form-group">
+      <input type="number" class="form-control" formControlName="age" placeholder="Age">
+  </div>
+
+  <div class="form-group">
+      <input type="email" class="form-control" formControlName="email" placeholder="Email">
+  </div>
+
+  <div class="form-group">
+      <input type="tel" class="form-control" formControlName="phone" placeholder="Phone">
+  </div>
+
+  <div class="form-group text-center">
+    <button class="btn btn-default" type="button" (click)="cancel()">Cancel</button>
+  </div>
+
+</form>

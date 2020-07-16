@@ -1,10 +1,10 @@
 import { Type } from '@angular/core';
 import { Route } from '@angular/router';
 import { TimeComponent } from 'src/app/client/components/time/time.component';
-import { DataComponent } from 'src/app/client/components/data/data.component';
 import { AgreementsComponent } from 'src/app/client/components/agreements/agreements.component';
 import { SaveComponent } from 'src/app/client/components/save/save.component';
 import { DoneComponent } from 'src/app/client/components/done/done.component';
+import { DataHomeComponent } from 'src/app/client/components/data/data-home/data-home.component';
 
 export class Step {
   route: Route;
@@ -30,7 +30,7 @@ export class RouteInstance implements Route {
 
 export const steps: Step[] = [
   new Step('time', TimeComponent, 'Time', 'clock-circle'),
-  new Step('data', DataComponent, 'Data', 'solution'),
+  new Step('data', DataHomeComponent, 'Data', 'solution'),
   new Step('agreements', AgreementsComponent, 'Agreements', 'file-text'),
   new Step('save', SaveComponent, 'Save', 'save'),
   new Step('done', DoneComponent, 'Done', 'check'),
