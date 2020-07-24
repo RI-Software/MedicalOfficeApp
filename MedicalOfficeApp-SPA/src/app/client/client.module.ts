@@ -14,9 +14,8 @@ import { StepService } from './services/step.service';
 import { DoneComponent } from './components/done/done.component';
 import { SaveComponent } from './components/save/save.component';
 import { AgreementsComponent } from './components/agreements/agreements.component';
-import { DataHomeComponent } from './components/data/data-home/data-home.component';
-import { DataAdultComponent } from './components/data/data-adult/data-adult.component';
-import { DataChildComponent } from './components/data/data-child/data-child.component';
+import { DataComponent } from './components/data/data.component';
+
 
 @NgModule({
   declarations: [
@@ -24,9 +23,7 @@ import { DataChildComponent } from './components/data/data-child/data-child.comp
     StepsComponent,
     StepControlComponent,
     TimeComponent,
-    DataHomeComponent,
-    DataAdultComponent,
-    DataChildComponent,
+    DataComponent,
     AgreementsComponent,
     SaveComponent,
     DoneComponent,

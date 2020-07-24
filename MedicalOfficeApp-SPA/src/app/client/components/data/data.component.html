@@ -1,0 +1,128 @@
+<div class="container mt-3">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <h2 class="text-center text-primary">Sign Up</h2>
+      <hr>
+      <div class="col container">
+        <form [formGroup]="registerForm" (ngSubmit)="this.register()">
+
+          <div class="form-group">
+            <input type="text" [ngClass]="{'is-invalid': registerForm.controls.name.errors 
+              && registerForm.controls.name.touched}" class="form-control" formControlName="name"
+              placeholder="Patient Name">
+            <div *ngIf="registerForm.controls.name.errors?.customError && registerForm.controls.name.touched"
+              class="invalid-feedback">
+                {{registerForm.controls.name.errors?.customError.errorMsg}}
+            </div>
+            <div *ngIf="registerForm.controls.name.hasError('required') && registerForm.controls.name.touched"
+              class="invalid-feedback">
+                Name is required
+            </div>
+            <div *ngIf="registerForm.controls.name.hasError('minlength') && registerForm.controls.name.touched"
+              class="invalid-feedback">
+                Name must be at least 2 characters
+            </div>
+            <div *ngIf="registerForm.controls.name.hasError('maxlength') && registerForm.controls.name.touched"
+              class="invalid-feedback">
+                Name cannot exceed 15 characters
+            </div>
+          </div>
+
+          <div class="form-group">
+            <input type="text" [ngClass]="{'is-invalid': registerForm.controls.surname.errors
+              && registerForm.controls.surname.touched}" class="form-control" formControlName="surname"
+              placeholder="Patient Surname">
+            <div *ngIf="registerForm.controls.surname.errors?.customError" class="invalid-feedback">
+                {{registerForm.controls.surname.errors?.customError.errorMsg}}
+            </div>
+            <div *ngIf="registerForm.controls.surname.hasError('required') && registerForm.controls.surname.touched"
+              class="invalid-feedback">
+                Surname is required
+            </div>
+            <div *ngIf="registerForm.controls.surname.hasError('minlength') && registerForm.controls.surname.touched"
+              class="invalid-feedback">
+                Surname must be at least 2 characters
+            </div>
+            <div *ngIf="registerForm.controls.surname.hasError('maxlength') && registerForm.controls.surname.touched"
+              class="invalid-feedback">
+                Surname cannot exceed 15 characters
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="row" formGroupName="age">
+              <div class="col">
+                <input type="number" [ngClass]="{'is-invalid': registerForm.get('age.years').errors
+                  && registerForm.get('age.years').touched}" class="form-control" formControlName="years"
+                  placeholder="Age">
+                <div *ngIf="registerForm.get('age.years').hasError('required') && registerForm.get('age.years').touched"
+                  class="invalid-feedback">
+                    Age is required
+                </div>
+                <div *ngIf="registerForm.get('age.years').hasError('min') && registerForm.get('age.years').touched"
+                  class="invalid-feedback">
+                    Age should be positive
+                </div>
+                <div *ngIf="registerForm.get('age.years').hasError('max') && registerForm.get('age.years').touched"
+                  class="invalid-feedback">
+                    Choose your real age
+                </div>
+              </div>
+              <div class="col">
+                <input type="number" [ngClass]="{'is-invalid': registerForm.get('age.months').errors 
+                  && registerForm.get('age.months').touched}" class="form-control" formControlName="months"
+                  placeholder="Months">
+                <div
+                  *ngIf="registerForm.get('age.months').hasError('required') && registerForm.get('age.months').touched"
+                  class="invalid-feedback">
+                    Months are required
+                </div>
+                <div *ngIf="registerForm.get('age.months').hasError('min') && registerForm.get('age.months').touched"
+                  class="invalid-feedback">
+                    Should be greater than 0
+                </div>
+                <div *ngIf="registerForm.get('age.months').hasError('max') && registerForm.get('age.months').touched"
+                  class="invalid-feedback">
+                    Should be less than 12
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <input type="text" [ngClass]="{'is-invalid': registerForm.controls.email.errors
+              && registerForm.controls.email.touched}" class="form-control" formControlName="email" placeholder="Email">
+            <div *ngIf="registerForm.controls.email.errors?.customError && registerForm.controls.email.touched"
+              class="invalid-feedback">
+                {{registerForm.controls.email.errors?.customError.errorMsg}}
+            </div>
+            <div *ngIf="registerForm.controls.email.hasError('required') && registerForm.controls.email.touched"
+              class="invalid-feedback">
+                Email is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <input type="tel" [ngClass]="{'is-invalid': registerForm.controls.phone.errors 
+              && registerForm.controls.phone.touched}" class="form-control" formControlName="phone" placeholder="Phone">
+            <div *ngIf="registerForm.controls.phone.errors?.customError && registerForm.controls.phone.touched"
+              class="invalid-feedback">
+                {{registerForm.controls.phone.errors?.customError.errorMsg}}
+            </div>
+            <div *ngIf="registerForm.controls.phone.hasError('required') && registerForm.controls.phone.touched"
+              class="invalid-feedback">
+                Phone is required
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="fixed-bottom">
+  {{this.registerForm.value | json}}
+  {{this.registerForm.errors | json}}
+  {{this.registerForm.status | json}}
+</div>
