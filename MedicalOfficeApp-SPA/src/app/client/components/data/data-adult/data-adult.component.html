@@ -1,84 +1,104 @@
-<form [formGroup]="adultRegisterForm" (ngSubmit)="this.register()">
+<form [formGroup]="registerForm" (ngSubmit)="this.register()">
 
     <div class="form-group">
-        <input type="text" [ngClass]="{'is-invalid': adultRegisterForm.controls.name.errors 
-            && adultRegisterForm.controls.name.touched}" class="form-control" formControlName="name" placeholder="Name">
-        <div *ngIf="adultRegisterForm.controls.name.errors?.customError && adultRegisterForm.controls.name.touched" 
+        <input type="text" [ngClass]="{'is-invalid': registerForm.controls.name.errors 
+            && registerForm.controls.name.touched}" class="form-control" formControlName="name" placeholder="Patient Name">
+        <div *ngIf="registerForm.controls.name.errors?.customError && registerForm.controls.name.touched" 
             class="invalid-feedback">
-                {{adultRegisterForm.controls.name.errors?.customError.errorMsg}}
+                {{registerForm.controls.name.errors?.customError.errorMsg}}
         </div>
-        <div *ngIf="adultRegisterForm.controls.name.hasError('required') && adultRegisterForm.controls.name.touched" 
+        <div *ngIf="registerForm.controls.name.hasError('required') && registerForm.controls.name.touched" 
             class="invalid-feedback">
                 Name is required
         </div> 
-        <div *ngIf="adultRegisterForm.controls.name.hasError('minlength') && adultRegisterForm.controls.name.touched" 
+        <div *ngIf="registerForm.controls.name.hasError('minlength') && registerForm.controls.name.touched" 
             class="invalid-feedback">
                 Name must be at least 2 characters
         </div>
-        <div *ngIf="adultRegisterForm.controls.name.hasError('maxlength') && adultRegisterForm.controls.name.touched" 
+        <div *ngIf="registerForm.controls.name.hasError('maxlength') && registerForm.controls.name.touched" 
             class="invalid-feedback">
                 Name cannot exceed 15 characters
         </div> 
     </div>
   
     <div class="form-group">
-        <input type="text" [ngClass]="{'is-invalid': adultRegisterForm.controls.surname.errors
-            && adultRegisterForm.controls.surname.touched}" class="form-control" formControlName="surname" placeholder="Surname">
-        <div *ngIf="adultRegisterForm.controls.surname.errors?.customError" class="invalid-feedback">
-            {{adultRegisterForm.controls.surname.errors?.customError.errorMsg}}
+        <input type="text" [ngClass]="{'is-invalid': registerForm.controls.surname.errors
+            && registerForm.controls.surname.touched}" class="form-control" formControlName="surname" placeholder="Patient Surname">
+        <div *ngIf="registerForm.controls.surname.errors?.customError" class="invalid-feedback">
+            {{registerForm.controls.surname.errors?.customError.errorMsg}}
         </div>
-        <div *ngIf="adultRegisterForm.controls.surname.hasError('required') && adultRegisterForm.controls.surname.touched" 
+        <div *ngIf="registerForm.controls.surname.hasError('required') && registerForm.controls.surname.touched" 
             class="invalid-feedback">
                 Surname is required
         </div> 
-        <div *ngIf="adultRegisterForm.controls.surname.hasError('minlength') && adultRegisterForm.controls.surname.touched" 
+        <div *ngIf="registerForm.controls.surname.hasError('minlength') && registerForm.controls.surname.touched" 
             class="invalid-feedback">
                 Surname must be at least 2 characters
         </div>
-        <div *ngIf="adultRegisterForm.controls.surname.hasError('maxlength') && adultRegisterForm.controls.surname.touched" 
+        <div *ngIf="registerForm.controls.surname.hasError('maxlength') && registerForm.controls.surname.touched" 
             class="invalid-feedback">
                 Surname cannot exceed 15 characters
         </div> 
     </div>
 
     <div class="form-group">
-        <input type="number" [ngClass]="{'is-invalid': adultRegisterForm.controls.age.errors
-            && adultRegisterForm.controls.age.touched}" class="form-control" formControlName="age" placeholder="Age">
-        <div *ngIf="adultRegisterForm.controls.age.hasError('required') && adultRegisterForm.controls.age.touched" 
-            class="invalid-feedback">
-                Age is required
-        </div>
-        <div *ngIf="adultRegisterForm.controls.age.hasError('min') && adultRegisterForm.controls.age.touched" 
-            class="invalid-feedback">
-                Please select child option instead of "myself"
-        </div>
-        <div *ngIf="adultRegisterForm.controls.age.hasError('max') && adultRegisterForm.controls.age.touched" 
-            class="invalid-feedback">
-                Choose your real age
+        <div class="row" formGroupName="age">
+            <div class="col">
+                <input type="number" [ngClass]="{'is-invalid': registerForm.get('age.years').errors
+                    && registerForm.get('age.years').touched}" class="form-control" formControlName="years" placeholder="Age">
+                <div *ngIf="registerForm.get('age.years').hasError('required') && registerForm.get('age.years').touched" 
+                    class="invalid-feedback">
+                        Age is required
+                </div>
+                <div *ngIf="registerForm.get('age.years').hasError('min') && registerForm.get('age.years').touched" 
+                    class="invalid-feedback">
+                        Age should be positive
+                </div>
+                <div *ngIf="registerForm.get('age.years').hasError('max') && registerForm.get('age.years').touched" 
+                    class="invalid-feedback">
+                        Choose your real age
+                </div>
+            </div>
+            <div class="col">
+                <input type="number" [ngClass]="{'is-invalid': registerForm.get('age.months').errors 
+                    && registerForm.get('age.months').touched}" class="form-control" formControlName="months" placeholder="Months">
+                <div *ngIf="registerForm.get('age.months').hasError('required') && registerForm.get('age.months').touched" 
+                    class="invalid-feedback">
+                        Months are required
+                </div>    
+                <div *ngIf="registerForm.get('age.months').hasError('min') && registerForm.get('age.months').touched" 
+                    class="invalid-feedback">
+                        Should be greater than 0
+                </div>
+                <div *ngIf="registerForm.get('age.months').hasError('max') && registerForm.get('age.months').touched" 
+                    class="invalid-feedback">
+                        Should be less than 12
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="form-group">
-        <input type="text" [ngClass]="{'is-invalid': adultRegisterForm.controls.email.errors
-            && adultRegisterForm.controls.email.touched}" class="form-control" formControlName="email" placeholder="Email">
-        <div *ngIf="adultRegisterForm.controls.email.errors?.customError && adultRegisterForm.controls.email.touched"
+        <input type="text" [ngClass]="{'is-invalid': registerForm.controls.email.errors
+            && registerForm.controls.email.touched}" class="form-control" formControlName="email" placeholder="Email">
+        <div *ngIf="registerForm.controls.email.errors?.customError && registerForm.controls.email.touched"
             class="invalid-feedback">
-                {{adultRegisterForm.controls.email.errors?.customError.errorMsg}}
+                {{registerForm.controls.email.errors?.customError.errorMsg}}
         </div>
-        <div *ngIf="adultRegisterForm.controls.email.hasError('required') && adultRegisterForm.controls.email.touched" 
+        <div *ngIf="registerForm.controls.email.hasError('required') && registerForm.controls.email.touched" 
             class="invalid-feedback">
                 Email is required
         </div>
     </div>
 
     <div class="form-group">
-        <input type="tel" [ngClass]="{'is-invalid': adultRegisterForm.controls.phone.errors 
-            && adultRegisterForm.controls.phone.touched}" class="form-control" formControlName="phone" placeholder="Phone">
-        <div *ngIf="adultRegisterForm.controls.phone.errors?.customError && adultRegisterForm.controls.phone.touched"
+        <input type="tel" [ngClass]="{'is-invalid': registerForm.controls.phone.errors 
+            && registerForm.controls.phone.touched}" class="form-control" formControlName="phone" placeholder="Phone">
+        <div *ngIf="registerForm.controls.phone.errors?.customError && registerForm.controls.phone.touched"
             class="invalid-feedback">
-                {{adultRegisterForm.controls.phone.errors?.customError.errorMsg}}
+                {{registerForm.controls.phone.errors?.customError.errorMsg}}
         </div>
-        <div *ngIf="adultRegisterForm.controls.phone.hasError('required') && adultRegisterForm.controls.phone.touched" 
+        <div *ngIf="registerForm.controls.phone.hasError('required') && registerForm.controls.phone.touched" 
             class="invalid-feedback">
                 Phone is required
         </div>
@@ -90,7 +110,7 @@
 </form>
 
 <div class="fixed-bottom">
-{{this.adultRegisterForm.value | json}}
-{{this.adultRegisterForm.errors | json}}
-{{this.adultRegisterForm.status | json}}
+{{this.registerForm.value | json}}
+{{this.registerForm.errors | json}}
+{{this.registerForm.status | json}}
 </div>
