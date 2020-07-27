@@ -1,39 +1,114 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-import { steps } from 'src/app/core/models/stepModels';
 import { Router } from '@angular/router';
+import { TimeComponent } from '../components/time/time.component';
+import { Helpers } from '../shared/helpers';
+import { steps } from '../shared/models/stepModels';
+import { MoveType } from '../shared/models/MoveTypeEnum';
 
 @Injectable({
   providedIn: 'root',
 })
-export class StepService {
+export class StepService{
 
-  minStepValue = 0;
-  maxStepValue = steps.length - 1;
+  //#region GuardLogicParams
+
+  /**
+   * [param description]
+   * @param stepCanBeActivated is a component that can be
+   * activated at the moment.
+   */
+  stepCanBeActivated: Type<any> = TimeComponent;
+
+  /**
+   * [param description]
+   * @param moveType is used only by StepControlComponent.
+   * Better solution to tell StepControlComponent that it
+   * needs to set up btns availability can be found.
+   */
+  moveType = new BehaviorSubject<MoveType>(MoveType.None);
+
+  /**
+   * [param description]
+   * @param canMove exists with only one purpose:
+   * not to call canActivateShared method two times
+   * each time user can go to enother page.
+   * Is used only by ActivateGuard.
+   */
+  canMove = false;
+
+  //#endregion
+
+  private minStepValue = 0;
+  private maxStepValue = steps.length - 1;
 
   currentStep = new BehaviorSubject<number>(this.minStepValue);
-  currentStep$ = this.currentStep.asObservable();
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    this.initialSetUp();
+  }
 
-  nextStep(): void {
-    const valueToBeSet = this.currentStep.value + 1;
-    if (valueToBeSet <= this.maxStepValue) {
-      this.currentStep.next(valueToBeSet);
+
+  /**
+   * @description
+   * Makes step(navigate user to specific
+   * component specified in StepPreparing() method).
+   */
+  public Step(): void {
+    const valuetoBeSet = steps.findIndex((step) => {
+      return this.stepCanBeActivated === step.route.component;
+    });
+
+    this.canMove = this.canBeSet(valuetoBeSet);
+    if (this.canMove){
+      this.currentStep.next(valuetoBeSet);
+      this.moveType.next(MoveType.None);
       this.navigateUser();
     }
   }
 
-  previousStep(): void {
-    const valueToBeSet = this.currentStep.value - 1;
-    if (valueToBeSet >= this.minStepValue) {
-      this.currentStep.next(valueToBeSet);
-      this.navigateUser();
-    }
+  /**
+   * @description
+   * Method should be called by component to allow user
+   * make step to another specific component.
+   * @param componentToNavigate specify component to which
+   * user will be navigated after Step() method is called.
+   * @param moveType specify 'fictitious direction' in order
+   * to 'unblock' next or previous btn in StepContolComponent.
+   */
+  public StepPreparing(componentToNavigate: Type<any>, moveType: MoveType = MoveType.MoveNext): void {
+    this.stepCanBeActivated = componentToNavigate;
+    this.moveType.next(moveType);
   }
 
-  navigateUser(): void {
+  /**
+   * @description
+   * Is internally used by StepService to check component
+   * can be activated.
+   * @param valueToBeSet this is an index in the array of
+   * steps. Specifies the index of the component that will
+   * be checked for activation.
+   * @returns can be current step updated or not.
+   */
+  private canBeSet(valueToBeSet: number): boolean {
+    const canActivate = Helpers.canActivateShared(steps[valueToBeSet].route.path, this.stepCanBeActivated);
+    const isInBound = valueToBeSet >= this.minStepValue && valueToBeSet <= this.maxStepValue;
+    const canMoveNext = this.moveType.value !== MoveType.None;
+    return canActivate && isInBound && canMoveNext;
+  }
+
+  /**
+   * @description
+   * Is used once by StepService in order to allow
+   * first component be activated by ActivateGuard.
+   */
+  private initialSetUp(): void {
+    this.StepPreparing(this.stepCanBeActivated);
+    this.Step();
+  }
+
+  private navigateUser(): void {
     this.router.navigate(['signup/' + steps[this.currentStep.value].route.path]);
   }
 }

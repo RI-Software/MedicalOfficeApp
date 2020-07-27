@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StepService } from '../../services/step.service';
+import { MoveType } from '../../shared/models/MoveTypeEnum';
 
 @Component({
   selector: 'app-step-control',
@@ -7,26 +8,40 @@ import { StepService } from '../../services/step.service';
   styleUrls: ['./step-control.component.scss'],
 })
 export class StepControlComponent implements OnInit {
-  stepValue: number;
-  minStepValue: number;
-  maxStepValue: number;
+  previousButtonIsActive = false;
+  nextButtonIsActive = false;
 
   constructor(private stepService: StepService) {}
 
   ngOnInit() {
-    this.stepService.currentStep$.subscribe((stepValue) => {
-      this.stepValue = stepValue;
+    this.stepService.moveType.subscribe((moveType) => {
+      switch (moveType) {
+        case MoveType.None: {
+          this.buttonsAvailable(false, false);
+          break;
+        }
+        case MoveType.MoveNext: {
+          this.buttonsAvailable(false, true);
+          break;
+        }
+        case MoveType.MovePrevious: {
+          this.buttonsAvailable(true, false);
+          break;
+        }
+        case MoveType.MoveAny: {
+          this.buttonsAvailable(true, true);
+          break;
+        }
+      }
     });
-
-    this.minStepValue = this.stepService.minStepValue;
-    this.maxStepValue = this.stepService.maxStepValue;
-  } // поправить название stepValue  в steps component
-
-  nextStep(): void {
-    this.stepService.nextStep();
   }
 
-  previousStep(): void {
-    this.stepService.previousStep();
+  private buttonsAvailable(previousButtonIsActive: boolean = false, nextButtonIsActive: boolean = false): void {
+    this.previousButtonIsActive = previousButtonIsActive;
+    this.nextButtonIsActive = nextButtonIsActive;
+  }
+
+  step() {
+    this.stepService.Step();
   }
 }

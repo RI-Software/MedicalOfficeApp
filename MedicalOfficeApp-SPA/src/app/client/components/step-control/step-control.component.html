@@ -1,4 +1,4 @@
 <div class="btn-group d-flex justify-content-center">
-  <button (click)="previousStep()" [disabled]="this.stepValue <= this.minStepValue" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Past</button>
-  <button (click)="nextStep()" [disabled]="this.stepValue >= this.maxStepValue" class="btn btn-success">Next <i class="fa fa-arrow-right"></i></button>
+  <button (click)="step()" [disabled]="!this.previousButtonIsActive" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Past</button>
+  <button (click)="step()" [disabled]="!this.nextButtonIsActive" class="btn btn-success">Next <i class="fa fa-arrow-right"></i></button>
 </div>

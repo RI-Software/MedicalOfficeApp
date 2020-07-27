@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -6,6 +6,9 @@ import {
   ValidatorFn,
   FormControl
 } from '@angular/forms';
+import { StepService } from '../../services/step.service';
+import { AgreementsComponent } from '../agreements/agreements.component';
+import { MoveType } from '../../shared/models/MoveTypeEnum';
 
 @Component({
   selector: 'app-data-adult',
@@ -13,16 +16,16 @@ import {
   styleUrls: ['./data.component.scss'],
 })
 export class DataComponent implements OnInit {
-  @Output() cancelAdultRegister = new EventEmitter();
   regexPatternForName = /^[a-zA-Zа-яА-Я]*$/;
   regexPatternForEmail = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
   regexPatternForPhoneNumber = /^\+?(((375|80)(((17|25|33|44)[0-9]{7})|(29([1-3]|[5-9])[0-9]{6})))|(48[1-9]{9}))$/;
   registerForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private stepService: StepService) {}
 
   ngOnInit() {
     this.setUpRegisterForm();
+    this.stepService.StepPreparing(AgreementsComponent, MoveType.MoveNext); // tmp
   }
 
   setUpRegisterForm(): void {
@@ -122,9 +125,5 @@ export class DataComponent implements OnInit {
   register() {
     // TODO: implement method
     console.log(this.registerForm.value);
-  }
-
-  cancel(): void {
-    this.cancelAdultRegister.emit();
   }
 }

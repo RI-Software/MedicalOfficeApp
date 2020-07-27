@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, Routes } from '@angular/router';
-import { steps } from './core/models/stepModels';
+import { steps } from './client/shared/models/stepModels';
 
 @Component({
   selector: 'app-root',
