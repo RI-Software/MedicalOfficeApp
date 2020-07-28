@@ -13,6 +13,7 @@
 .db-wal
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
+devsecrets.json
 
 # Build results
 [Dd]ebug/
