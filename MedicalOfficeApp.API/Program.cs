@@ -21,9 +21,9 @@ namespace MedicalOfficeApp.API
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-
                 var context = services.GetRequiredService<DataContext>();
-                Seed.SeedPossibleTime(context);
+
+                Seed.SeedRecordsAndUsers(context);
             }
             host.Run();
         }

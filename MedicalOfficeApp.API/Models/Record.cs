@@ -9,13 +9,10 @@ namespace MedicalOfficeApp.API.Models
         public int RecordId { get; set; }
 
         [Required]
-        public DateTime RecordDate { get; set; }
+        public DateTime Date { get; set; }
 
         [Required]
-        public virtual Time RecordTime { get; set; }
-
-        [Required]
-        public virtual int TimeId{ get; set; }
+        public virtual TimeSpan Time { get; set; }
 
         [Required]
         public virtual User User { get; set; }
@@ -23,6 +20,6 @@ namespace MedicalOfficeApp.API.Models
         [Timestamp]
         public DateTime RowVersion { get; set; }
 
-        public DateTime TimeCreated { get; set; } = DateTime.Now;
+        public DateTime TimeCreated { get; set; }
     }
 }

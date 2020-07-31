@@ -8,19 +8,6 @@ namespace MedicalOfficeApp.API.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Times",
-                columns: table => new
-                {
-                    TimeId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    PossibleTime = table.Column<TimeSpan>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Times", x => x.TimeId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -29,10 +16,10 @@ namespace MedicalOfficeApp.API.Migrations
                     Name = table.Column<string>(nullable: false),
                     Surname = table.Column<string>(nullable: false),
                     Age = table.Column<int>(nullable: false),
-                    Months = table.Column<int>(nullable: false),
-                    Email = table.Column<int>(nullable: false),
-                    Phone = table.Column<int>(nullable: false),
-                    Role = table.Column<string>(nullable: false)
+                    Months = table.Column<int>(nullable: true),
+                    Email = table.Column<string>(nullable: false),
+                    Phone = table.Column<string>(nullable: false),
+                    Role = table.Column<string>(nullable: true, defaultValue: "user")
                 },
                 constraints: table =>
                 {
@@ -45,21 +32,15 @@ namespace MedicalOfficeApp.API.Migrations
                 {
                     RecordId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    RecordDate = table.Column<DateTime>(nullable: false),
-                    TimeId = table.Column<int>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
+                    Time = table.Column<TimeSpan>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
-                    RowVersion = table.Column<DateTime>(nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
-                    TimeCreated = table.Column<DateTime>(nullable: false)
+                    RowVersion = table.Column<DateTime>(nullable: false, defaultValueSql: "STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')"),
+                    TimeCreated = table.Column<DateTime>(nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Records", x => x.RecordId);
-                    table.ForeignKey(
-                        name: "FK_Records_Times_TimeId",
-                        column: x => x.TimeId,
-                        principalTable: "Times",
-                        principalColumn: "TimeId",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Records_Users_UserId",
                         column: x => x.UserId,
@@ -69,25 +50,14 @@ namespace MedicalOfficeApp.API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Records_TimeId",
-                table: "Records",
-                column: "TimeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Records_UserId",
                 table: "Records",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Records_RecordDate_TimeId",
+                name: "IX_Records_Date_Time",
                 table: "Records",
-                columns: new[] { "RecordDate", "TimeId" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Times_PossibleTime",
-                table: "Times",
-                column: "PossibleTime",
+                columns: new[] { "Date", "Time" },
                 unique: true);
         }
 
@@ -95,9 +65,6 @@ namespace MedicalOfficeApp.API.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Records");
-
-            migrationBuilder.DropTable(
-                name: "Times");
 
             migrationBuilder.DropTable(
                 name: "Users");

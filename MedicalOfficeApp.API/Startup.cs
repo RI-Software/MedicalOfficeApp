@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 
 namespace MedicalOfficeApp.API
 {
@@ -24,9 +25,8 @@ namespace MedicalOfficeApp.API
             services.AddControllers().AddNewtonsoftJson(opt =>
             {
                 opt.SerializerSettings.ReferenceLoopHandling =
-                    Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    ReferenceLoopHandling.Ignore;
             });
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

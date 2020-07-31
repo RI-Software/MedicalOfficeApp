@@ -22,51 +22,35 @@ namespace MedicalOfficeApp.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("RecordDate")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("TEXT")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                        .HasDefaultValueSql("STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')");
 
-                    b.Property<DateTime>("TimeCreated")
+                    b.Property<TimeSpan>("Time")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("TimeId")
-                        .HasColumnType("INTEGER");
+                    b.Property<DateTime>("TimeCreated")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("RecordId");
 
-                    b.HasIndex("TimeId");
-
                     b.HasIndex("UserId");
 
-                    b.HasIndex("RecordDate", "TimeId")
+                    b.HasIndex("Date", "Time")
                         .IsUnique();
 
                     b.ToTable("Records");
-                });
-
-            modelBuilder.Entity("MedicalOfficeApp.API.Models.Time", b =>
-                {
-                    b.Property<int>("TimeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<TimeSpan>("PossibleTime")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("TimeId");
-
-                    b.HasIndex("PossibleTime")
-                        .IsUnique();
-
-                    b.ToTable("Times");
                 });
 
             modelBuilder.Entity("MedicalOfficeApp.API.Models.User", b =>
@@ -78,22 +62,26 @@ namespace MedicalOfficeApp.API.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Email")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("Months")
+                    b.Property<int?>("Months")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Phone")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Role")
+                    b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("Role")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("user");
 
                     b.Property<string>("Surname")
                         .IsRequired()
@@ -106,12 +94,6 @@ namespace MedicalOfficeApp.API.Migrations
 
             modelBuilder.Entity("MedicalOfficeApp.API.Models.Record", b =>
                 {
-                    b.HasOne("MedicalOfficeApp.API.Models.Time", "RecordTime")
-                        .WithMany("Records")
-                        .HasForeignKey("TimeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MedicalOfficeApp.API.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")

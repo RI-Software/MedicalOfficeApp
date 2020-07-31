@@ -10,7 +10,6 @@ namespace MedicalOfficeApp.API.Data
 
         public virtual DbSet<Record> Records { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Time> Times { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -18,15 +17,23 @@ namespace MedicalOfficeApp.API.Data
                 .Property(r => r.RowVersion)
                 .ValueGeneratedOnAddOrUpdate()
                 .IsConcurrencyToken()
+                .HasDefaultValueSql("STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')");
+
+            modelBuilder.Entity<Record>()
+                .Property(r => r.TimeCreated)
+                .ValueGeneratedOnAddOrUpdate()
+                .IsConcurrencyToken()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             modelBuilder.Entity<Record>()
-                .HasIndex(p => new { p.RecordDate, p.TimeId })
+                .HasIndex(p => new { p.Date, p.Time })
                 .IsUnique();
 
-            modelBuilder.Entity<Time>()
-                .HasIndex(t => t.PossibleTime)
-                .IsUnique(); //does not work
+            modelBuilder.Entity<User>()
+                .Property(u => u.Role)
+                .ValueGeneratedOnAddOrUpdate()
+                .IsConcurrencyToken()
+                .HasDefaultValue("user");
         }
     }
 }

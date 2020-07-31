@@ -16,16 +16,15 @@ namespace MedicalOfficeApp.API.Models
         [Required]
         public int Age { get; set; }
 
-        public int Months { get; set; }
+        public int? Months { get; set; }
 
         [Required]
-        public int Email { get; set; }
+        public string Email { get; set; }
 
         [Required]
-        public int Phone { get; set; }
+        public string Phone { get; set; }
 
-        [Required]
-        public string Role { get; set; } = "user";
+        public string Role { get; set; }
 
         // public int DeviceId { get; set; } to be releazed
     }
