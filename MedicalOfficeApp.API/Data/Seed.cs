@@ -25,7 +25,7 @@ namespace MedicalOfficeApp.API.Data
             }
         }
 
-        public static string MakeAcceptableNumber(string phoneNumber)
+        private static string MakeAcceptableNumber(string phoneNumber)
         {
             phoneNumber = new string(phoneNumber.Where((letter) =>
             {
