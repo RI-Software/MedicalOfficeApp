@@ -1,6 +1,6 @@
 ﻿namespace MedicalOfficeApp.API.Dtos
 {
-    public enum DateStatus
+    public enum DateStatuses
     {
         Free, 
         Busy

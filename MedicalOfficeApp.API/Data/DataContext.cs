@@ -8,24 +8,24 @@ namespace MedicalOfficeApp.API.Data
         public DataContext(DbContextOptions options)
             : base(options) { }
 
-        public virtual DbSet<Record> Records { get; set; }
+        public virtual DbSet<DbRecord> Records { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Record>()
+            modelBuilder.Entity<DbRecord>()
                 .Property(r => r.RowVersion)
                 .ValueGeneratedOnAddOrUpdate()
                 .IsConcurrencyToken()
                 .HasDefaultValueSql("STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')");
 
-            modelBuilder.Entity<Record>()
+            modelBuilder.Entity<DbRecord>()
                 .Property(r => r.TimeCreated)
                 .ValueGeneratedOnAddOrUpdate()
                 .IsConcurrencyToken()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-            modelBuilder.Entity<Record>()
+            modelBuilder.Entity<DbRecord>()
                 .HasIndex(p => new { p.Date, p.Time })
                 .IsUnique();
 

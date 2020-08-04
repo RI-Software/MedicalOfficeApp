@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MedicalOfficeApp.API.Core.RecordCollection;
+using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
@@ -6,16 +7,16 @@ namespace MedicalOfficeApp.API.Core
 {
     public class DateRecordCollection
     {
-        public ConcurrentBag<Date> Dates { get; }
+        public ConcurrentBag<DateRecord> Records { get; }
 
         public DateRecordCollection() =>
-            Dates = new ConcurrentBag<Date>();
+            Records = new ConcurrentBag<DateRecord>();
 
         public Task AddDateAsync(DateTime day, TimeSpan time)
         {
             return Task.Run(() =>
             {
-                Dates.Add(new Date(day, time));
+                Records.Add(new DateRecord(day, time));
             });
         }
     }

@@ -1,18 +1,19 @@
-﻿using MedicalOfficeApp.API.Models;
-using System;
+﻿using MedicalOfficeApp.API.Core;
+using MedicalOfficeApp.API.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MedicalOfficeApp.API.Data.Repositories
 {
     public interface IRecordRepository
     {
-        void Add(Record entity);
+        void Add(DbRecord entity);
 
-        Task<List<Record>> GetRecords();
+        Task<List<DbRecord>> GetRecordsFromDb();
 
-        Task<Record> GetRecord(int id);
+        Task<List<IRecord>> GetAllRecords();
+
+        Task<DbRecord> GetRecord(int id);
 
         Task<bool> SaveAll();
     }

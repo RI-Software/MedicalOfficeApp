@@ -13,9 +13,9 @@ namespace MedicalOfficeApp.API.Data
             if (!context.Records.Any())
             {
                 var userData = System.IO.File.ReadAllText("Data/GeneratedJson/recordAndDataGenerated.json");
-                var records = JsonConvert.DeserializeObject<List<Record>>(userData);
+                var records = JsonConvert.DeserializeObject<List<DbRecord>>(userData);
 
-                foreach (Record record in records)
+                foreach (DbRecord record in records)
                 {
                     record.User.Phone = Seed.MakeAcceptableNumber(record.User.Phone);
                 }

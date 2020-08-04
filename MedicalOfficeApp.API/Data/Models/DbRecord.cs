@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MedicalOfficeApp.API.Core;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MedicalOfficeApp.API.Models
 {
-    public class Record
+    public class DbRecord : IRecord
     {
         [Key]
         public int RecordId { get; set; }
