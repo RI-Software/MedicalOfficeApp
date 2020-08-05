@@ -1,6 +1,6 @@
 ﻿namespace MedicalOfficeApp.API.Core
 {
-    public enum TimeStatuses
+    public enum TimeStatus
     {
         Free,
         InProcess,

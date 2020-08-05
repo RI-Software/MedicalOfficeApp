@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using MedicalOfficeApp.API.Core;
@@ -18,15 +19,18 @@ namespace MedicalOfficeApp.API.Controllers
         private readonly IRecordRepository repo;
         private readonly IOptions<BookingSettings> bookingSettings;
         private readonly IOptions<WorkingDaysCollection> recordSettings;
+        private readonly DateRecordCollection recordsInMemory;
 
         public DateTimeController(
             IRecordRepository repo,
             IOptions<BookingSettings> bookingSettings,
-            IOptions<WorkingDaysCollection> recordSettings)
+            IOptions<WorkingDaysCollection> recordSettings,
+            DateRecordCollection recordsInMemory)
         {
             this.repo = repo;
             this.bookingSettings = bookingSettings;
             this.recordSettings = recordSettings;
+            this.recordsInMemory = recordsInMemory;
         }
 
         [HttpGet]
@@ -41,6 +45,51 @@ namespace MedicalOfficeApp.API.Controllers
             return Ok(datesToReturn);
         }
 
+        [HttpGet("{requestedDate}", Name = "Dates")]
+        public async Task<IActionResult> Dates (DateTime requestedDate) {
+
+            DayOfWeek requestedDayOfWeek = requestedDate.DayOfWeek;
+
+            //check if that day is in work days
+            if (recordSettings.Value.WorkingDays.Where(d => d.DayOfWeek == requestedDayOfWeek).FirstOrDefault() == null)
+                return BadRequest("This day is not supported");
+
+            var todayRecordsFromDb = (await repo.GetAllRecords())
+                .Where(r => r.Date == requestedDate);
+            var todayRecordsFromMemory = recordsInMemory
+                .Records
+                .Where(r => r.Date == requestedDate);
+
+            var allowedTime = recordSettings
+                .Value
+                .WorkingDays
+                .Where(d => d.DayOfWeek == requestedDayOfWeek)
+                .First()
+                .AllowedTime;
+
+            List<TimeForListDto> timesToReturn = new List<TimeForListDto>();
+
+            foreach (var time in allowedTime)
+            {
+                if(todayRecordsFromDb.Where(r => r.Time == time).FirstOrDefault() != null)
+                {
+                    timesToReturn.Add(new TimeForListDto() { Time = time, Status = TimeStatus.Taken.ToString() });
+                    continue;
+                }
+
+                if (todayRecordsFromMemory.Where(r => r.Time == time).FirstOrDefault() != null)
+                {
+                    timesToReturn.Add(new TimeForListDto() { Time = time, Status = TimeStatus.InProcess.ToString() });
+                    continue;
+                }
+
+                timesToReturn.Add(new TimeForListDto() { Time = time, Status = TimeStatus.Free.ToString() });
+            }
+
+            return Ok(timesToReturn);
+        }
+
+        //ToDo: Update method to send back free days also.
         private async Task<List<DateForListDto>> CheckDaysForAvailability (List<IRecord> records, int numOfDaysInAdvance)
         {
             var result = await Task.Run(() =>
