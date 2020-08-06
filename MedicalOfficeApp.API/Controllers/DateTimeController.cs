@@ -45,6 +45,7 @@ namespace MedicalOfficeApp.API.Controllers
             return Ok(datesToReturn);
         }
 
+        //ToDo: Update method to send only time that is greater than DateTime.Now
         [HttpGet("{requestedDate}", Name = "Dates")]
         public async Task<IActionResult> Dates (DateTime requestedDate) {
 
@@ -89,7 +90,6 @@ namespace MedicalOfficeApp.API.Controllers
             return Ok(timesToReturn);
         }
 
-        //ToDo: Update method to send back free days also.
         private async Task<List<DateForListDto>> CheckDaysForAvailability (List<IRecord> records, int numOfDaysInAdvance)
         {
             var result = await Task.Run(() =>
@@ -109,19 +109,23 @@ namespace MedicalOfficeApp.API.Controllers
 
                     if (allowedDay == null) //if the day is not working day
                     {
+                        addRecordsToTheReturnList(i, DateStatuses.Busy.ToString());
                         numOfDaysInAdvance++;
                         continue;
                     }
 
                     if (allowedDay.AllowedTime.Count <= recordedDay?.Count())
                     {
-                        recordsToReturn
-                            .Add(new DateForListDto() { Date = DateTime.Now.Date.AddDays(i), Status = DateStatuses.Busy.ToString() });
+                        addRecordsToTheReturnList(i, DateStatuses.Busy.ToString());
                         continue;
                     }
 
-                    recordsToReturn.Add(new DateForListDto() { Date = DateTime.Now.Date.AddDays(i), Status = DateStatuses.Free.ToString() });
+                    addRecordsToTheReturnList(i, DateStatuses.Free.ToString());
                 }
+
+
+                void addRecordsToTheReturnList(int daysFromNow, string status) =>
+                    recordsToReturn.Add(new DateForListDto() { Date = DateTime.Now.Date.AddDays(daysFromNow), Status = status });
 
                 return recordsToReturn;
             });
