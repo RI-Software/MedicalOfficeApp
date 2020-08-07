@@ -8,6 +8,7 @@ using MedicalOfficeApp.API.Core.WorkingDaysCollection;
 using MedicalOfficeApp.API.Data.Repositories;
 using MedicalOfficeApp.API.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Options;
 
 namespace MedicalOfficeApp.API.Controllers
@@ -45,15 +46,21 @@ namespace MedicalOfficeApp.API.Controllers
             return Ok(datesToReturn);
         }
 
-        //ToDo: Update method to send only time that is greater than DateTime.Now
+        //Maybe ToDo: not send time in future if it can be booked.
+        //Minuses: 
+        //  1) It will increase time of request.
         [HttpGet("{requestedDate}", Name = "Dates")]
-        public async Task<IActionResult> Dates (DateTime requestedDate) {
-
+        public async Task<IActionResult> Dates (DateTime requestedDate) 
+        {
             DayOfWeek requestedDayOfWeek = requestedDate.DayOfWeek;
+
+            if (requestedDate < DateTime.Now.Date)
+                return BadRequest("That day has already passed");
 
             //check if that day is in work days
             if (recordSettings.Value.WorkingDays.Where(d => d.DayOfWeek == requestedDayOfWeek).FirstOrDefault() == null)
-                return BadRequest("This day is not supported");
+                return BadRequest("That day is not supported");
+
 
             var todayRecordsFromDb = (await repo.GetAllRecords())
                 .Where(r => r.Date == requestedDate);
@@ -72,6 +79,13 @@ namespace MedicalOfficeApp.API.Controllers
 
             foreach (var time in allowedTime)
             {
+                //if the time has already passed today
+                if (requestedDate == DateTime.Now.Date && time < DateTime.Now.TimeOfDay)
+                {
+                    timesToReturn.Add(new TimeForListDto() { Time = time, Status = TimeStatus.Expired.ToString() });
+                    continue;
+                }
+
                 if(todayRecordsFromDb.Where(r => r.Time == time).FirstOrDefault() != null)
                 {
                     timesToReturn.Add(new TimeForListDto() { Time = time, Status = TimeStatus.Taken.ToString() });

@@ -4,6 +4,7 @@
     {
         Free,
         InProcess,
-        Taken
+        Taken,
+        Expired
     }
 }
