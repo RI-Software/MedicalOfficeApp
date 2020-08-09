@@ -21,6 +21,8 @@ namespace MedicalOfficeApp.API.Controllers
         private readonly DateRecordCollection recordsInMemory;
         private readonly IOptions<BookingSettings> bookingSettings;
         private readonly IOptions<WorkingDaysCollection> recordSettings;
+        private readonly DayOfWeek[] workingDays;
+        private readonly int numOfDaysInAdvance;
 
         public DateTimeController(
             IRecordRepository repo,
@@ -31,28 +33,49 @@ namespace MedicalOfficeApp.API.Controllers
             this.repo = repo;
             this.recordsInMemory = recordsInMemory;
             this.bookingSettings = bookingSettings;
-            this.recordSettings = recordSettings; 
+            this.recordSettings = recordSettings;
+            this.workingDays = recordSettings.Value.WorkingDays.Select(d => d.DayOfWeek).ToArray();
+            this.numOfDaysInAdvance = bookingSettings.Value.NumOfDaysInAdvance;
         }
 
         //ToDo: get rid of GetAllRecords method
         [HttpGet]
         public async Task<IActionResult> Dates()
         {
-            int numOfDaysInAdvance = bookingSettings.Value.NumOfDaysInAdvance;
+            DateTime dateUpperBound = DateTime.Now.Date.AddCalendarDays(workingDays, numOfDaysInAdvance);
+            List<DateForListDto> recordsToReturn = new List<DateForListDto>();
 
-            List<IRecord> records = await repo.GetAllRecords();
+            var recordsFromDb = await repo.GetRecordsFromDb();
+            var recordsFromMemory = recordsInMemory.Records;
 
-            var datesToReturn = await CheckDaysForAvailability(records, numOfDaysInAdvance);
+            for (DateTime date = DateTime.Now.Date; date <= dateUpperBound; date = date.AddDays(1))
+            {
+                if (!workingDays.Contains(date.DayOfWeek))
+                {
+                    recordsToReturn.Add(new DateForListDto() { Date = date, Status = DateStatuses.Busy.ToString() });
+                    continue;
+                }
+                    
+                var allowedTime = recordSettings.Value.WorkingDays.Where(d => d.DayOfWeek == date.DayOfWeek).First().AllowedTime;
+                int? numOfRecordsInDb =  recordsFromDb.Where(r => r.Date == date)?.Count();
+                int? numOfRecordsInMemory = recordsFromMemory.Where(r => r.Date == date)?.Count();
 
-            return Ok(datesToReturn);
+                if(numOfRecordsInDb + numOfRecordsInMemory >= allowedTime.Count)
+                {
+                    recordsToReturn.Add(new DateForListDto() { Date = date, Status = DateStatuses.Busy.ToString() });
+                    continue;
+                }
+
+                recordsToReturn.Add(new DateForListDto() { Date = date, Status = DateStatuses.Free.ToString() });
+            }
+
+            return Ok(recordsToReturn);
         }
 
         [HttpGet("{requestedDate}", Name = "Dates")]
         public async Task<IActionResult> Dates (DateTime requestedDate) 
         {
             DayOfWeek requestedDayOfWeek = requestedDate.DayOfWeek;
-            DayOfWeek[] workingDays = recordSettings.Value.WorkingDays.Select(d => d.DayOfWeek).ToArray();
-            int numOfDaysInAdvance = bookingSettings.Value.NumOfDaysInAdvance;
 
             if (requestedDate > DateTime.Now.Date.AddCalendarDays(workingDays, numOfDaysInAdvance))
                 return BadRequest("That day is not available yet");
@@ -65,7 +88,7 @@ namespace MedicalOfficeApp.API.Controllers
                 return BadRequest("That day is not supported");
 
 
-            var todayRecordsFromDb = (await repo.GetAllRecords())
+            var todayRecordsFromDb = (await repo.GetRecordsFromDb())
                 .Where(r => r.Date == requestedDate);
             var todayRecordsFromMemory = recordsInMemory
                 .Records
@@ -105,49 +128,6 @@ namespace MedicalOfficeApp.API.Controllers
             }
 
             return Ok(timesToReturn);
-        }
-
-        private async Task<List<DateForListDto>> CheckDaysForAvailability (List<IRecord> records, int numOfDaysInAdvance)
-        {
-            var result = await Task.Run(() =>
-            {
-                List<DateForListDto> recordsToReturn = new List<DateForListDto>();
-
-                for (int i = 0; i < numOfDaysInAdvance; i++)
-                {
-                    var allowedDay = recordSettings
-                        .Value
-                        .WorkingDays
-                        .Where(d => d.DayOfWeek == DateTime.Now.AddDays(i).DayOfWeek)
-                        .FirstOrDefault();
-
-                    var recordedDay = records
-                        .Where(r => r.Date == DateTime.Now.AddDays(i).Date);
-
-                    if (allowedDay == null) //if the day is not working day
-                    {
-                        addRecordsToTheReturnList(i, DateStatuses.Busy.ToString());
-                        numOfDaysInAdvance++;
-                        continue;
-                    }
-
-                    if (allowedDay.AllowedTime.Count <= recordedDay?.Count())
-                    {
-                        addRecordsToTheReturnList(i, DateStatuses.Busy.ToString());
-                        continue;
-                    }
-
-                    addRecordsToTheReturnList(i, DateStatuses.Free.ToString());
-                }
-
-
-                void addRecordsToTheReturnList(int daysFromNow, string status) =>
-                    recordsToReturn.Add(new DateForListDto() { Date = DateTime.Now.Date.AddDays(daysFromNow), Status = status });
-
-                return recordsToReturn;
-            });
-
-            return result;
         }
     }
 }
