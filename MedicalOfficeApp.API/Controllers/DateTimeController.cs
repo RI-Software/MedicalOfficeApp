@@ -7,8 +7,8 @@ using MedicalOfficeApp.API.Core;
 using MedicalOfficeApp.API.Core.WorkingDaysCollection;
 using MedicalOfficeApp.API.Data.Repositories;
 using MedicalOfficeApp.API.Dtos;
+using MedicalOfficeApp.API.Shared;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Options;
 
 namespace MedicalOfficeApp.API.Controllers
@@ -18,9 +18,9 @@ namespace MedicalOfficeApp.API.Controllers
     public class DateTimeController : ControllerBase
     {
         private readonly IRecordRepository repo;
+        private readonly DateRecordCollection recordsInMemory;
         private readonly IOptions<BookingSettings> bookingSettings;
         private readonly IOptions<WorkingDaysCollection> recordSettings;
-        private readonly DateRecordCollection recordsInMemory;
 
         public DateTimeController(
             IRecordRepository repo,
@@ -29,11 +29,12 @@ namespace MedicalOfficeApp.API.Controllers
             DateRecordCollection recordsInMemory)
         {
             this.repo = repo;
-            this.bookingSettings = bookingSettings;
-            this.recordSettings = recordSettings;
             this.recordsInMemory = recordsInMemory;
+            this.bookingSettings = bookingSettings;
+            this.recordSettings = recordSettings; 
         }
 
+        //ToDo: get rid of GetAllRecords method
         [HttpGet]
         public async Task<IActionResult> Dates()
         {
@@ -46,13 +47,15 @@ namespace MedicalOfficeApp.API.Controllers
             return Ok(datesToReturn);
         }
 
-        //Maybe ToDo: not send time in future if it can be booked.
-        //Minuses: 
-        //  1) It will increase time of request.
         [HttpGet("{requestedDate}", Name = "Dates")]
         public async Task<IActionResult> Dates (DateTime requestedDate) 
         {
             DayOfWeek requestedDayOfWeek = requestedDate.DayOfWeek;
+            DayOfWeek[] workingDays = recordSettings.Value.WorkingDays.Select(d => d.DayOfWeek).ToArray();
+            int numOfDaysInAdvance = bookingSettings.Value.NumOfDaysInAdvance;
+
+            if (requestedDate > DateTime.Now.Date.AddCalendarDays(workingDays, numOfDaysInAdvance))
+                return BadRequest("That day is not available yet");
 
             if (requestedDate < DateTime.Now.Date)
                 return BadRequest("That day has already passed");
