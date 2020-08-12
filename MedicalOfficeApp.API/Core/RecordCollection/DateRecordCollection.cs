@@ -11,13 +11,5 @@ namespace MedicalOfficeApp.API.Core
 
         public DateRecordCollection() =>
             Records = new ConcurrentBag<DateRecord>();
-
-        public Task AddDateAsync(DateTime day, TimeSpan time)
-        {
-            return Task.Run(() =>
-            {
-                Records.Add(new DateRecord(day, time));
-            });
-        }
     }
 }

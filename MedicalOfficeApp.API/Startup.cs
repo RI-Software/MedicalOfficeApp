@@ -29,6 +29,7 @@ namespace MedicalOfficeApp.API
             services.AddScoped<IRecordRepository, RecordRepository>();
             services.AddSingleton<DateRecordCollection>();
             services.Configure<BookingSettings>(Configuration.GetSection("BookingSettings"));
+            services.Configure<AuthSettings>(Configuration.GetSection("Auth"));
             services.Configure<WorkingDaysCollection>(Configuration.GetSection("WorkingHours"));
             services.Configure<WorkingDaysCollection>((opt) => 
             {

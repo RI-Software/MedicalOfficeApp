@@ -19,7 +19,6 @@ namespace MedicalOfficeApp.API.Controllers
     {
         private readonly IRecordRepository repo;
         private readonly DateRecordCollection recordsInMemory;
-        private readonly IOptions<BookingSettings> bookingSettings;
         private readonly IOptions<WorkingDaysCollection> recordSettings;
         private readonly DayOfWeek[] workingDays;
         private readonly int numOfDaysInAdvance;
@@ -32,7 +31,6 @@ namespace MedicalOfficeApp.API.Controllers
         {
             this.repo = repo;
             this.recordsInMemory = recordsInMemory;
-            this.bookingSettings = bookingSettings;
             this.recordSettings = recordSettings;
             this.workingDays = recordSettings.Value.WorkingDays.Select(d => d.DayOfWeek).ToArray();
             this.numOfDaysInAdvance = bookingSettings.Value.NumOfDaysInAdvance;

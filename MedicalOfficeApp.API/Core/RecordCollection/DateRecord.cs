@@ -16,7 +16,7 @@ namespace MedicalOfficeApp.API.Core.RecordCollection
         }
 
         public DateRecord(DateTime date, TimeSpan time)
-            : base()
+            : this()
         {
             Date = date;
             Time = time;
