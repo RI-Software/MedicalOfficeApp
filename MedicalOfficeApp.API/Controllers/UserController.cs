@@ -1,9 +1,12 @@
-﻿using MedicalOfficeApp.API.Core;
+﻿using AutoMapper;
+using MedicalOfficeApp.API.Core;
 using MedicalOfficeApp.API.Core.RecordCollection;
 using MedicalOfficeApp.API.Core.WorkingDaysCollection;
 using MedicalOfficeApp.API.Data.Repositories;
 using MedicalOfficeApp.API.Dtos;
+using MedicalOfficeApp.API.Models;
 using MedicalOfficeApp.API.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -16,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace MedicalOfficeApp.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -24,6 +27,7 @@ namespace MedicalOfficeApp.API.Controllers
         private readonly IOptions<WorkingDaysCollection> recordSettings;
         private readonly IOptions<DateRecordCollection> recordsInMemory;
         private readonly IOptions<AuthSettings> authOptions;
+        private readonly IMapper mapper;
         private readonly DayOfWeek[] workingDays;
         private readonly int numOfDaysInAdvance;
 
@@ -32,14 +36,47 @@ namespace MedicalOfficeApp.API.Controllers
             IOptions<BookingSettings> bookingSettings,
             IOptions<WorkingDaysCollection> recordSettings,
             IOptions<DateRecordCollection> recordsInMemory,
-            IOptions<AuthSettings> authOptions)
+            IOptions<AuthSettings> authOptions,
+            IMapper mapper)
         {
             this.repo = repo;
             this.recordSettings = recordSettings;
             this.recordsInMemory = recordsInMemory;
             this.authOptions = authOptions;
+            this.mapper = mapper;
             this.workingDays = recordSettings.Value.WorkingDays.Select(d => d.DayOfWeek).ToArray();
             this.numOfDaysInAdvance = bookingSettings.Value.NumOfDaysInAdvance;
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Register (UserDto user)
+        {
+            DateTime date = DateTime.Parse(User.Claims.Single(c => c.Type == "date").Value);
+            TimeSpan time = TimeSpan.Parse(User.Claims.Single(c => c.Type == "time").Value);
+
+            var recordFromMemory = recordsInMemory
+                .Value
+                .Records
+                .FirstOrDefault(r => r.Date == date && r.Time == time); ;
+
+            if (recordFromMemory == null)
+                return BadRequest("You missed the booking stage");
+
+            User userForRecord = mapper.Map<User>(user);
+
+            DbRecord record = new DbRecord() { Date = date, Time = time, User = userForRecord };
+
+            repo.Add(record);
+
+            if (await repo.SaveAll())
+            {
+                recordsInMemory.Value.Records.Remove(recordFromMemory);
+
+                return NoContent();
+            }
+                
+            throw new Exception("Failed on save");
         }
 
         [HttpPost]
@@ -59,6 +96,9 @@ namespace MedicalOfficeApp.API.Controllers
             if (record.Date < DateTime.Now.Date || record.Date > dateUpperBound)
                 return BadRequest("Date out of bounds of allowed dates");
 
+            if (record.Date == DateTime.Now.Date && record.Time < DateTime.Now.TimeOfDay)
+                return BadRequest("This time has already passed");
+
             if (!allowedTime.Where(t => t == record.Time).Any())
                 return BadRequest("Time out of bounds of allowed times");
 
@@ -67,6 +107,7 @@ namespace MedicalOfficeApp.API.Controllers
 
             if (recordsFromMemory.Where(r => r.Date == record.Date && r.Time == record.Time && r.TimeCreated < DateTime.Now).Any())
                 return BadRequest("Somebody is trying to book this time");
+
 
             recordsInMemory.Value.Records.Add(new DateRecord(record.Date, record.Time)); //time should be added not in a such way
 

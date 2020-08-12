@@ -22,5 +22,13 @@ namespace MedicalOfficeApp.API.Shared
 
             return dateTime.AddDays(numOfCalendarDays);
         }
+
+        public static string CheckPhoneForPlus (this string phone)
+        {
+            if (phone[0] == '+')
+                return new string(phone.Skip(1).ToArray());
+
+            return phone;
+        }
     }
 }
