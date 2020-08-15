@@ -9,13 +9,14 @@ import {
 import { StepService } from '../../services/step.service';
 import { AgreementsComponent } from '../agreements/agreements.component';
 import { MoveType } from '../../shared/models/MoveTypeEnum';
+import { BaseFormComponent } from 'src/app/shared/base-form/base-form.component';
 
 @Component({
   selector: 'app-data-adult',
   templateUrl: './data.component.html',
   styleUrls: ['./data.component.scss'],
 })
-export class DataComponent implements OnInit {
+export class DataComponent extends BaseFormComponent implements OnInit {
   //#region settings and defaults
 
   minAge = 0;
@@ -82,9 +83,11 @@ export class DataComponent implements OnInit {
 
   //#endregion
 
-  registerForm: FormGroup;
+  form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private stepService: StepService) {}
+  constructor(private formBuilder: FormBuilder, private stepService: StepService) {
+    super();
+  }
 
   ngOnInit() {
     this.setUpRegisterForm();
@@ -93,11 +96,11 @@ export class DataComponent implements OnInit {
 
   private setUpRegisterForm(): void {
     this.createRegisterForm();
-    this.registerForm.get('age.months').disable();
+    this.form.get('age.months').disable();
   }
 
   private createRegisterForm(): void {
-    this.registerForm = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       name: [
         '',
         [
@@ -187,6 +190,6 @@ export class DataComponent implements OnInit {
 
   register() {
     // TODO: implement method
-    console.log(this.registerForm.value);
+    console.log(this.form.value);
   }
 }

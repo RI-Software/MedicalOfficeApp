@@ -4,116 +4,106 @@
       <h2 class="text-center text-primary">Sign Up</h2>
       <hr>
       <div class="col container">
-        <form [formGroup]="registerForm" (ngSubmit)="this.register()">
+        <form [formGroup]="form" (ngSubmit)="this.register()">
 
           <div class="form-group">
-            <input type="text" [ngClass]="{'is-invalid': registerForm.controls.name.errors 
-              && registerForm.controls.name.touched}" class="form-control" formControlName="name"
+            <input type="text" [ngClass]="{'is-invalid': hasError('name')}" class="form-control" formControlName="name"
               placeholder="{{this.namePlaceholder}}">
-            <div *ngIf="registerForm.controls.name.errors?.customError && registerForm.controls.name.touched"
-              class="invalid-feedback">
-                {{registerForm.controls.name.errors?.customError.errorMsg}}
-            </div>
-            <div *ngIf="registerForm.controls.name.hasError('required') && registerForm.controls.name.touched"
-              class="invalid-feedback">
-                {{this.nameIsRequiredError}}
-            </div>
-            <div *ngIf="registerForm.controls.name.hasError('minlength') && registerForm.controls.name.touched"
-              class="invalid-feedback">
-                {{this.nameMinLengthError}}
-            </div>
-            <div *ngIf="registerForm.controls.name.hasError('maxlength') && registerForm.controls.name.touched"
-              class="invalid-feedback">
-                {{this.nameMaxLengthError}}
+            <div *ngIf="hasError('name')" class="invalid-feedback">
+              <div *ngIf="getControl('name').errors?.customError">
+                  {{form.controls.name.errors?.customError.errorMsg}}
+              </div>
+              <div *ngIf="getControl('name').hasError('required')">
+                  {{this.nameIsRequiredError}}
+              </div>
+              <div *ngIf="getControl('name').hasError('minlength')">
+                  {{this.nameMinLengthError}}
+              </div>
+              <div *ngIf="getControl('name').hasError('maxlength')">
+                  {{this.nameMaxLengthError}}
+              </div>
             </div>
           </div>
 
           <div class="form-group">
-            <input type="text" [ngClass]="{'is-invalid': registerForm.controls.surname.errors
-              && registerForm.controls.surname.touched}" class="form-control" formControlName="surname"
+            <input type="text" [ngClass]="{'is-invalid': hasError('surname')}" class="form-control" formControlName="surname"
               placeholder="{{this.surnamePlaceholder}}">
-            <div *ngIf="registerForm.controls.surname.errors?.customError" class="invalid-feedback">
-                {{registerForm.controls.surname.errors?.customError.errorMsg}}
-            </div>
-            <div *ngIf="registerForm.controls.surname.hasError('required') && registerForm.controls.surname.touched"
-              class="invalid-feedback">
-                {{this.surnameIsRequiredError}}
-            </div>
-            <div *ngIf="registerForm.controls.surname.hasError('minlength') && registerForm.controls.surname.touched"
-              class="invalid-feedback">
-                {{this.surnameMinLengthError}}
-            </div>
-            <div *ngIf="registerForm.controls.surname.hasError('maxlength') && registerForm.controls.surname.touched"
-              class="invalid-feedback">
-                {{this.surnameMaxLengthError}}
+            <div *ngIf="hasError('surname')" class="invalid-feedback">
+              <div *ngIf="getControl('surname').errors?.customError">
+                  {{form.controls.surname.errors?.customError.errorMsg}}
+              </div>
+              <div *ngIf="getControl('surname').hasError('required')">
+                  {{this.surnameIsRequiredError}}
+              </div>
+              <div *ngIf="getControl('surname').hasError('minlength')">
+                  {{this.surnameMinLengthError}}
+              </div>
+              <div *ngIf="getControl('surname').hasError('maxlength')">
+                  {{this.surnameMaxLengthError}}
+              </div>
             </div>
           </div>
 
           <div class="form-group">
             <div class="row" formGroupName="age">
               <div class="col">
-                <input type="number" [ngClass]="{'is-invalid': registerForm.get('age.years').errors
-                  && registerForm.get('age.years').touched}" class="form-control" formControlName="years"
+                <input type="number" [ngClass]="{'is-invalid': hasError('age.years')}" class="form-control" formControlName="years"
                   placeholder="{{this.agePlaceholder}}" min="{{this.minAge}}" max="{{this.maxAge}}">
-                <div *ngIf="registerForm.get('age.years').hasError('required') && registerForm.get('age.years').touched"
-                  class="invalid-feedback">
-                    {{this.ageIsRequiredError}}
-                </div>
-                <div *ngIf="registerForm.get('age.years').hasError('min') && registerForm.get('age.years').touched"
-                  class="invalid-feedback">
-                    {{this.ageMinError}}
-                </div>
-                <div *ngIf="registerForm.get('age.years').hasError('max') && registerForm.get('age.years').touched"
-                  class="invalid-feedback">
-                    {{this.ageMaxError}}
+                <div *ngIf="hasError('age.years')" class="invalid-feedback">
+                  <div *ngIf="getControl('age.years').hasError('required')">
+                      {{this.ageIsRequiredError}}
+                  </div>
+                  <div *ngIf="getControl('age.years').hasError('min')">
+                      {{this.ageMinError}}
+                  </div>
+                  <div *ngIf="getControl('age.years').hasError('max')">
+                      {{this.ageMaxError}}
+                  </div>
                 </div>
               </div>
+
               <div class="col">
-                <input type="number" [ngClass]="{'is-invalid': registerForm.get('age.months').errors 
-                  && registerForm.get('age.months').touched}" class="form-control" formControlName="months"
+                <input type="number" [ngClass]="{'is-invalid': hasError('age.months')}" class="form-control" formControlName="months"
                   placeholder="{{this.monthsPlaceholder}}" min="{{this.minMonths}}" max="{{this.maxMonths}}">
-                <div
-                  *ngIf="registerForm.get('age.months').hasError('required') && registerForm.get('age.months').touched"
-                  class="invalid-feedback">
-                    {{monthsAreRequiredError}}
-                </div>
-                <div *ngIf="registerForm.get('age.months').hasError('min') && registerForm.get('age.months').touched"
-                  class="invalid-feedback">
-                    {{this.monthsMinError}}
-                </div>
-                <div *ngIf="registerForm.get('age.months').hasError('max') && registerForm.get('age.months').touched"
-                  class="invalid-feedback">
-                    {{this.monthsMaxError}}
+                <div *ngIf="hasError('age.months')" class="invalid-feedback">
+                  <div
+                    *ngIf="getControl('age.months').hasError('required')">
+                      {{monthsAreRequiredError}}
+                  </div>
+                  <div *ngIf="getControl('age.months').hasError('min')">
+                      {{this.monthsMinError}}
+                  </div>
+                  <div *ngIf="getControl('age.months').hasError('max')">
+                      {{this.monthsMaxError}}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           <div class="form-group">
-            <input type="text" [ngClass]="{'is-invalid': registerForm.controls.email.errors
-              && registerForm.controls.email.touched}" class="form-control" formControlName="email"
+            <input type="text" [ngClass]="{'is-invalid': hasError('email')}" class="form-control" formControlName="email"
               placeholder="{{this.emailPlaceholder}}">
-            <div *ngIf="registerForm.controls.email.errors?.customError && registerForm.controls.email.touched"
-              class="invalid-feedback">
-                {{registerForm.controls.email.errors?.customError.errorMsg}}
-            </div>
-            <div *ngIf="registerForm.controls.email.hasError('required') && registerForm.controls.email.touched"
-              class="invalid-feedback">
-                {{this.emailIsRequiredError}}
+            <div *ngIf="hasError('email')" class="invalid-feedback">
+              <div *ngIf="getControl('email').errors?.customError">
+                  {{form.controls.email.errors?.customError.errorMsg}}
+              </div>
+              <div *ngIf="getControl('email').hasError('required')">
+                  {{this.emailIsRequiredError}}
+              </div>
             </div>
           </div>
 
           <div class="form-group">
-            <input type="tel" [ngClass]="{'is-invalid': registerForm.controls.phone.errors
-              && registerForm.controls.phone.touched}" class="form-control" formControlName="phone"
+            <input type="tel" [ngClass]="{'is-invalid': hasError('phone')}" class="form-control" formControlName="phone"
               placeholder="{{this.phonePlaceholder}}">
-            <div *ngIf="registerForm.controls.phone.errors?.customError && registerForm.controls.phone.touched"
-              class="invalid-feedback">
-                {{registerForm.controls.phone.errors?.customError.errorMsg}}
-            </div>
-            <div *ngIf="registerForm.controls.phone.hasError('required') && registerForm.controls.phone.touched"
-              class="invalid-feedback">
-                {{this.phoneIsRequiredError}}
+            <div *ngIf="hasError('phone')" class="invalid-feedback">
+              <div *ngIf="getControl('phone').errors?.customError">
+                  {{form.controls.phone.errors?.customError.errorMsg}}
+              </div>
+              <div *ngIf="getControl('phone').hasError('required')">
+                  {{this.phoneIsRequiredError}}
+              </div>
             </div>
           </div>
 
@@ -124,7 +114,7 @@
 </div>
 
 <div class="fixed-bottom">
-  {{this.registerForm.value | json}}
-  {{this.registerForm.errors | json}}
-  {{this.registerForm.status | json}}
+  {{this.form.value | json}}
+  {{this.form.errors | json}}
+  {{this.form.status | json}}
 </div>

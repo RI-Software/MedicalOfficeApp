@@ -9,13 +9,15 @@ import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { NavComponent } from './core/components/nav/nav.component';
 import { httpInterceptorProviders } from './core/Interceptors/httpInterceptorProvider';
+import { BaseFormComponent } from './shared/base-form/base-form.component';
 
 registerLocaleData(en);
 
 @NgModule({
    declarations: [
       AppComponent,
-      NavComponent
+      NavComponent,
+      BaseFormComponent
    ],
    imports: [
       BrowserModule,
