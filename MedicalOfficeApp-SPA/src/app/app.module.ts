@@ -8,6 +8,7 @@ import en from '@angular/common/locales/en';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { NavComponent } from './core/components/nav/nav.component';
+import { httpInterceptorProviders } from './core/Interceptors/httpInterceptorProvider';
 
 registerLocaleData(en);
 
@@ -21,7 +22,9 @@ registerLocaleData(en);
       HttpClientModule,
       RouterModule.forRoot(appRoutes)
    ],
-   providers: [],
+   providers: [
+      httpInterceptorProviders
+   ],
    bootstrap: [
       AppComponent
    ]
