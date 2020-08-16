@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MedicalOfficeApp.API.Core;
+using MedicalOfficeApp.API.Core.ActionFilters;
 using MedicalOfficeApp.API.Core.RecordCollection;
 using MedicalOfficeApp.API.Core.WorkingDaysCollection;
 using MedicalOfficeApp.API.Data.Repositories;
@@ -19,6 +20,7 @@ using System.Threading.Tasks;
 
 namespace MedicalOfficeApp.API.Controllers
 {
+    [ServiceFilter(typeof(RelevantRecordsFilter))]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class UserController : ControllerBase

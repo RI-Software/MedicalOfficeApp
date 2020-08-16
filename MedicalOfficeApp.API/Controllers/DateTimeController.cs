@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using MedicalOfficeApp.API.Core;
+using MedicalOfficeApp.API.Core.ActionFilters;
 using MedicalOfficeApp.API.Core.WorkingDaysCollection;
 using MedicalOfficeApp.API.Data.Repositories;
 using MedicalOfficeApp.API.Dtos;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Options;
 
 namespace MedicalOfficeApp.API.Controllers
 {
+    [ServiceFilter(typeof(RelevantRecordsFilter))]
     [Route("api/[controller]")]
     [ApiController]
     public class DateTimeController : ControllerBase
