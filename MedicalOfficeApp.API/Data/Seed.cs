@@ -1,13 +1,15 @@
 ﻿using MedicalOfficeApp.API.Models;
+using MedicalOfficeApp.API.Shared;
 using Microsoft.EntityFrameworkCore.Internal;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace MedicalOfficeApp.API.Data
 {
     public static class Seed
-    {
+    { 
         public static void SeedRecordsAndUsers(DataContext context)
         {
             if (!context.Records.Any())
@@ -17,7 +19,7 @@ namespace MedicalOfficeApp.API.Data
 
                 foreach (DbRecord record in records)
                 {
-                    record.User.Phone = Seed.MakeAcceptableNumber(record.User.Phone);
+                    record.User.Phone = Extensions.MakeAcceptableNumber(record.User.Phone);
                 }
 
                 context.Records.AddRange(records);
@@ -25,14 +27,15 @@ namespace MedicalOfficeApp.API.Data
             }
         }
 
-        private static string MakeAcceptableNumber(string phoneNumber)
+        public static void DeleteOldRecords(DataContext context, int numOfDaysOfPreservation)
         {
-            phoneNumber = new string(phoneNumber.Where((letter) =>
-            {
-                return int.TryParse(letter.ToString(), out int _);
-            }).ToArray());
+            var entitiesToBeDeleted = context
+                    .Records
+                    .Where(r => r.TimeCreated < DateTime.Now.Date.AddDays(-numOfDaysOfPreservation));
 
-            return phoneNumber;
+            context.Records.RemoveRange(entitiesToBeDeleted);
+
+            context.SaveChanges();
         }
     }
 }

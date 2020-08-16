@@ -2,7 +2,6 @@
 using MedicalOfficeApp.API.Dtos;
 using MedicalOfficeApp.API.Models;
 using MedicalOfficeApp.API.Shared;
-using System.Linq;
 
 namespace MedicalOfficeApp.API.Core
 {
@@ -11,7 +10,7 @@ namespace MedicalOfficeApp.API.Core
         public AutoMapperProfiles()
         {
             CreateMap<UserDto, User>().ForMember(dest => dest.Phone, opt =>
-                opt.MapFrom(src => src.Phone.CheckPhoneForPlus()));
+                opt.MapFrom(src => src.Phone.MakeAcceptableNumber()));
         }
     }
 }

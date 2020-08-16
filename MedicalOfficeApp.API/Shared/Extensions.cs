@@ -23,12 +23,14 @@ namespace MedicalOfficeApp.API.Shared
             return dateTime.AddDays(numOfCalendarDays);
         }
 
-        public static string CheckPhoneForPlus (this string phone)
+        public static string MakeAcceptableNumber(this string phoneNumber)
         {
-            if (phone[0] == '+')
-                return new string(phone.Skip(1).ToArray());
+            phoneNumber = new string(phoneNumber.Where((letter) =>
+            {
+                return int.TryParse(letter.ToString(), out int _);
+            }).ToArray());
 
-            return phone;
+            return phoneNumber;
         }
     }
 }

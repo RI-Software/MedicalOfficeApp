@@ -1,9 +1,11 @@
+using MedicalOfficeApp.API.Core;
 using MedicalOfficeApp.API.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 namespace MedicalOfficeApp.API
 {
@@ -15,11 +17,18 @@ namespace MedicalOfficeApp.API
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                var context = services.GetRequiredService<DataContext>();
-                context.Database.Migrate();
 
+                var context = services.GetRequiredService<DataContext>();
+                var numOfDaysOfPreservation = services
+                    .GetRequiredService<IOptions<BookingSettings>>()
+                    .Value
+                    .NumOfDaysOfPreservationHistory;
+
+                context.Database.Migrate();
                 Seed.SeedRecordsAndUsers(context);
+                Seed.DeleteOldRecords(context, numOfDaysOfPreservation);
             }
+
             host.Run();
         }
 
