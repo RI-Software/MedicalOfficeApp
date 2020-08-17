@@ -10,25 +10,29 @@ import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { NavComponent } from './core/components/nav/nav.component';
 import { en_US, NZ_I18N } from 'ng-zorro-antd';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { NotificationService } from './core/services/notification.service';
 
 registerLocaleData(en);
 
 @NgModule({
    declarations: [
-     AppComponent,
-     NavComponent,
+    AppComponent,
+    NavComponent,
    ],
    imports: [
-     BrowserModule,
-     BrowserAnimationsModule,
-     HttpClientModule,
-     RouterModule.forRoot(appRoutes),
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    NzNotificationModule,
+    RouterModule.forRoot(appRoutes),
    ],
    providers: [
-     {provide: NZ_I18N, useValue: en_US},
+    NotificationService,
+    {provide: NZ_I18N, useValue: en_US},
    ],
    bootstrap: [
-     AppComponent,
+    AppComponent,
    ],
  })
 export class AppModule { }
