@@ -1,0 +1,35 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-4">
+      <h2 class="text-center text-primary">Login...</h2>
+      <hr>
+      <form [formGroup]="form" (ngSubmit)="this.register()">
+        
+        <div class="form-group">
+          <input type="text" [ngClass]="{'is-invalid': hasError('login')}" class="form-control" formControlName="login" 
+            placeholder="Login">
+          <div *ngIf="hasError('login')" class="invalid-feedback">
+            <div *ngIf="getControl('login').hasError('required')">
+              Login required
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <input type="password" [ngClass]="{'is-invalid': hasError('password')}" class="form-control" formControlName="password" 
+            placeholder="Password">
+          <div *ngIf="hasError('password')" class="invalid-feedback">
+            <div *ngIf="getControl('password').hasError('required')">
+              Password required
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group text-center">
+          <button class="btn btn-success" type="submit" [disabled]="!form.valid">Login</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
