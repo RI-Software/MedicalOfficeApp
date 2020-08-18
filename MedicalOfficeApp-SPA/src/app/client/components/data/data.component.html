@@ -10,7 +10,7 @@
             <input type="text" [ngClass]="{'is-invalid': hasError('name')}" class="form-control" formControlName="name"
               placeholder="{{this.namePlaceholder}}">
             <div *ngIf="hasError('name')" class="invalid-feedback">
-              <div *ngIf="getControl('name').errors?.customError">
+              <div *ngIf="getControl('name').hasError('customError')">
                   {{form.controls.name.errors?.customError.errorMsg}}
               </div>
               <div *ngIf="getControl('name').hasError('required')">
@@ -29,7 +29,7 @@
             <input type="text" [ngClass]="{'is-invalid': hasError('surname')}" class="form-control" formControlName="surname"
               placeholder="{{this.surnamePlaceholder}}">
             <div *ngIf="hasError('surname')" class="invalid-feedback">
-              <div *ngIf="getControl('surname').errors?.customError">
+              <div *ngIf="getControl('surname').hasError('customError')">
                   {{form.controls.surname.errors?.customError.errorMsg}}
               </div>
               <div *ngIf="getControl('surname').hasError('required')">
@@ -85,7 +85,7 @@
             <input type="text" [ngClass]="{'is-invalid': hasError('email')}" class="form-control" formControlName="email"
               placeholder="{{this.emailPlaceholder}}">
             <div *ngIf="hasError('email')" class="invalid-feedback">
-              <div *ngIf="getControl('email').errors?.customError">
+              <div *ngIf="getControl('email').hasError('customError')">
                   {{form.controls.email.errors?.customError.errorMsg}}
               </div>
               <div *ngIf="getControl('email').hasError('required')">
@@ -98,7 +98,7 @@
             <input type="tel" [ngClass]="{'is-invalid': hasError('phone')}" class="form-control" formControlName="phone"
               placeholder="{{this.phonePlaceholder}}">
             <div *ngIf="hasError('phone')" class="invalid-feedback">
-              <div *ngIf="getControl('phone').errors?.customError">
+              <div *ngIf="getControl('phone').hasError('customError')">
                   {{form.controls.phone.errors?.customError.errorMsg}}
               </div>
               <div *ngIf="getControl('phone').hasError('required')">
