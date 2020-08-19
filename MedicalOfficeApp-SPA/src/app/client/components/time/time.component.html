@@ -1,28 +1,51 @@
 <div class="time-picker col-4">
   <div class="time-picker-buttons">
-    <button nz-button nzType="default" [disabled]="!date" (click)="prevMonth()"><i nz-icon nzType="double-left"></i></button>
-    <button nz-button nzType="default" [disabled]="!date" (click)="prevDay()"><i nz-icon nzType="left"></i></button>
-    <span>{{date | date : 'dd MMMM yyyy'}}</span>
-    <button nz-button nzType="default" [disabled]="!date" (click)="nextDay()"><i nz-icon nzType="right"></i></button>
-    <button nz-button nzType="default" [disabled]="!date" (click)="nextMonth()"><i nz-icon nzType="double-right"></i></button>
+    <button
+      nz-button
+      nzType="default"
+      (click)="prevMonth()">
+      <i nz-icon nzType="double-left"></i>
+    </button>
+    <button
+      nz-button
+      nzType="default"
+      (click)="prevDay()">
+      <i nz-icon nzType="left"></i>
+    </button>
+    <span>{{this.currentDate | date : ' dd MM yyyy'}}</span>
+    <button
+      nz-button
+      nzType="default"
+      (click)="nextDay()">
+      <i nz-icon nzType="right"></i>
+    </button>
+    <button
+      nz-button
+      nzType="default"
+      [disabled]="false"
+      (click)="nextMonth()">
+      <i nz-icon nzType="double-right"></i>
+    </button>
   </div>
   <nz-calendar
-    [(ngModel)]="date"
+    *ngIf="availableDates.length"
+    [(ngModel)]="this.currentDate"
+    [nzDisabledDate]="disabledDate"
     [nzFullscreen]="false"
-    [nzDisabledDate]="disabledDate">
+  >
   </nz-calendar>
 </div>
 
-<nz-radio-group class="time-buttons offset-1 col-4 row" [(ngModel)]="radioValue" nzButtonStyle="solid" *ngIf="availableTime.length; else
+<nz-radio-group class="time-buttons offset-1 col-4 row" [(ngModel)]="radioValue" nzButtonStyle="solid" *ngIf="availableTimes.length; else
 loader">
   <div [ngSwitch]="time.status" class="time-button-wrapper col-4 mb-3"
-       *ngFor="let time of availableTime">
+       *ngFor="let time of availableTimes">
     <label nz-radio-button
            *ngSwitchCase="'CLOSED'"
            nzTooltipTitle="Данное время уже занято" nzTooltipPlacement="top" nz-tooltip
            class="time-button label closed"
            [nzDisabled]="true"
-           [nzValue]="time.time">
+           [nzValue]="time">
       {{time.time}}
     </label>
     <label nz-radio-button
@@ -30,13 +53,13 @@ loader">
            nzTooltipTitle="Кто - то в данный момент регестрируется на это время" nzTooltipPlacement="top" nz-tooltip
            class="time-button label reserved"
            [nzDisabled]="true"
-           [nzValue]="time.time">
+           [nzValue]="time">
       {{time.time}}
     </label>
     <label nz-radio-button
            *ngSwitchDefault
            class="time-button label"
-           [nzValue]="time.time">
+           [nzValue]="time">
       {{time.time}}
     </label>
   </div>

@@ -1,88 +1,71 @@
 import { Component, OnInit } from '@angular/core';
-import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 import { StepService } from '../../services/step.service';
-import { MoveType } from '../../shared/models/MoveTypeEnum';
 import { DataComponent } from '../data/data.component';
+import { MoveType } from '../../shared/models/MoveTypeEnum';
+import { TimeService } from '../../services/time.service';
+import { AvailableDate, AvailableTime } from '../../shared/models/Date&Times';
 
 @Component({
   selector: 'app-time',
   templateUrl: './time.component.html',
-  styleUrls: ['./time.component.scss']
+  styleUrls: ['./time.component.scss'],
 })
 export class TimeComponent implements OnInit {
-  constructor(private stepService: StepService) {}
+  get currentDate(): Date {
+    return this._currentDate;
+  }
 
-  date: Date = null;
-  dateFormat = 'EE, dd MMMM yyyy';
-  availableTime = [
-    { time: '10:00' },
-    { time: '10:10', status: 'CLOSED' },
-    { time: '10:20' },
-    { time: '10:30' },
-    { time: '10:40' },
-    { time: '10:50' },
-    { time: '11:00' },
-    { time: '11:10' },
-    { time: '11:20' },
-    { time: '11:30' },
-    { time: '11:40', status: 'RESERVED' },
-    { time: '11:50' },
-    { time: '12:00' }
-  ];
+  set currentDate(value: Date) {
+    if (value) {
+      this.timeService.getAvailableTime(value);
+      this._currentDate = value;
+    }
+  }
+
+  private _currentDate: Date = new Date();
+
+  constructor(
+    private stepService: StepService,
+    public timeService: TimeService,
+  ) {
+  }
+
+  availableDates: AvailableDate[] = [];
+  availableTimes: AvailableTime[] = [];
   radioValue: string;
 
-  mode = 'month';
+  ngOnInit() {
+    this.stepService.StepPreparing(DataComponent, MoveType.MoveNext); // tmp
+    this.timeService.getAvailableDates();
+    this.timeService.availableDates.subscribe((value => {
+      this.availableDates = value;
+      if (this.availableDates.length) {
+        this.currentDate = this.availableDates[0].date;
+      }
+    }));
+    this.timeService.availableTimes.subscribe((value => {
+      this.availableTimes = value;
+    }));
+  }
 
   disabledDate = (current: Date): boolean => {
-    // Can not select days before today
-    return differenceInCalendarDays(current, new Date()) < 0;
-  }
-
-  ngOnInit() {
-    this.date = new Date();
-    this.stepService.StepPreparing(DataComponent, MoveType.MoveNext); // tmp
-  }
-
-  onChange($event: any) {
-    console.log($event);
-    const tempVal = this.availableTime;
-    this.availableTime = [];
-    setTimeout(() => {
-      this.availableTime = tempVal;
-    }, 5000);
-  }
+    return !this.timeService.checkAvailableDate(current);
+  };
 
   nextDay(): void {
-    if (this.date) {
-      this.date = this.AddDaysToDate(this.date, 1);
-    }
+    this.currentDate = this.timeService.changeDate(this.currentDate, +1);
   }
 
   prevDay(): void {
-    if (this.date) {
-      this.date = this.AddDaysToDate(this.date, -1);
-    }
-  }
+    this.currentDate = this.timeService.changeDate(this.currentDate, -1);
 
-  prevMonth() {
-    if (this.date) {
-      this.date = new Date(new Date().setMonth(this.date.getMonth() - 1));
-    }
   }
 
   nextMonth() {
-    if (this.date) {
-      this.date = new Date(new Date().setMonth(this.date.getMonth() + 1));
-    }
+    this.currentDate = this.timeService.changeDate(this.currentDate, 0, +1);
   }
 
-  private AddDaysToDate(sourceDate: Date, numOfDays: number): Date {
-    const year = sourceDate.getFullYear();
-    const month = sourceDate.getMonth();
-    let date = sourceDate.getDate();
-
-    date = date + numOfDays;
-
-    return new Date(year, month, date);
+  prevMonth() {
+    this.currentDate = this.timeService.changeDate(this.currentDate, 0, -1);
   }
 }
