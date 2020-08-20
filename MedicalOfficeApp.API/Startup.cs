@@ -1,5 +1,6 @@
 using AutoMapper;
 using MedicalOfficeApp.API.Core;
+using MedicalOfficeApp.API.Core.ActionFilters;
 using MedicalOfficeApp.API.Core.WorkingDaysCollection;
 using MedicalOfficeApp.API.Data;
 using MedicalOfficeApp.API.Data.Repositories;
@@ -31,6 +32,7 @@ namespace MedicalOfficeApp.API
         {
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IRecordRepository, RecordRepository>();
+            services.AddScoped<RelevantRecordsFilter>();
             services.AddSingleton<DateRecordCollection>();
             services.Configure<BookingSettings>(Configuration.GetSection("BookingSettings"));
             services.Configure<AuthSettings>(Configuration.GetSection("Auth"));
