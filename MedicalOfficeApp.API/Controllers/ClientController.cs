@@ -121,10 +121,7 @@ namespace MedicalOfficeApp.API.Controllers
 
         private string GenerateToken(RecordDto record)
         {
-            var authParams = authOptions.Value;
-
-            var securityKey = authParams.GetSymmetricSecurityKey();
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var tokenLifetime = authOptions.Value.ClientTokenLifetime;
 
             var claims = new List<Claim>();
 
@@ -132,14 +129,7 @@ namespace MedicalOfficeApp.API.Controllers
             claims.Add(new Claim("time", record.Time.ToString()));
             claims.Add(new Claim("role", "client"));
 
-            var token = new JwtSecurityToken(
-                issuer: authParams.Issuer,
-                audience: authParams.Audience,
-                claims: claims,
-                expires: DateTime.Now.Add(authParams.TokenLifeTime),
-                signingCredentials: credentials);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return authOptions.Value.GenerateToken(claims, tokenLifetime);
         }
     }
 }

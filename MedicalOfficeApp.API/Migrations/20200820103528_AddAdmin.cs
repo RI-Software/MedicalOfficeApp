@@ -22,6 +22,12 @@ namespace MedicalOfficeApp.API.Migrations
                 {
                     table.PrimaryKey("PK_Admins", x => x.AdminId);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Admins_Username",
+                table: "Admins",
+                column: "Username",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

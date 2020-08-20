@@ -21,7 +21,7 @@ namespace MedicalOfficeApp.API.Core.ActionFilters
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            TimeSpan timeToRegister = authOptions.Value.TokenLifeTime;
+            TimeSpan timeToRegister = authOptions.Value.ClientTokenLifetime;
 
             var recordsToBeDeleted = recordsInMemory
                 .Value

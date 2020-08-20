@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalOfficeApp.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200820100433_AddAdmin")]
+    [Migration("20200820103528_AddAdmin")]
     partial class AddAdmin
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,6 +42,9 @@ namespace MedicalOfficeApp.API.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("AdminId");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Admins");
                 });

@@ -4,6 +4,7 @@ using MedicalOfficeApp.API.Core.ActionFilters;
 using MedicalOfficeApp.API.Core.WorkingDaysCollection;
 using MedicalOfficeApp.API.Data;
 using MedicalOfficeApp.API.Data.Repositories;
+using MedicalOfficeApp.API.Data.Repositories.AuthRepo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -32,6 +33,7 @@ namespace MedicalOfficeApp.API
         {
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IRecordRepository, RecordRepository>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<RelevantRecordsFilter>();
             services.AddSingleton<DateRecordCollection>();
             services.Configure<BookingSettings>(Configuration.GetSection("BookingSettings"));

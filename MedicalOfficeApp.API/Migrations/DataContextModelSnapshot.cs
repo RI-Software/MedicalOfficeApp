@@ -41,6 +41,9 @@ namespace MedicalOfficeApp.API.Migrations
 
                     b.HasKey("AdminId");
 
+                    b.HasIndex("Username")
+                        .IsUnique();
+
                     b.ToTable("Admins");
                 });
 

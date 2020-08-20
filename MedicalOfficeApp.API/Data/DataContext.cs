@@ -34,6 +34,10 @@ namespace MedicalOfficeApp.API.Data
                 .Property(a => a.TimeCreated)
                 .ValueGeneratedOnAdd()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            modelBuilder.Entity<Admin>()
+                .HasIndex(a => a.Username)
+                .IsUnique();
         }
     }
 }
