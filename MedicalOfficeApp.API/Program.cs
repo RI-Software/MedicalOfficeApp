@@ -27,6 +27,7 @@ namespace MedicalOfficeApp.API
                 context.Database.Migrate();
                 Seed.SeedRecordsAndClients(context);
                 Seed.DeleteOldRecords(context, numOfDaysOfPreservation);
+                Seed.SeedAdmin(context, "kwetachka", "password");
             }
 
             host.Run();

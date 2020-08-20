@@ -1,4 +1,5 @@
-﻿using MedicalOfficeApp.API.Models;
+﻿using MedicalOfficeApp.API.Data.Models;
+using MedicalOfficeApp.API.Models;
 using MedicalOfficeApp.API.Shared;
 using Microsoft.EntityFrameworkCore.Internal;
 using Newtonsoft.Json;
@@ -36,6 +37,26 @@ namespace MedicalOfficeApp.API.Data
             context.Records.RemoveRange(entitiesToBeDeleted);
 
             context.SaveChanges();
+        }
+
+        public static void SeedAdmin(DataContext context, string username, string password)
+        {
+            if (!context.Admins.Any())
+            {
+                CreatePasswordHashAndSalt(password, out byte[] passwordHash, out byte[] passwordSalt);
+                Admin admin = new Admin() { Username = username, PasswordHash = passwordHash, PasswordSalt = passwordSalt };
+
+                context.Admins.Add(admin);
+
+                context.SaveChanges();
+            }
+        }
+
+        private static void CreatePasswordHashAndSalt(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using var hmac = new System.Security.Cryptography.HMACSHA512();
+            passwordSalt = hmac.Key;
+            passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
         }
     }
 }
