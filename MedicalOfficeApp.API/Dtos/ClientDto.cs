@@ -2,7 +2,7 @@
 
 namespace MedicalOfficeApp.API.Dtos
 {
-    public class UserDto
+    public class ClientDto
     {
         [Required]
         [RegularExpression(@"^(([A-Z]{0,1}[a-z]*)|([А-Я]{0,1}[а-я]*))( {0,5}?)$")]

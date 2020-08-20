@@ -10,16 +10,16 @@ namespace MedicalOfficeApp.API.Data
 {
     public static class Seed
     { 
-        public static void SeedRecordsAndUsers(DataContext context)
+        public static void SeedRecordsAndClients(DataContext context)
         {
             if (!context.Records.Any())
             {
-                var userData = System.IO.File.ReadAllText("Data/GeneratedJson/recordAndDataGenerated.json");
-                var records = JsonConvert.DeserializeObject<List<DbRecord>>(userData);
+                var clientsData = System.IO.File.ReadAllText("Data/GeneratedJson/recordAndDataGenerated.json");
+                var records = JsonConvert.DeserializeObject<List<DbRecord>>(clientsData);
 
                 foreach (DbRecord record in records)
                 {
-                    record.User.Phone = Extensions.MakeAcceptableNumber(record.User.Phone);
+                    record.Client.Phone = Extensions.MakeAcceptableNumber(record.Client.Phone);
                 }
 
                 context.Records.AddRange(records);

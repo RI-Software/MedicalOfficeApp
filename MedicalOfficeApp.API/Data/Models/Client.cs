@@ -2,10 +2,10 @@
 
 namespace MedicalOfficeApp.API.Models
 {
-    public class User
+    public class Client
     {
         [Key]
-        public int UserId { get; set; }
+        public int ClientId { get; set; }
 
         [Required]
         public string Name { get; set; }
@@ -23,8 +23,6 @@ namespace MedicalOfficeApp.API.Models
 
         [Required]
         public string Phone { get; set; }
-
-        public string Role { get; set; }
 
         // public int DeviceId { get; set; } to be releazed
     }

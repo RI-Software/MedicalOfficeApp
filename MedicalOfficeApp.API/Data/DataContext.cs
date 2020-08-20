@@ -9,7 +9,7 @@ namespace MedicalOfficeApp.API.Data
             : base(options) { }
 
         public virtual DbSet<DbRecord> Records { get; set; }
-        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Client> Clients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,12 +28,6 @@ namespace MedicalOfficeApp.API.Data
             modelBuilder.Entity<DbRecord>()
                 .HasIndex(p => new { p.Date, p.Time })
                 .IsUnique();
-
-            modelBuilder.Entity<User>()
-                .Property(u => u.Role)
-                .ValueGeneratedOnAddOrUpdate()
-                .IsConcurrencyToken()
-                .HasDefaultValue("user");
         }
     }
 }

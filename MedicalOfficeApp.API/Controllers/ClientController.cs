@@ -23,7 +23,7 @@ namespace MedicalOfficeApp.API.Controllers
     [ServiceFilter(typeof(RelevantRecordsFilter))]
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class ClientController : ControllerBase
     {
         private readonly IRecordRepository repo;
         private readonly IOptions<WorkingDaysCollection> recordSettings;
@@ -33,7 +33,7 @@ namespace MedicalOfficeApp.API.Controllers
         private readonly DayOfWeek[] workingDays;
         private readonly int numOfDaysInAdvance;
 
-        public UserController(
+        public ClientController(
             IRecordRepository repo,
             IOptions<BookingSettings> bookingSettings,
             IOptions<WorkingDaysCollection> recordSettings,
@@ -52,7 +52,7 @@ namespace MedicalOfficeApp.API.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Register (UserDto user)
+        public async Task<IActionResult> Register (ClientDto client)
         {
             DateTime date = DateTime.Parse(User.Claims.Single(c => c.Type == "date").Value);
             TimeSpan time = TimeSpan.Parse(User.Claims.Single(c => c.Type == "time").Value);
@@ -65,9 +65,9 @@ namespace MedicalOfficeApp.API.Controllers
             if (recordFromMemory == null)
                 return BadRequest("You missed the booking stage");
 
-            User userForRecord = mapper.Map<User>(user);
+            Client clientForRecord = mapper.Map<Client>(client);
 
-            DbRecord record = new DbRecord() { Date = date, Time = time, User = userForRecord };
+            DbRecord record = new DbRecord() { Date = date, Time = time, Client = clientForRecord };
 
             repo.Add(record);
 
@@ -111,7 +111,7 @@ namespace MedicalOfficeApp.API.Controllers
                 return BadRequest("Somebody is trying to book this time");
 
 
-            recordsInMemory.Value.Records.Add(new DateRecord(record.Date, record.Time)); //time should be added not in a such way
+            recordsInMemory.Value.Records.Add(new DateRecord(record.Date, record.Time));
 
 
             var token = GenerateToken(record);
@@ -130,6 +130,7 @@ namespace MedicalOfficeApp.API.Controllers
 
             claims.Add(new Claim("date", record.Date.ToString()));
             claims.Add(new Claim("time", record.Time.ToString()));
+            claims.Add(new Claim("role", "client"));
 
             var token = new JwtSecurityToken(
                 issuer: authParams.Issuer,

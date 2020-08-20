@@ -16,7 +16,7 @@ namespace MedicalOfficeApp.API.Models
         public virtual TimeSpan Time { get; set; }
 
         [Required]
-        public virtual User User { get; set; }
+        public virtual Client Client { get; set; }
 
         [Timestamp]
         public DateTime RowVersion { get; set; }

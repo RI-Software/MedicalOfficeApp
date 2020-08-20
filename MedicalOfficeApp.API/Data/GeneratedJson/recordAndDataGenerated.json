@@ -2,221 +2,221 @@
   {
     "Date": "2020-08-13",
     "Time": "09:00",
-    "User": {
+    "Client": {
       "Name": "Rhoda",
       "Surname": "Branch",
       "Age": 25,
       "Email": "rhodabranch@velos.com",
-      "Phone": "+375 (949) 548-2037"
+      "Phone": "+375 (29) 548-2037"
     }
   },
   {
     "Date": "2020-08-13",
     "Time": "10:00",
-    "User": {
+    "Client": {
       "Name": "Alyssa",
       "Surname": "Hopkins",
       "Age": 29,
       "Email": "alyssahopkins@velos.com",
-      "Phone": "+375 (833) 494-2433"
+      "Phone": "+375 (29) 494-2433"
     }
   },
   {
     "Date": "2020-08-13",
     "Time": "11:00",
-    "User": {
+    "Client": {
       "Name": "Maggie",
       "Surname": "Castillo",
       "Age": 40,
       "Email": "maggiecastillo@velos.com",
-      "Phone": "+375 (843) 550-2007"
+      "Phone": "+375 (29) 550-2007"
     }
   },
   {
     "Date": "2020-08-13",
     "Time": "12:00",
-    "User": {
+    "Client": {
       "Name": "Dana",
       "Surname": "Hancock",
       "Age": 21,
       "Email": "danahancock@velos.com",
-      "Phone": "+375 (923) 403-3823"
+      "Phone": "+375 (33) 403-3823"
     }
   },
   {
     "Date": "2020-08-13",
     "Time": "13:00",
-    "User": {
+    "Client": {
       "Name": "Rodgers",
       "Surname": "Hanson",
       "Age": 27,
       "Email": "rodgershanson@velos.com",
-      "Phone": "+375 (856) 415-2318"
+      "Phone": "+375 (29) 415-2318"
     }
   },
   {
     "Date": "2020-08-13",
     "Time": "14:00",
-    "User": {
+    "Client": {
       "Name": "Park",
       "Surname": "Pittman",
       "Age": 33,
       "Email": "parkpittman@velos.com",
-      "Phone": "+375 (927) 545-2120"
+      "Phone": "+375 (44) 545-2120"
     }
   },
   {
     "Date": "2020-08-13",
     "Time": "15:00",
-    "User": {
+    "Client": {
       "Name": "Warner",
       "Surname": "Johnson",
       "Age": 31,
       "Email": "warnerjohnson@velos.com",
-      "Phone": "+375 (951) 573-2830"
+      "Phone": "+375 (29) 573-2830"
     }
   },
   {
     "Date": "2020-08-13",
     "Time": "16:00",
-    "User": {
+    "Client": {
       "Name": "Singleton",
       "Surname": "Page",
       "Age": 23,
       "Email": "singletonpage@velos.com",
-      "Phone": "+375 (972) 564-3902"
+      "Phone": "+375 (44) 564-3902"
     }
   },
   {
     "Date": "2020-08-13",
     "Time": "17:00",
-    "User": {
+    "Client": {
       "Name": "Knight",
       "Surname": "Ingram",
       "Age": 40,
       "Email": "knightingram@velos.com",
-      "Phone": "+375 (940) 490-2127"
+      "Phone": "+375 (44) 490-2127"
     }
   },
   {
     "Date": "2020-08-13",
     "Time": "18:00",
-    "User": {
+    "Client": {
       "Name": "Hurley",
       "Surname": "Wilkinson",
       "Age": 34,
       "Email": "hurleywilkinson@velos.com",
-      "Phone": "+375 (937) 528-3944"
+      "Phone": "+375 (29) 528-3944"
     }
   },
   {
     "Date": "2020-08-07",
     "Time": "09:00",
-    "User": {
+    "Client": {
       "Name": "Evans",
       "Surname": "Britt",
       "Age": 30,
       "Email": "evansbritt@velos.com",
-      "Phone": "+375 (833) 459-3499"
+      "Phone": "+375 (29) 459-3499"
     }
   },
   {
     "Date": "2020-08-07",
     "Time": "10:00",
-    "User": {
+    "Client": {
       "Name": "Mason",
       "Surname": "Knapp",
       "Age": 28,
       "Email": "masonknapp@velos.com",
-      "Phone": "+375 (940) 462-3107"
+      "Phone": "+375 (29) 462-3107"
     }
   },
   {
     "Date": "2020-08-04",
     "Time": "14:00",
-    "User": {
+    "Client": {
       "Name": "Rosario",
       "Surname": "Kidd",
       "Age": 25,
       "Email": "rosariokidd@velos.com",
-      "Phone": "+375 (859) 556-2427"
+      "Phone": "+375 (29) 556-2427"
     }
   },
   {
     "Date": "2020-08-07",
     "Time": "11:00",
-    "User": {
+    "Client": {
       "Name": "Rosalyn",
       "Surname": "Sanchez",
       "Age": 25,
       "Email": "rosalynsanchez@velos.com",
-      "Phone": "+375 (888) 435-2007"
+      "Phone": "+375 (29) 435-2007"
     }
   },
   {
     "Date": "2020-08-07",
     "Time": "16:00",
-    "User": {
+    "Client": {
       "Name": "Burton",
       "Surname": "Guy",
       "Age": 33,
       "Email": "burtonguy@velos.com",
-      "Phone": "+375 (891) 414-2570"
+      "Phone": "+375 (29) 414-2570"
     }
   },
   {
     "Date": "2020-08-05",
     "Time": "14:00",
-    "User": {
+    "Client": {
       "Name": "Moore",
       "Surname": "Carver",
       "Age": 35,
       "Email": "moorecarver@velos.com",
-      "Phone": "+375 (882) 473-2582"
+      "Phone": "+375 (29) 473-2582"
     }
   },
   {
     "Date": "2020-08-05",
     "Time": "18:00",
-    "User": {
+    "Client": {
       "Name": "Rosales",
       "Surname": "Bass",
       "Age": 29,
       "Email": "rosalesbass@velos.com",
-      "Phone": "+375 (873) 592-3391"
+      "Phone": "+375 (29) 592-3391"
     }
   },
   {
     "Date": "2020-08-05",
     "Time": "13:00",
-    "User": {
+    "Client": {
       "Name": "Haley",
       "Surname": "Barry",
       "Age": 39,
       "Email": "haleybarry@velos.com",
-      "Phone": "+375 (862) 544-3845"
+      "Phone": "+375 (29) 544-3845"
     }
   },
   {
     "Date": "2020-08-05",
     "Time": "12:00",
-    "User": {
+    "Client": {
       "Name": "Joseph",
       "Surname": "Benton",
       "Age": 24,
       "Email": "josephbenton@velos.com",
-      "Phone": "+375 (968) 458-3136"
+      "Phone": "+375 (29) 458-3136"
     }
   },
   {
     "Date": "2020-08-05",
     "Time": "10:00",
-    "User": {
+    "Client": {
       "Name": "Dalton",
       "Surname": "Holden",
       "Age": 27,
       "Email": "daltonholden@velos.com",
-      "Phone": "+375 (874) 544-2258"
+      "Phone": "+375 (29) 544-2258"
     }
   }
 ]

@@ -9,7 +9,7 @@ namespace MedicalOfficeApp.API.Core
     {
         public AutoMapperProfiles()
         {
-            CreateMap<UserDto, User>().ForMember(dest => dest.Phone, opt =>
+            CreateMap<ClientDto, Client>().ForMember(dest => dest.Phone, opt =>
                 opt.MapFrom(src => src.Phone.MakeAcceptableNumber()));
         }
     }

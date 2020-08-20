@@ -25,7 +25,7 @@ namespace MedicalOfficeApp.API
                     .NumOfDaysOfPreservationHistory;
 
                 context.Database.Migrate();
-                Seed.SeedRecordsAndUsers(context);
+                Seed.SeedRecordsAndClients(context);
                 Seed.DeleteOldRecords(context, numOfDaysOfPreservation);
             }
 
