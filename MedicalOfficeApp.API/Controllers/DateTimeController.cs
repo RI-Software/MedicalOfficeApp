@@ -108,24 +108,28 @@ namespace MedicalOfficeApp.API.Controllers
                 //if the time has already passed today
                 if (requestedDate == DateTime.Now.Date && time < DateTime.Now.TimeOfDay)
                 {
-                    timesToReturn.Add(new TimeForListDto() { Time = time, Status = TimeStatus.Expired.ToString() });
+                    AddTimeToReturnList(time, TimeStatus.Expired);
                     continue;
                 }
 
                 if(todayRecordsFromDb.Where(r => r.Time == time).FirstOrDefault() != null)
                 {
-                    timesToReturn.Add(new TimeForListDto() { Time = time, Status = TimeStatus.Taken.ToString() });
+                    AddTimeToReturnList(time, TimeStatus.Taken);
                     continue;
                 }
 
                 if (todayRecordsFromMemory.Where(r => r.Time == time).FirstOrDefault() != null)
                 {
-                    timesToReturn.Add(new TimeForListDto() { Time = time, Status = TimeStatus.InProcess.ToString() });
+                    AddTimeToReturnList(time, TimeStatus.InProcess);
                     continue;
                 }
 
-                timesToReturn.Add(new TimeForListDto() { Time = time, Status = TimeStatus.Free.ToString() });
+                AddTimeToReturnList(time, TimeStatus.Free);
             }
+
+
+            void AddTimeToReturnList(TimeSpan time, TimeStatus timeStatus) =>
+                timesToReturn.Add(new TimeForListDto() { Time = time.ToString("hh':'mm"), Status = timeStatus.ToString() });
 
             return Ok(timesToReturn);
         }

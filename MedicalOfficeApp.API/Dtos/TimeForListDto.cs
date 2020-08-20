@@ -8,7 +8,7 @@ namespace MedicalOfficeApp.API.Dtos
 {
     public class TimeForListDto
     {
-        public TimeSpan Time { get; set; }
+        public string Time { get; set; }
 
         public string Status { get; set; }
     }
