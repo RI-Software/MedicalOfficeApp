@@ -1,4 +1,5 @@
-﻿using MedicalOfficeApp.API.Models;
+﻿using MedicalOfficeApp.API.Data.Models;
+using MedicalOfficeApp.API.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace MedicalOfficeApp.API.Data
@@ -10,6 +11,7 @@ namespace MedicalOfficeApp.API.Data
 
         public virtual DbSet<DbRecord> Records { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
+        public virtual DbSet<Admin> Admins { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,12 +24,16 @@ namespace MedicalOfficeApp.API.Data
             modelBuilder.Entity<DbRecord>()
                 .Property(r => r.TimeCreated)
                 .ValueGeneratedOnAddOrUpdate()
-                .IsConcurrencyToken()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             modelBuilder.Entity<DbRecord>()
                 .HasIndex(p => new { p.Date, p.Time })
                 .IsUnique();
+
+            modelBuilder.Entity<Admin>()
+                .Property(a => a.TimeCreated)
+                .ValueGeneratedOnAdd()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
         }
     }
 }
