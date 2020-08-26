@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiDatetimeURL: 'http://10.104.1.114:5001/api/datetime/'
+  apiDatetimeURL: 'http://45.80.69.247:5001/api/datetime/'
 };
 
 /*
