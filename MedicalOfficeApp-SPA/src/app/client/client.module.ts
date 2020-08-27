@@ -25,6 +25,7 @@ import { DoneComponent } from './components/done/done.component';
 import { TimeService } from './services/time.service';
 import { AgreementsComponent } from './components/agreements/agreements.component';
 import { ClientComponent } from './client.component';
+import { ClientService } from './services/client.service';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { ClientComponent } from './client.component';
   ],
   providers: [
     StepService,
-    TimeService
+    TimeService,
+    ClientService
   ],
 })
 export class ClientModule { }

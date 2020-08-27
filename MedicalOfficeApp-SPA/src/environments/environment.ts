@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  apiDatetimeURL: 'http://45.80.69.247:5001/api/datetime/'
+  allowedDomains: ['45.80.69.247:5001', 'localhost:5000'], // tmp
+  apiUrl: 'http://45.80.69.247:5001',
+  apiClientUrl: 'http://45.80.69.247:5001/api/client/',
+  apiDatetimeUrl: 'http://45.80.69.247:5001/api/datetime/'
 };
 
 /*

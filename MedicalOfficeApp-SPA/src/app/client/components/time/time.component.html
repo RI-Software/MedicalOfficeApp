@@ -41,7 +41,7 @@ nzButtonStyle="solid" *ngIf="availableTimes.length; else loader">
   <div [ngSwitch]="time.status" class="time-button-wrapper col-4 mb-3"
        *ngFor="let time of availableTimes">
     <label nz-radio-button
-           *ngSwitchCase="'Expired' || 'Taken'"
+           *ngSwitchCase="time.status === 'Expired' || time.status === 'Taken' ? time.status : ''"
            nzTooltipTitle="This time is already taken" nzTooltipPlacement="top" nz-tooltip
            class="time-button label taken"
            [nzDisabled]="true"

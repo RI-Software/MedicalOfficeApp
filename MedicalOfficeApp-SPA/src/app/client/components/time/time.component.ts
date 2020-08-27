@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { StepService } from '../../services/step.service';
-import { DataComponent } from '../data/data.component';
-import { MoveType } from '../../shared/models/MoveTypeEnum';
 import { TimeService } from '../../services/time.service';
 import { AvailableDate, AvailableTime } from '../../shared/models/Date&Times';
 
@@ -25,15 +23,15 @@ export class TimeComponent implements OnInit {
 
   private _currentDate: Date = new Date();
 
-  constructor(
-    private stepService: StepService,
-    public timeService: TimeService,
-  ) { }
-
   availableDates: AvailableDate[] = [];
   availableTimes: AvailableTime[] = [];
 
   currentChoosenTime: AvailableTime;
+
+  constructor(
+    private stepService: StepService,
+    private timeService: TimeService
+  ) { }
 
   ngOnInit() {
     this.timeService.getAvailableDates();
@@ -68,9 +66,8 @@ export class TimeComponent implements OnInit {
     this.currentDate = this.timeService.changeDate(this.currentDate, 0, -1);
   }
 
-  timeSelected($event): void {
+  async timeSelected($event): Promise<void> {
     this.currentChoosenTime = $event;
-    this.stepService.StepPreparing(DataComponent, MoveType.MoveNext); // tmp
   }
 
   private resetChoosenTime(): void {

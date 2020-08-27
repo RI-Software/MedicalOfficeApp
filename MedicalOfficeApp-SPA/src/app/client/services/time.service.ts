@@ -15,7 +15,7 @@ export class TimeService {
   constructor(private httpClient: HttpClient, private notification: NotificationService) { }
 
   getAvailableDates(): void {
-    this.httpClient.get(environment.apiDatetimeURL).subscribe(
+    this.httpClient.get(environment.apiDatetimeUrl).subscribe(
       (response: AvailableDate[]) => {
         response.forEach(value => value.date = new Date(value.date));
         this.availableDates.next(response);
@@ -26,7 +26,7 @@ export class TimeService {
   }
 
   getAvailableTime(date: Date): void {
-    this.httpClient.get(environment.apiDatetimeURL + date.toDateString()).subscribe(
+    this.httpClient.get(environment.apiDatetimeUrl + date.toDateString()).subscribe(
       (response: AvailableTime[]) => {
         this.availableTimes.next(response);
       },
