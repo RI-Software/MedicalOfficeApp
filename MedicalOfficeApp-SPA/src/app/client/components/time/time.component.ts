@@ -27,8 +27,7 @@ export class TimeComponent implements OnInit {
   constructor(
     private stepService: StepService,
     public timeService: TimeService,
-  ) {
-  }
+  ) { }
 
   availableDates: AvailableDate[] = [];
   availableTimes: AvailableTime[] = [];
@@ -58,14 +57,13 @@ export class TimeComponent implements OnInit {
 
   prevDay(): void {
     this.currentDate = this.timeService.changeDate(this.currentDate, -1);
-
   }
 
-  nextMonth() {
+  nextMonth(): void {
     this.currentDate = this.timeService.changeDate(this.currentDate, 0, +1);
   }
 
-  prevMonth() {
+  prevMonth(): void {
     this.currentDate = this.timeService.changeDate(this.currentDate, 0, -1);
   }
 }

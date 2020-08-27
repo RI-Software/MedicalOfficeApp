@@ -12,35 +12,7 @@ export class TimeService {
   availableDates: BehaviorSubject<AvailableDate[]> = new BehaviorSubject([]);
   availableTimes: BehaviorSubject<AvailableTime[]> = new BehaviorSubject([]);
 
-  radioValue: string;
-
-  constructor(private httpClient: HttpClient, private notification: NotificationService) {
-    // Mock
-    // this.availableTimes.next([
-    //   {time: '09:00'},
-    //   {time: '10:10', status: 'Expired'},
-    //   {time: '10:20'},
-    //   {time: '10:30'},
-    //   {time: '10:40'},
-    //   {time: '10:50'},
-    //   {time: '11:00'},
-    //   {time: '11:10'},
-    //   {time: '11:20'},
-    //   {time: '11:30'},
-    //   {time: '11:40', status: 'Taken'},
-    //   {time: '11:50'},
-    //   {time: '12:00'},
-    // ]);
-    //
-    // this.availableDates.next([
-    //   {date: new Date(2020, 8, 20), status: 'Free'},
-    //   {date: new Date(2020, 8, 21), status: 'Free'},
-    //   {date: new Date(2020, 8, 22), status: 'Free'},
-    //   {date: new Date(2020, 8, 23), status: 'Busy'},
-    //   {date: new Date(2020, 8, 24), status: 'Free'},
-    //   {date: new Date(2020, 8, 25), status: 'Free'},
-    // ]);
-  }
+  constructor(private httpClient: HttpClient, private notification: NotificationService) { }
 
   getAvailableDates(): void {
     this.httpClient.get(environment.apiDatetimeURL).subscribe(
@@ -63,36 +35,67 @@ export class TimeService {
       });
   }
 
-  changeDate(currentDate: Date, cDay = 0, cMonth = 0, cYear = 0): Date {
-    const year = currentDate.getFullYear() + cYear;
+  /**
+   * Adds or subtracts days and months from the date in order to return
+   *  date with free status.
+   *
+   * If months are adding, then it returns first available date in the
+   *  required month.
+   * @param currentDate Date you wanna change.
+   * @param cDay It can be positive or negative number depending on
+   *  whether you want to add or subtract days.
+   * @param cMonth It can be positive or negative number depending on
+   *  whether you want to add or subtract months.
+   * @returns Date with Free status or currentDate.
+   */
+  changeDate(currentDate: Date, cDay = 0, cMonth = 0): Date {
+
+    const availableDates = this.availableDates.getValue();
+
+    const year = currentDate.getFullYear();
     const month = currentDate.getMonth() + cMonth;
     const day = currentDate.getDate() + cDay;
 
-    const newDate = new Date(year, month, day);
-    return this.checkAvailableDate(newDate) ? newDate : null;
-  }
+    if (cMonth !== 0 ) {
+      return availableDates.find((date) => {
+        return date.date.getMonth() === month;
+      }).date;
+    }
 
-  nextDate(currentDate: Date): Date {
-    return new Date(this.availableDates.getValue().find((val) => {
-      if (val.status === 'Free') {
-        currentDate.setHours(0, 0, 0, 0);
-        val.date.setHours(0, 0, 0, 0);
-        return currentDate.toDateString() === val.date.toDateString();
-      } else {
-        return false;
+    const newDate = new Date(year, month, day);
+
+    const dateIndex = availableDates.findIndex((date) => {
+      return this.isDatesEqual(date.date, newDate);
+    });
+
+    if (dateIndex < 0) {
+      return currentDate;
+    }
+
+    for (let i = dateIndex; i < availableDates.length && i > -1; i += cDay) {
+      const date = availableDates[i];
+
+      if (date.status === 'Busy') {
+        continue;
       }
-    }).date);
+
+      return date.date;
+    }
   }
 
   checkAvailableDate(checkDate: Date): boolean {
     return !!this.availableDates.getValue().find((val) => {
       if (val.status === 'Free') {
-        checkDate.setHours(0, 0, 0, 0);
-        val.date.setHours(0, 0, 0, 0);
-        return checkDate.toDateString() === val.date.toDateString();
+        return this.isDatesEqual(checkDate, val.date);
       } else {
         return false;
       }
     });
+  }
+
+  private isDatesEqual(date1: Date, date2: Date): boolean {
+    date1.setHours(0, 0, 0, 0);
+    date2.setHours(0, 0, 0, 0);
+    return date1.toDateString() === date2.toDateString();
   }
 }
