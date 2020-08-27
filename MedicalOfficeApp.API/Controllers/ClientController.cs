@@ -114,9 +114,12 @@ namespace MedicalOfficeApp.API.Controllers
             recordsInMemory.Value.Records.Add(new DateRecord(record.Date, record.Time));
 
 
-            var token = GenerateToken(record);
+            var generatedToken = GenerateToken(record);
 
-            return Ok(token);
+            return Ok(new
+            {
+                token = generatedToken
+            });
         }
 
         private string GenerateToken(RecordDto record)
