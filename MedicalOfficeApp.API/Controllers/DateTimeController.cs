@@ -20,7 +20,7 @@ namespace MedicalOfficeApp.API.Controllers
     public class DateTimeController : ControllerBase
     {
         private readonly IRecordRepository repo;
-        private readonly DateRecordCollection recordsInMemory;
+        private readonly IOptions<DateRecordCollection> recordsInMemory;
         private readonly IOptions<WorkingDaysCollection> recordSettings;
         private readonly DayOfWeek[] workingDays;
         private readonly int numOfDaysInAdvance;
@@ -29,7 +29,7 @@ namespace MedicalOfficeApp.API.Controllers
             IRecordRepository repo,
             IOptions<BookingSettings> bookingSettings,
             IOptions<WorkingDaysCollection> recordSettings,
-            DateRecordCollection recordsInMemory)
+            IOptions<DateRecordCollection> recordsInMemory)
         {
             this.repo = repo;
             this.recordsInMemory = recordsInMemory;
@@ -46,7 +46,7 @@ namespace MedicalOfficeApp.API.Controllers
             List<DateForListDto> recordsToReturn = new List<DateForListDto>();
 
             var recordsFromDb = await repo.GetRecordsFromDb();
-            var recordsFromMemory = recordsInMemory.Records;
+            var recordsFromMemory = recordsInMemory.Value.Records;
 
             for (DateTime date = DateTime.Now.Date; date <= dateUpperBound; date = date.AddDays(1))
             {
@@ -91,6 +91,7 @@ namespace MedicalOfficeApp.API.Controllers
             var todayRecordsFromDb = (await repo.GetRecordsFromDb())
                 .Where(r => r.Date == requestedDate);
             var todayRecordsFromMemory = recordsInMemory
+                .Value
                 .Records
                 .Where(r => r.Date == requestedDate);
 
