@@ -25,12 +25,12 @@
   }
 
   .time-button {
-    &.closed {
+    &.taken {
       background-color: #ff5859;
       color: #fff;
     }
 
-    &.reserved {
+    &.inProcess {
       border: 1px dashed #ff5859;
       color: #ff5859;
     }
