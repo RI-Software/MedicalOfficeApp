@@ -29,6 +29,7 @@ registerLocaleData(en);
    ],
    providers: [
     NotificationService,
+    httpInterceptorProviders,
     {provide: NZ_I18N, useValue: en_US},
    ],
    bootstrap: [
