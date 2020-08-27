@@ -46,9 +46,10 @@ export class TimeService {
    *  whether you want to add or subtract days.
    * @param cMonth It can be positive or negative number depending on
    *  whether you want to add or subtract months.
-   * @returns Date with Free status or currentDate.
+   * @returns Date with Free status or currentDate or null if there is
+   * no date with required month.
    */
-  changeDate(currentDate: Date, cDay = 0, cMonth = 0): Date {
+  changeDate(currentDate: Date, cDay = 0, cMonth = 0): Date | null {
 
     const availableDates = this.availableDates.getValue();
 
@@ -58,8 +59,8 @@ export class TimeService {
 
     if (cMonth !== 0 ) {
       return availableDates.find((date) => {
-        return date.date.getMonth() === month;
-      }).date;
+        return date.date.getMonth() === month && date.status === 'Free';
+      })?.date;
     }
 
     const newDate = new Date(year, month, day);
