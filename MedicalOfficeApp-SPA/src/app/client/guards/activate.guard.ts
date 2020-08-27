@@ -16,7 +16,6 @@ export class ActivateGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
-    const urlParts = state.url.split('/');
     return this.stepService.canMove;
   }
 }

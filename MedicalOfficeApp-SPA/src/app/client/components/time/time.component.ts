@@ -19,6 +19,7 @@ export class TimeComponent implements OnInit {
     if (value) {
       this.timeService.getAvailableTime(value);
       this._currentDate = value;
+      this.resetChoosenTime();
     }
   }
 
@@ -31,10 +32,10 @@ export class TimeComponent implements OnInit {
 
   availableDates: AvailableDate[] = [];
   availableTimes: AvailableTime[] = [];
-  radioValue: string;
+
+  currentChoosenTime: AvailableTime;
 
   ngOnInit() {
-    this.stepService.StepPreparing(DataComponent, MoveType.MoveNext); // tmp
     this.timeService.getAvailableDates();
     this.timeService.availableDates.subscribe((value => {
       this.availableDates = value;
@@ -65,5 +66,15 @@ export class TimeComponent implements OnInit {
 
   prevMonth(): void {
     this.currentDate = this.timeService.changeDate(this.currentDate, 0, -1);
+  }
+
+  timeSelected($event): void {
+    this.currentChoosenTime = $event;
+    this.stepService.StepPreparing(DataComponent, MoveType.MoveNext); // tmp
+  }
+
+  private resetChoosenTime(): void {
+    this.currentChoosenTime = null;
+    this.stepService.disableTheStep();
   }
 }

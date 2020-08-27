@@ -82,6 +82,10 @@ export class StepService{
     this.moveType.next(moveType);
   }
 
+  disableTheStep(): void {
+    this.StepPreparing(TimeComponent, MoveType.None);
+  }
+
   /**
    * @description
    * Is internally used by StepService to check component

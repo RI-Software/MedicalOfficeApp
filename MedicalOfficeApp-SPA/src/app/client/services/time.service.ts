@@ -36,6 +36,7 @@ export class TimeService {
   }
 
   /**
+   * @description
    * Adds or subtracts days and months from the date in order to return
    *  date with free status.
    *
@@ -46,8 +47,8 @@ export class TimeService {
    *  whether you want to add or subtract days.
    * @param cMonth It can be positive or negative number depending on
    *  whether you want to add or subtract months.
-   * @returns Date with Free status or currentDate or null if there is
-   * no date with required month.
+   * @returns Date with Free status or currentDate or null if required
+   * date is not found.
    */
   changeDate(currentDate: Date, cDay = 0, cMonth = 0): Date | null {
 
@@ -70,10 +71,12 @@ export class TimeService {
     });
 
     if (dateIndex < 0) {
-      return currentDate;
+      return null;
     }
 
-    for (let i = dateIndex; i < availableDates.length && i > -1; i += cDay) {
+    const delta = cDay > 0 ? 1 : -1;
+
+    for (let i = dateIndex; i < availableDates.length && i > -1; i += delta) {
       const date = availableDates[i];
 
       if (date.status === 'Busy') {
@@ -82,6 +85,8 @@ export class TimeService {
 
       return date.date;
     }
+
+    return null;
   }
 
   checkAvailableDate(checkDate: Date): boolean {
