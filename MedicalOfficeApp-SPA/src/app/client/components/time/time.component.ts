@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { StepService } from '../../services/step.service';
 import { TimeService } from '../../services/time.service';
 import { AvailableDate, AvailableTime } from '../../shared/models/Date&Times';
+import { MoveType } from '../../shared/models/MoveTypeEnum';
+import { DataComponent } from '../data/data.component';
+import { ClientService } from '../../services/client.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-time',
@@ -26,11 +30,13 @@ export class TimeComponent implements OnInit {
   availableDates: AvailableDate[] = [];
   availableTimes: AvailableTime[] = [];
 
-  currentChoosenTime: AvailableTime;
+  currentTime: AvailableTime;
 
   constructor(
     private stepService: StepService,
-    private timeService: TimeService
+    private timeService: TimeService,
+    private clientService: ClientService,
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit() {
@@ -67,11 +73,30 @@ export class TimeComponent implements OnInit {
   }
 
   async timeSelected($event): Promise<void> {
-    this.currentChoosenTime = $event;
+    this.currentTime = $event;
+
+    const callbackParams = {
+      date: this.currentDate,
+      time: this.currentTime.time
+    };
+
+    const callback = (params: any): boolean => {
+      this.clientService.preregister(params.date, params.time).subscribe(next => {
+        this.notificationService.success('First step is done successfully');
+      }, error => {
+        this.notificationService.error(error + '\n' + 'Try again.');
+        return false;
+      });
+
+      return true;
+    };
+
+
+    this.stepService.StepPreparing(DataComponent, MoveType.MoveNext, callbackParams, callback);
   }
 
   private resetChoosenTime(): void {
-    this.currentChoosenTime = null;
+    this.currentTime = null;
     this.stepService.disableTheStep();
   }
 }

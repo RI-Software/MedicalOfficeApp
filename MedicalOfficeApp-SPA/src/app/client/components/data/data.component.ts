@@ -10,6 +10,7 @@ import { StepService } from '../../services/step.service';
 import { AgreementsComponent } from '../agreements/agreements.component';
 import { MoveType } from '../../shared/models/MoveTypeEnum';
 import { BaseFormComponent } from 'src/app/shared/base-form/base-form.component';
+import { ClientService } from '../../services/client.service';
 
 @Component({
   selector: 'app-data-adult',
@@ -85,13 +86,19 @@ export class DataComponent extends BaseFormComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private stepService: StepService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private stepService: StepService,
+    private clientService: ClientService) {
     super();
   }
 
   ngOnInit() {
     this.setUpRegisterForm();
     this.stepService.StepPreparing(AgreementsComponent, MoveType.MoveNext); // tmp
+    this.form.statusChanges.subscribe((status) => {
+      this.onStatusChange(status);
+    });
   }
 
   private setUpRegisterForm(): void {
@@ -188,8 +195,22 @@ export class DataComponent extends BaseFormComponent implements OnInit {
     };
   }
 
-  register() {
-    // TODO: implement method
-    console.log(this.form.value);
+  onStatusChange(status: any) {
+    if (status === 'VALID') {
+      const formValue = this.form.value;
+      this.clientService.client = {
+        name: formValue.name,
+        surname: formValue.surname,
+        age: formValue.age.years,
+        months: formValue.age?.monhts,
+        email: formValue.email,
+        phone: formValue.phone
+      };
+
+      this.stepService.StepPreparing(AgreementsComponent, MoveType.MoveNext);
+
+      return;
+    }
+    this.stepService.disableTheStep();
   }
 }

@@ -4,7 +4,7 @@
       <h2 class="text-center text-primary">Sign Up</h2>
       <hr>
       <div class="col container">
-        <form [formGroup]="form" (ngSubmit)="this.register()">
+        <form [formGroup]="form">
 
           <div class="form-group">
             <input type="text" [ngClass]="{'is-invalid': hasError('name')}" class="form-control" formControlName="name"
@@ -111,10 +111,4 @@
       </div>
     </div>
   </div>
-</div>
-
-<div class="fixed-bottom">
-  {{this.form.value | json}}
-  {{this.form.errors | json}}
-  {{this.form.status | json}}
 </div>

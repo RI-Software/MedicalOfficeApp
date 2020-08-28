@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Observable, Observer } from 'rxjs';
+import { Observable, Observer, throwError } from 'rxjs';
 import { Client } from '../shared/models/Client';
 
 @Injectable({
@@ -10,6 +10,8 @@ import { Client } from '../shared/models/Client';
 })
 export class ClientService {
   constructor(private http: HttpClient) {}
+
+  client: Client;
 
   preregister(selectedDate: Date, selectedTime: string): Observable<void> {
     return this.http.post(environment.apiClientUrl + 'preregister', {
@@ -25,8 +27,11 @@ export class ClientService {
     );
   }
 
-  register(clientToBeCreated: Client): Observable<object> {
+  register(): Observable<object> {
     const token = localStorage.getItem('token');
-    return this.http.post(environment.apiClientUrl + 'register', clientToBeCreated);
+    if (!this.client) {
+      return throwError('No client data provided');
+    }
+    return this.http.post(environment.apiClientUrl + 'register', this.client);
   }
 }

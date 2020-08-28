@@ -36,7 +36,7 @@
   </nz-calendar>
 </div>
 
-<nz-radio-group class="time-buttons offset-1 col-4 row" [ngModel]="currentChoosenTime" (ngModelChange)="timeSelected($event)" 
+<nz-radio-group class="time-buttons offset-1 col-4 row" [ngModel]="currentTime" (ngModelChange)="timeSelected($event)" 
 nzButtonStyle="solid" *ngIf="availableTimes.length; else loader">
   <div [ngSwitch]="time.status" class="time-button-wrapper col-4 mb-3"
        *ngFor="let time of availableTimes">
