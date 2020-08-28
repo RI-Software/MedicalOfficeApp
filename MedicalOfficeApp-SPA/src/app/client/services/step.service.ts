@@ -12,8 +12,6 @@ import { MoveType } from '../shared/models/MoveTypeEnum';
 })
 export class StepService{
 
-  //#region GuardLogicParams
-
   /**
    * [param description]
    * @param stepCanBeActivated is a component that can be
@@ -38,17 +36,31 @@ export class StepService{
    */
   canMove = false;
 
-  //#endregion
-
   private minStepValue = 0;
   private maxStepValue = steps.length - 1;
 
   currentStep = new BehaviorSubject<number>(this.minStepValue);
 
+  /**
+   * [param description]
+   * @param callbackParams is used as callback params.
+   */
+  private callbackParams: any;
+  /**
+   * @description
+   * Method that is set up by component in order to call it
+   * when Step() is called (when user press "next" or "previous"
+   * btns.)
+   * @param params: callback params.
+   * @returns value that shows can either step be done or not.
+   */
+  private callback: (params: any) => boolean;
+
+
+
   constructor(private router: Router) {
     this.initialSetUp();
   }
-
 
   /**
    * @description
@@ -61,7 +73,10 @@ export class StepService{
     });
 
     this.canMove = this.canBeSet(valuetoBeSet);
-    if (this.canMove){
+
+    const isCallbackSuccess = this.callback != null ? this.callback(this.callbackParams) : true;
+
+    if (this.canMove && isCallbackSuccess ){
       this.currentStep.next(valuetoBeSet);
       this.moveType.next(MoveType.None);
       this.navigateUser();
@@ -77,9 +92,17 @@ export class StepService{
    * @param moveType specify 'fictitious direction' in order
    * to 'unblock' next or previous btn in StepContolComponent.
    */
-  public StepPreparing(componentToNavigate: Type<any>, moveType: MoveType = MoveType.MoveNext): void {
-    this.stepCanBeActivated = componentToNavigate;
-    this.moveType.next(moveType);
+  public StepPreparing(
+    componentToNavigate: Type<any>,
+    moveType: MoveType = MoveType.MoveNext,
+    params: any = null,
+    callback: (params: any) => boolean = null): void {
+
+      this.callbackParams = params;
+      this.callback = callback;
+
+      this.stepCanBeActivated = componentToNavigate;
+      this.moveType.next(moveType);
   }
 
   disableTheStep(): void {
