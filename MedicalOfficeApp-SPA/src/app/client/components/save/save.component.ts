@@ -4,6 +4,7 @@ import { DoneComponent } from '../done/done.component';
 import { MoveType } from '../../shared/models/MoveTypeEnum';
 import { ClientService } from '../../services/client.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { PreventMoveBackService } from 'src/app/shared/services/prevent-move-back.service';
 
 @Component({
   selector: 'app-save',
@@ -15,9 +16,11 @@ export class SaveComponent implements OnInit {
   constructor(
     private stepService: StepService,
     private clientService: ClientService,
-    private notificationService: NotificationService) { }
+    private notificationService: NotificationService,
+    private preventMoveBackService: PreventMoveBackService) { }
 
   ngOnInit() {
+    this.preventMoveBackService.preventBackButton();
 
     const callback = (params: any): boolean => {
       this.clientService.register().subscribe(next => {

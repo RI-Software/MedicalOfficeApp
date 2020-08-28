@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PreventMoveBackService } from 'src/app/shared/services/prevent-move-back.service';
 
 @Component({
   selector: 'app-done',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DoneComponent implements OnInit {
 
-  constructor() { }
+  constructor(private preventMoveBackService: PreventMoveBackService) { }
 
   ngOnInit() {
+    this.preventMoveBackService.preventBackButton();
   }
 
 }

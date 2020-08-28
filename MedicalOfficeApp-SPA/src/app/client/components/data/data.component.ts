@@ -11,6 +11,7 @@ import { AgreementsComponent } from '../agreements/agreements.component';
 import { MoveType } from '../../shared/models/MoveTypeEnum';
 import { BaseFormComponent } from 'src/app/shared/base-form/base-form.component';
 import { ClientService } from '../../services/client.service';
+import { PreventMoveBackService } from 'src/app/shared/services/prevent-move-back.service';
 
 @Component({
   selector: 'app-data-adult',
@@ -89,13 +90,14 @@ export class DataComponent extends BaseFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private stepService: StepService,
-    private clientService: ClientService) {
+    private clientService: ClientService,
+    private preventMoveBackService: PreventMoveBackService) {
     super();
   }
 
   ngOnInit() {
+    this.preventMoveBackService.preventBackButton();
     this.setUpRegisterForm();
-    this.stepService.StepPreparing(AgreementsComponent, MoveType.MoveNext); // tmp
     this.form.statusChanges.subscribe((status) => {
       this.onStatusChange(status);
     });
