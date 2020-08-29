@@ -122,7 +122,7 @@ namespace MedicalOfficeApp.API.Controllers
             });
         }
 
-        [HttpDelete]
+        [HttpPost]
         [Authorize]
         public IActionResult FreeRecord ()
         {
