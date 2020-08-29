@@ -25,7 +25,7 @@ export class TimeComponent implements OnInit {
     }
   }
 
-  private _currentDate: Date = new Date();
+  private _currentDate: Date;
 
   availableDates: AvailableDate[] = [];
   availableTimes: AvailableTime[] = [];
@@ -44,7 +44,9 @@ export class TimeComponent implements OnInit {
     this.timeService.availableDates.subscribe((value => {
       this.availableDates = value;
       if (this.availableDates.length) {
-        this.currentDate = this.availableDates[0].date;
+        this.currentDate = this.availableDates.find((date) => {
+          return date.status === 'Free';
+        })?.date;
       }
     }));
     this.timeService.availableTimes.subscribe((value => {
@@ -72,7 +74,7 @@ export class TimeComponent implements OnInit {
     this.currentDate = this.timeService.changeDate(this.currentDate, 0, -1);
   }
 
-  async timeSelected($event): Promise<void> {
+  timeSelected($event): void {
     this.currentTime = $event;
 
     const callbackParams = {
