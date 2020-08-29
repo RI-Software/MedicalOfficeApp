@@ -122,6 +122,20 @@ namespace MedicalOfficeApp.API.Controllers
             });
         }
 
+        [HttpDelete]
+        [Authorize]
+        public IActionResult FreeRecord ()
+        {
+            DateTime date = DateTime.Parse(User.Claims.Single(c => c.Type == "date").Value);
+            TimeSpan time = TimeSpan.Parse(User.Claims.Single(c => c.Type == "time").Value);
+
+            var recordsFromMemory = recordsInMemory.Value.Records;
+
+            recordsFromMemory.RemoveAll(record => record.Date == date && record.Time == time);
+
+            return NoContent();
+        }
+
         private string GenerateToken(RecordDto record)
         {
             var tokenLifetime = authOptions.Value.ClientTokenLifetime;
