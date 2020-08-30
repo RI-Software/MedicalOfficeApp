@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, HostListener} from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -86,6 +86,16 @@ export class DataComponent extends BaseFormComponent implements OnInit {
   //#endregion
 
   form: FormGroup;
+
+  @HostListener('window:unload', ['$event'])
+  unload($event: any) {
+    this.clientService.freeRecord();
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+      $event.returnValue = true;
+  }
 
   constructor(
     private formBuilder: FormBuilder,

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Observable, Observer, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { Client } from '../shared/models/Client';
 
 @Injectable({
@@ -28,10 +28,22 @@ export class ClientService {
   }
 
   register(): Observable<object> {
-    const token = localStorage.getItem('token');
     if (!this.client) {
       return throwError('No client data provided');
     }
     return this.http.post(environment.apiClientUrl + 'register', this.client);
+  }
+
+  freeRecord(): void {
+    const formData = new FormData();
+    const token = localStorage.getItem('token');
+    formData.append('Authorization', 'Bearer ' + token);
+    navigator.sendBeacon(environment.apiClientUrl + 'freeRecord', formData);
+
+    this.deleteToken();
+  }
+
+  deleteToken(): void {
+    localStorage.removeItem('token');
   }
 }
