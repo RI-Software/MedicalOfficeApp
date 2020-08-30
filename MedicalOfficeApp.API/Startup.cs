@@ -1,6 +1,7 @@
 using AutoMapper;
 using MedicalOfficeApp.API.Core;
 using MedicalOfficeApp.API.Core.ActionFilters;
+using MedicalOfficeApp.API.Core.Middlewares;
 using MedicalOfficeApp.API.Core.WorkingDaysCollection;
 using MedicalOfficeApp.API.Data;
 using MedicalOfficeApp.API.Data.Repositories;
@@ -96,11 +97,13 @@ namespace MedicalOfficeApp.API
                 });
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+            app.UseHeadersForwarding();
 
             app.UseAuthentication();
             app.UseAuthorization();
