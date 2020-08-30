@@ -12,4 +12,7 @@ export class NavComponent implements OnInit {
   ngOnInit() {
   }
 
+  sendToVimpaMain(): void {
+    document.location.href = 'https://vimpa.by';
+  }
 }
