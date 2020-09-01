@@ -87,11 +87,6 @@ export class DataComponent extends BaseFormComponent implements OnInit {
 
   form: FormGroup;
 
-  @HostListener('window:unload', ['$event'])
-  unload($event: any) {
-    this.clientService.freeRecord();
-  }
-
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
       $event.returnValue = true;

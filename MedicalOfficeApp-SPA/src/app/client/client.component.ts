@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { ClientService } from './services/client.service';
 
 @Component({
   selector: 'app-client',
@@ -6,8 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./client.component.scss']
 })
 export class ClientComponent implements OnInit {
-
-  constructor() { }
+  @HostListener('window:unload', ['$event'])
+  unload($event: any) {
+    this.clientService.freeRecord();
+  }
+  constructor(
+    private clientService: ClientService
+  ) { }
 
   ngOnInit() {
   }

@@ -11,10 +11,6 @@ import { ClientService } from '../../services/client.service';
   styleUrls: ['./agreements.component.scss']
 })
 export class AgreementsComponent implements OnInit {
-  @HostListener('window:unload', ['$event'])
-  unload($event: any) {
-    this.clientService.freeRecord();
-  }
 
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
