@@ -57,7 +57,14 @@ namespace MedicalOfficeApp.API.Controllers
                 }
                     
                 var allowedTime = recordSettings.Value.WorkingDays.Where(d => d.DayOfWeek == date.DayOfWeek).First().AllowedTime;
-                int? numOfRecordsInDb =  recordsFromDb.Where(r => r.Date == date)?.Count();
+
+                if (date == DateTime.Now.Date && !allowedTime.Any((time) => time > DateTime.Now.TimeOfDay))
+                {
+                    recordsToReturn.Add(new DateForListDto() { Date = date, Status = DateStatuses.Busy.ToString() });
+                    continue;
+                }
+               
+                int? numOfRecordsInDb = recordsFromDb.Where(r => r.Date == date)?.Count();
                 int? numOfRecordsInMemory = recordsFromMemory.Where(r => r.Date == date)?.Count();
 
                 if(numOfRecordsInDb + numOfRecordsInMemory >= allowedTime.Count)
