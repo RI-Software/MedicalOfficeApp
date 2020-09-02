@@ -38,15 +38,21 @@ namespace MedicalOfficeApp.API.Controllers
             this.numOfDaysInAdvance = bookingSettings.Value.NumOfDaysInAdvance;
         }
 
-        //ToDo: get rid of GetAllRecords method
         [HttpGet]
         public async Task<IActionResult> Dates()
         {
             DateTime dateUpperBound = DateTime.Now.Date.AddCalendarDays(workingDays, numOfDaysInAdvance);
             List<DateForListDto> recordsToReturn = new List<DateForListDto>();
 
-            var recordsFromDb = await repo.GetRecordsFromDb();
-            var recordsFromMemory = recordsInMemory.Value.Records;
+            var recordsFromDb = (await repo.GetRecordsFromDb())
+                .Cast<IRecord>();
+            var recordsFromMemory = recordsInMemory
+                .Value
+                .Records
+                .Cast<IRecord>();
+
+            var allRecords = recordsFromDb.Union(recordsFromMemory);
+
 
             for (DateTime date = DateTime.Now.Date; date <= dateUpperBound; date = date.AddDays(1))
             {
@@ -57,17 +63,13 @@ namespace MedicalOfficeApp.API.Controllers
                 }
                     
                 var allowedTime = recordSettings.Value.WorkingDays.Where(d => d.DayOfWeek == date.DayOfWeek).First().AllowedTime;
+                var records = allRecords.Where(r => r.Date == date);
+                TimeSpan timeNow = TimeSpan.Zero;
 
-                if (date == DateTime.Now.Date && !allowedTime.Any((time) => time > DateTime.Now.TimeOfDay))
-                {
-                    recordsToReturn.Add(new DateForListDto() { Date = date, Status = DateStatuses.Busy.ToString() });
-                    continue;
-                }
-               
-                int? numOfRecordsInDb = recordsFromDb.Where(r => r.Date == date)?.Count();
-                int? numOfRecordsInMemory = recordsFromMemory.Where(r => r.Date == date)?.Count();
+                if (date == DateTime.Now.Date)
+                    timeNow = DateTime.Now.TimeOfDay;
 
-                if(numOfRecordsInDb + numOfRecordsInMemory >= allowedTime.Count)
+                if (records.Where(t => t.Time > timeNow)?.Count() >= allowedTime.Where(t => t > timeNow)?.Count())
                 {
                     recordsToReturn.Add(new DateForListDto() { Date = date, Status = DateStatuses.Busy.ToString() });
                     continue;
