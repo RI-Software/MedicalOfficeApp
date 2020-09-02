@@ -2,10 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
   NzBadgeModule,
-  NzButtonModule, NzCalendarModule,
+  NzButtonModule,
+  NzCalendarModule,
   NzDatePickerModule,
   NzIconModule,
   NzRadioModule,
+  NzResultModule,
   NzToolTipModule,
   NzWaveModule,
 } from 'ng-zorro-antd';
@@ -54,11 +56,9 @@ import { ClientService } from './services/client.service';
     RouterModule.forChild(clientRoutes),
     NzBadgeModule,
     NzCalendarModule,
+    NzResultModule,
   ],
-  providers: [
-    StepService,
-    TimeService,
-    ClientService
-  ],
+  providers: [StepService, TimeService, ClientService],
 })
-export class ClientModule { }
+export class ClientModule {
+}

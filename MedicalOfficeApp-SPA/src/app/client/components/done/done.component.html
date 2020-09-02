@@ -1,3 +1,9 @@
-<p>
-  done works!
-</p>
+<nz-result
+  nzStatus="success"
+  nzTitle="You have successfully made an appointment"
+  nzSubTitle="Expect a call from our manager for confirmation"
+>
+  <div nz-result-extra>
+    <button nz-button nzType="primary" (click)="sendToMain()">Go back to the main page</button>
+  </div>
+</nz-result>

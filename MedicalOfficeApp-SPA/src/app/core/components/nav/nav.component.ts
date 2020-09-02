@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-nav',
@@ -12,7 +13,7 @@ export class NavComponent implements OnInit {
   ngOnInit() {
   }
 
-  sendToVimpaMain(): void {
-    document.location.href = 'https://vimpa.by';
+  sendToMain(): void {
+    document.location.href = environment.mainPageUrl;
   }
 }

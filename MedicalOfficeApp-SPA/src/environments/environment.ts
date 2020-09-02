@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   allowedDomains: ['45.80.69.247:5001', 'localhost:5000'], // tmp
+  mainPageUrl: 'https://vimpa.by',
   apiUrl: 'http://45.80.69.247:5001',
   apiClientUrl: 'http://45.80.69.247:5001/api/client/',
   apiDatetimeUrl: 'http://45.80.69.247:5001/api/datetime/'

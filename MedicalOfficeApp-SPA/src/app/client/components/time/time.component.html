@@ -1,69 +1,73 @@
-<div class="time-picker col-4">
-  <div class="time-picker-buttons">
-    <button
-      nz-button
-      nzType="default"
-      (click)="prevMonth()">
-      <i nz-icon nzType="double-left"></i>
-    </button>
-    <button
-      nz-button
-      nzType="default"
-      (click)="prevDay()">
-      <i nz-icon nzType="left"></i>
-    </button>
-    <span>{{this.currentDate | date : ' dd-MM-yyyy'}}</span>
-    <button
-      nz-button
-      nzType="default"
-      (click)="nextDay()">
-      <i nz-icon nzType="right"></i>
-    </button>
-    <button
-      nz-button
-      nzType="default"
-      [disabled]="false"
-      (click)="nextMonth()">
-      <i nz-icon nzType="double-right"></i>
-    </button>
+<div class="row">
+
+  <div class="time-picker col-lg-6 col-md-12 mx-auto">
+    <div class="time-picker-buttons">
+      <button
+        nz-button
+        nzType="default"
+        (click)="prevMonth()">
+        <i nz-icon nzType="double-left"></i>
+      </button>
+      <button
+        nz-button
+        nzType="default"
+        (click)="prevDay()">
+        <i nz-icon nzType="left"></i>
+      </button>
+      <span>{{this.currentDate | date : ' dd-MM-yyyy'}}</span>
+      <button
+        nz-button
+        nzType="default"
+        (click)="nextDay()">
+        <i nz-icon nzType="right"></i>
+      </button>
+      <button
+        nz-button
+        nzType="default"
+        [disabled]="false"
+        (click)="nextMonth()">
+        <i nz-icon nzType="double-right"></i>
+      </button>
+    </div>
+    <nz-calendar
+      *ngIf="availableDates.length"
+      [(ngModel)]="this.currentDate"
+      [nzDisabledDate]="disabledDate"
+      [nzFullscreen]="false">
+    </nz-calendar>
   </div>
-  <nz-calendar
-    *ngIf="availableDates.length"
-    [(ngModel)]="this.currentDate"
-    [nzDisabledDate]="disabledDate"
-    [nzFullscreen]="false">
-  </nz-calendar>
+
+  <nz-radio-group class="time-buttons col-lg-6 col-md-12 mx-auto row" [ngModel]="currentTime"
+                  (ngModelChange)="timeSelected($event)"
+                  nzButtonStyle="solid" *ngIf="availableTimes.length; else loader">
+    <div [ngSwitch]="time.status" class="time-button-wrapper d-flex justify-content-center col-4 mb-3"
+         *ngFor="let time of availableTimes">
+      <label nz-radio-button
+             *ngSwitchCase="time.status === 'Expired' || time.status === 'Taken' ? time.status : ''"
+             nzTooltipTitle="This time is already taken" nzTooltipPlacement="top" nz-tooltip
+             class="time-button label taken"
+             [nzDisabled]="true"
+             [nzValue]="time">
+        {{time.time}}
+      </label>
+      <label nz-radio-button
+             *ngSwitchCase="'InProcess'"
+             nzTooltipTitle="Somebody is trying to book this time" nzTooltipPlacement="top" nz-tooltip
+             class="time-button label inProcess"
+             [nzDisabled]="true"
+             [nzValue]="time">
+        {{time.time}}
+      </label>
+      <label nz-radio-button
+             *ngSwitchDefault
+             class="time-button label"
+             [nzValue]="time">
+        {{time.time}}
+      </label>
+    </div>
+  </nz-radio-group>
+
+  <ng-template #loader>
+    <button nz-button nzType="default" nzLoading><i nz-icon nzType="poweroff"></i>Loading...</button>
+  </ng-template>
 </div>
-
-<nz-radio-group class="time-buttons offset-1 col-4 row" [ngModel]="currentTime" (ngModelChange)="timeSelected($event)" 
-nzButtonStyle="solid" *ngIf="availableTimes.length; else loader">
-  <div [ngSwitch]="time.status" class="time-button-wrapper col-4 mb-3"
-       *ngFor="let time of availableTimes">
-    <label nz-radio-button
-           *ngSwitchCase="time.status === 'Expired' || time.status === 'Taken' ? time.status : ''"
-           nzTooltipTitle="This time is already taken" nzTooltipPlacement="top" nz-tooltip
-           class="time-button label taken"
-           [nzDisabled]="true"
-           [nzValue]="time">
-      {{time.time}}
-    </label>
-    <label nz-radio-button
-           *ngSwitchCase="'InProcess'"
-           nzTooltipTitle="Somebody is trying to book this time" nzTooltipPlacement="top" nz-tooltip
-           class="time-button label inProcess"
-           [nzDisabled]="true"
-           [nzValue]="time">
-      {{time.time}}
-    </label>
-    <label nz-radio-button
-           *ngSwitchDefault
-           class="time-button label"
-           [nzValue]="time">
-      {{time.time}}
-    </label>
-  </div>
-</nz-radio-group>
-
-<ng-template #loader>
-  <button nz-button nzType="default" nzLoading><i nz-icon nzType="poweroff"></i>Loading...</button>
-</ng-template>

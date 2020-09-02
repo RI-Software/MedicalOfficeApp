@@ -1,5 +1,15 @@
-nz-step {
-    ::ng-deep .anticon {
-        vertical-align: 0;
+nz-steps {
+  ::ng-deep .ant-steps-horizontal {
+    @media (max-width: 767px) {
+
+      flex-direction: row;
+
+      .ant-steps-item-content, .ant-steps-item-tail {
+        display: none;
+      }
+      .ant-steps-item-icon {
+        margin: 0 !important;
+      }
     }
+  }
 }

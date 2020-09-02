@@ -1,11 +1,11 @@
-<div class="container mt-5 col-sm-7">
-    <app-steps></app-steps>
-    <div class="container mt-4 col-sm-11">
-        <nz-card [nzActions]="[actionSetting]">
-            <router-outlet></router-outlet>
-        </nz-card>
-        <ng-template #actionSetting>
-            <app-step-control></app-step-control>
-        </ng-template>
-    </div>
+<div class="container mt-5">
+  <app-steps></app-steps>
+  <div class="mt-4 mx-auto">
+    <nz-card [nzActions]="[actionSetting]">
+      <router-outlet></router-outlet>
+    </nz-card>
+    <ng-template #actionSetting>
+      <app-step-control></app-step-control>
+    </ng-template>
+  </div>
 </div>
