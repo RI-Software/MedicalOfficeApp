@@ -22,15 +22,16 @@ export class SaveComponent implements OnInit {
   ngOnInit() {
     this.preventMoveBackService.preventBackButton();
 
-    const callback = (params: any): boolean => {
-      this.clientService.register().subscribe(next => {
-        this.notificationService.success('Super!');
-      }, error => {
-        this.notificationService.error(error + '\n' + 'Try again.');
-        return false;
+    const callback = (params: any): Promise<boolean> => {
+      return new Promise(resolve => {
+        this.clientService.register().subscribe(next => {
+          this.notificationService.success('Super!');
+          return true;
+        }, error => {
+          this.notificationService.error(error + '\n' + 'Try again.');
+          return false;
+        });
       });
-
-      return true;
     };
 
     this.stepService.StepPreparing(DoneComponent, MoveType.MoveNext, null, callback);

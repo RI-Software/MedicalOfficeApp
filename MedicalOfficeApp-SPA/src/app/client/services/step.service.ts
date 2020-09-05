@@ -54,7 +54,7 @@ export class StepService{
    * @param params: callback params.
    * @returns value that shows can either step be done or not.
    */
-  private callback: (params: any) => boolean;
+  private callback: (params: any) => Promise<boolean>;
 
 
 
@@ -67,14 +67,14 @@ export class StepService{
    * Makes step(navigate user to specific
    * component specified in StepPreparing() method).
    */
-  public Step(): void {
+  public async Step(): Promise<void> {
     const valuetoBeSet = steps.findIndex((step) => {
       return this.stepCanBeActivated === step.route.component;
     });
 
     this.canMove = this.canBeSet(valuetoBeSet);
 
-    const isCallbackSuccess = this.callback != null ? this.callback(this.callbackParams) : true;
+    const isCallbackSuccess = this.callback != null ? await this.callback(this.callbackParams) : true;
 
     if (this.canMove && isCallbackSuccess ){
       this.currentStep.next(valuetoBeSet);
@@ -96,7 +96,7 @@ export class StepService{
     componentToNavigate: Type<any>,
     moveType: MoveType = MoveType.MoveNext,
     params: any = null,
-    callback: (params: any) => boolean = null): void {
+    callback: (params: any) => Promise<boolean> = null): void {
 
       this.callbackParams = params;
       this.callback = callback;
