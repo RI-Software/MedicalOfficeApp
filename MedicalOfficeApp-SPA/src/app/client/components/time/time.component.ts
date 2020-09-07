@@ -85,7 +85,6 @@ export class TimeComponent implements OnInit {
     const callback = (params: any): Promise<boolean> => {
       return new Promise(resolve => {
         this.clientService.preregister(params.date, params.time).subscribe(next => {
-          this.notificationService.success('First step is done successfully');
           resolve(true);
         }, error => {
           this.notificationService.error(error + '\n' + 'Try again.');
@@ -93,7 +92,6 @@ export class TimeComponent implements OnInit {
         });
       });
     };
-
 
     this.stepService.StepPreparing(DataComponent, MoveType.MoveNext, callbackParams, callback);
   }

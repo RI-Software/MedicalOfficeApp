@@ -28,6 +28,7 @@ import { TimeService } from './services/time.service';
 import { AgreementsComponent } from './components/agreements/agreements.component';
 import { ClientComponent } from './client.component';
 import { ClientService } from './services/client.service';
+import { AuthService } from './services/auth.service';
 
 
 @NgModule({
@@ -58,7 +59,7 @@ import { ClientService } from './services/client.service';
     NzCalendarModule,
     NzResultModule,
   ],
-  providers: [StepService, TimeService, ClientService],
+  providers: [StepService, TimeService, ClientService, AuthService],
 })
 export class ClientModule {
 }

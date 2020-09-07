@@ -2,13 +2,17 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+export const mainUrl = {
+  url: 'http://45.80.69.247:5001/'
+};
+
 export const environment = {
   production: false,
   allowedDomains: ['45.80.69.247:5001', 'localhost:5000'], // tmp
   mainPageUrl: 'https://vimpa.by',
-  apiUrl: 'http://45.80.69.247:5001',
-  apiClientUrl: 'http://45.80.69.247:5001/api/client/',
-  apiDatetimeUrl: 'http://45.80.69.247:5001/api/datetime/'
+  apiUrl: mainUrl.url,
+  apiClientUrl: mainUrl.url + 'api/client/',
+  apiDatetimeUrl: mainUrl.url + 'api/datetime/'
 };
 
 /*

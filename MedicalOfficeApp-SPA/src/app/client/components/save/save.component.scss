@@ -1,0 +1,11 @@
+nz-card {
+  ::ng-deep .ant-card-body {
+    min-height: initial;
+  }
+}
+a.ng-star-inserted {
+  color: #007bff;
+  &:hover {
+    text-decoration: underline;
+  }
+}

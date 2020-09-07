@@ -12,6 +12,7 @@ import { MoveType } from '../../shared/models/MoveTypeEnum';
 import { BaseFormComponent } from 'src/app/shared/base-form/base-form.component';
 import { ClientService } from '../../services/client.service';
 import { PreventMoveBackService } from 'src/app/shared/services/prevent-move-back.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-data-adult',
@@ -111,6 +112,7 @@ export class DataComponent extends BaseFormComponent implements OnInit {
   private setUpRegisterForm(): void {
     this.createRegisterForm();
     this.form.get('age.months').disable();
+    this.restoreValues();
   }
 
   private createRegisterForm(): void {
@@ -209,7 +211,7 @@ export class DataComponent extends BaseFormComponent implements OnInit {
         name: formValue.name,
         surname: formValue.surname,
         age: formValue.age.years,
-        months: formValue.age?.monhts,
+        months: formValue.age?.months,
         email: formValue.email,
         phone: formValue.phone
       };
@@ -219,5 +221,21 @@ export class DataComponent extends BaseFormComponent implements OnInit {
       return;
     }
     this.stepService.disableTheStep();
+  }
+
+  restoreValues() {
+    if (this.clientService.client){
+      this.form.patchValue({
+        name: this.clientService.client.name,
+        surname: this.clientService.client.surname,
+        age: {
+          years: this.clientService.client.age,
+          months: this.clientService.client.months,
+        },
+        email: this.clientService.client.email,
+        phone: this.clientService.client.phone
+      });
+      this.onStatusChange('VALID');
+    }
   }
 }
