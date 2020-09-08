@@ -15,6 +15,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 import { SaveComponent } from './components/save/save.component';
 import { StepControlComponent } from './components/step-control/step-control.component';
@@ -56,6 +57,7 @@ import { ClientServiceModule } from './services/client-service.module';
     NzBadgeModule,
     NzCalendarModule,
     NzResultModule,
+    NzDividerModule,
   ],
   providers: [],
 })
