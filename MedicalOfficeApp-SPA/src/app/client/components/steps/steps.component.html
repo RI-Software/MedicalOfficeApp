@@ -1,5 +1,5 @@
 <div>
-  <nz-steps [nzCurrent]="currentStep" [nzSize]="'small'" [nzLabelPlacement]="	'vertical'">
-      <nz-step *ngFor="let step of steps" [nzTitle]="step.displayName" [nzIcon]="step.iconName"></nz-step>
+  <nz-steps [nzCurrent]="currentStep" [nzSize]="'small'" [nzLabelPlacement]="'vertical'">
+    <nz-step *ngFor="let step of steps" [nzTitle]="step.stepName" [nzIcon]="step.icon"></nz-step>
   </nz-steps>
 </div>

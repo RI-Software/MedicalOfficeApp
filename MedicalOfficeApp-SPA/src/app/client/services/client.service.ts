@@ -4,9 +4,10 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Observable, throwError } from 'rxjs';
 import { Client } from '../shared/models/Client';
+import { ClientServiceModule } from './client-service.module';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: ClientServiceModule
 })
 export class ClientService {
   constructor(private http: HttpClient) {}

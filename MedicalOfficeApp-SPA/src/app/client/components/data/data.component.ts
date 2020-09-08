@@ -9,10 +9,9 @@ import {
 import { StepService } from '../../services/step.service';
 import { AgreementsComponent } from '../agreements/agreements.component';
 import { MoveType } from '../../shared/models/MoveTypeEnum';
-import { BaseFormComponent } from 'src/app/shared/base-form/base-form.component';
 import { ClientService } from '../../services/client.service';
-import { PreventMoveBackService } from 'src/app/shared/services/prevent-move-back.service';
-import { AuthService } from '../../services/auth.service';
+import { PreventMoveBackService } from 'src/app/core/services/prevent-move-back.service';
+import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
 
 @Component({
   selector: 'app-data-adult',
@@ -90,9 +89,8 @@ export class DataComponent extends BaseFormComponent implements OnInit {
 
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
-      $event.returnValue = true;
+    $event.returnValue = true;
   }
-
   constructor(
     private formBuilder: FormBuilder,
     private stepService: StepService,

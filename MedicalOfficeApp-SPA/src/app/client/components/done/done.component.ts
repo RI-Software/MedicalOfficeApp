@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PreventMoveBackService } from 'src/app/shared/services/prevent-move-back.service';
+import { PreventMoveBackService } from 'src/app/core/services/prevent-move-back.service';
 import { environment } from '../../../../environments/environment';
 
 @Component({

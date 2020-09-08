@@ -12,10 +12,9 @@ export class ClientComponent implements OnInit {
     this.clientService.freeRecord();
   }
   constructor(
-    private clientService: ClientService
+     private clientService: ClientService
   ) { }
 
   ngOnInit() {
   }
-
 }

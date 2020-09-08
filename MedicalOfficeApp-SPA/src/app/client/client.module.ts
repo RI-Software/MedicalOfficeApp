@@ -18,17 +18,14 @@ import { RouterModule } from '@angular/router';
 
 import { SaveComponent } from './components/save/save.component';
 import { StepControlComponent } from './components/step-control/step-control.component';
-import { StepService } from './services/step.service';
 import { StepsComponent } from './components/steps/steps.component';
 import { TimeComponent } from './components/time/time.component';
 import { clientRoutes } from './client.routes';
 import { DataComponent } from './components/data/data.component';
 import { DoneComponent } from './components/done/done.component';
-import { TimeService } from './services/time.service';
 import { AgreementsComponent } from './components/agreements/agreements.component';
 import { ClientComponent } from './client.component';
-import { ClientService } from './services/client.service';
-import { AuthService } from './services/auth.service';
+import { ClientServiceModule } from './services/client-service.module';
 
 
 @NgModule({
@@ -43,6 +40,7 @@ import { AuthService } from './services/auth.service';
     TimeComponent,
   ],
   imports: [
+    ClientServiceModule,
     CommonModule,
     NzButtonModule,
     NzCardModule,
@@ -59,7 +57,7 @@ import { AuthService } from './services/auth.service';
     NzCalendarModule,
     NzResultModule,
   ],
-  providers: [StepService, TimeService, ClientService, AuthService],
+  providers: [],
 })
 export class ClientModule {
 }

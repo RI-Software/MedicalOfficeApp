@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StepService } from '../../services/step.service';
-import { steps, Step } from '../../shared/models/stepModels';
+import { Step } from '../../shared/models/Step';
 
 @Component({
   selector: 'app-steps',
@@ -14,6 +14,6 @@ export class StepsComponent implements OnInit {
 
   ngOnInit() {
     this.stepService.currentStep.subscribe((stepValue) => this.currentStep = stepValue);
-    this.steps = steps;
+    this.steps = this.stepService.steps;
   }
 }

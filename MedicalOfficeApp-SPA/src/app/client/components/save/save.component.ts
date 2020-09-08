@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { StepService } from '../../services/step.service';
 import { MoveType } from '../../shared/models/MoveTypeEnum';
 import { ClientService } from '../../services/client.service';
 import { Client } from '../../shared/models/Client';
-import { PreventMoveBackService } from 'src/app/shared/services/prevent-move-back.service';
+import { PreventMoveBackService } from 'src/app/core/services/prevent-move-back.service';
 import { TimeComponent } from '../time/time.component';
 import { DataComponent } from '../data/data.component';
 import { AuthService } from '../../services/auth.service';
@@ -20,6 +20,11 @@ export class SaveComponent implements OnInit {
 
   client: Client;
   dateTime: DateTime;
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    $event.returnValue = true;
+  }
 
   constructor(
     private stepService: StepService,

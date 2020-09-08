@@ -4,9 +4,10 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { NotificationService } from '../../core/services/notification.service';
 import { environment } from '../../../environments/environment';
+import { ClientServiceModule } from './client-service.module';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: ClientServiceModule
 })
 export class TimeService {
   availableDates: BehaviorSubject<AvailableDate[]> = new BehaviorSubject([]);
