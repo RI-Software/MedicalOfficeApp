@@ -2,6 +2,10 @@ nz-card {
   ::ng-deep .ant-card-body {
     min-height: initial;
   }
+
+  p span {
+    font-weight: bold;
+  }
 }
 a.ng-star-inserted {
   color: #007bff;
