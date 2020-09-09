@@ -27,6 +27,7 @@ import { DoneComponent } from './components/done/done.component';
 import { AgreementsComponent } from './components/agreements/agreements.component';
 import { ClientComponent } from './client.component';
 import { ClientServiceModule } from './services/client-service.module';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { ClientServiceModule } from './services/client-service.module';
   ],
   imports: [
     ClientServiceModule,
+    SharedModule,
     CommonModule,
     NzButtonModule,
     NzCardModule,
