@@ -139,7 +139,7 @@ namespace MedicalOfficeApp.API.Controllers
 
 
             void AddTimeToReturnList(TimeSpan time, TimeStatus timeStatus) =>
-                timesToReturn.Add(new TimeForListDto() { Time = time.ToString("hh':'mm"), Status = timeStatus.ToString() });
+                timesToReturn.Add(new TimeForListDto() { Time = time.ToString(), Status = timeStatus.ToString() });
 
             return Ok(timesToReturn);
         }
