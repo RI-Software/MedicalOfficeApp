@@ -62,30 +62,11 @@ export class SaveComponent implements OnInit, OnDestroy {
       if (isPressed) {
         if (registerStatus === ActionStatusesEnum.Done) {
           this.store.dispatch(step({path: 'done'}));
-        }
+        } else {
         this.store.dispatch(clientRegister());
+        }
       }
     });
-
-    //#region combineLatest or 2 subscriptions
-    // this.store.pipe(
-    //   takeUntil(this.unsubscribe$),
-    //   select(selectIsNextBtnPressed)
-    // ).subscribe((isPressed: boolean) => {
-    //   if (isPressed) {
-    //     this.store.dispatch(clientRegister());
-    //   }
-    // });
-    //
-    // this.store.pipe(
-    //   takeUntil(this.unsubscribe$),
-    //   select(selectRegisterStatus)
-    // ).subscribe((registerStatus: ActionStatusesEnum) => {
-    //   if (registerStatus === ActionStatusesEnum.Done) {
-    //     this.store.dispatch(step({path: 'done'}));
-    //   }
-    // });
-    //endregion
 
     this.store.dispatch(nextBtnAvailability({isAvailable: true}));
   }

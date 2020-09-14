@@ -48,7 +48,7 @@
              class="time-button label taken"
              [nzDisabled]="true"
              [nzValue]="time">
-        {{time.time}}
+        {{time.time | time}}
       </label>
       <label nz-radio-button
              *ngSwitchCase="'InProcess'"
@@ -56,13 +56,13 @@
              class="time-button label inProcess"
              [nzDisabled]="true"
              [nzValue]="time">
-        {{time.time}}
+        {{time.time | time}}
       </label>
       <label nz-radio-button
              *ngSwitchDefault
              class="time-button label"
              [nzValue]="time">
-        {{time.time}}
+        {{time.time | time}}
       </label>
     </div>
   </nz-radio-group>

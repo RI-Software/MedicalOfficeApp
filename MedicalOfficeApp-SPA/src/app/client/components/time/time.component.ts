@@ -75,31 +75,11 @@ export class TimeComponent implements OnInit, OnDestroy {
       if (isPressed) {
         if (preregisterStatus === ActionStatusesEnum.Done) {
           this.store.dispatch(step({path: 'data'}));
-          return;
-        }
+        } else {
         this.store.dispatch(clientPreregister({selectedDate: this.currentDate, selectedTime: this.currentTime.time}));
+        }
       }
     });
-
-    //#region combineLatest or 2 subscriptions
-    // this.store.pipe(
-    //   select(selectIsNextBtnPressed),
-    //   takeUntil(this.unsubscribe$)
-    // ).subscribe((buttonPressed: boolean) => {
-    //   if (buttonPressed) {
-    //     this.store.dispatch(clientPreregister({selectedDate: this.currentDate, selectedTime: this.currentTime.time}));
-    //   }
-    // });
-    //
-    // this.store.pipe(
-    //   select(selectPreregisterStatus),
-    //   takeUntil(this.unsubscribe$)
-    // ).subscribe((preregisterStatus: ActionStatusesEnum) => {
-    //   if (preregisterStatus === ActionStatusesEnum.Done) {
-    //     this.store.dispatch(step({path: 'data'}));
-    //   }
-    // });
-    //#endregion
   }
 
   disabledDate = (current: Date): boolean => {
