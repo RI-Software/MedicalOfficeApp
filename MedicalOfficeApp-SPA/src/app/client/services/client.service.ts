@@ -5,14 +5,17 @@ import { environment } from 'src/environments/environment';
 import { Observable, throwError } from 'rxjs';
 import { Client } from '../shared/models/Client';
 import { ClientServiceModule } from './client-service.module';
+import {Store} from '@ngrx/store';
+import {clientPreregisterStatus} from '../store/clientStore/actions/client.actions';
+import {ActionStatusesEnum} from '../shared/models/ActionStatusesEnum';
 
 @Injectable({
   providedIn: ClientServiceModule
 })
 export class ClientService {
-  constructor(private http: HttpClient) {}
-
-  client: Client;
+  constructor(
+    private http: HttpClient,
+    private store: Store) {}
 
   preregister(selectedDate: Date, selectedTime: string): Observable<void> {
     return this.http.post(environment.apiClientUrl + 'preregister', {
@@ -28,11 +31,11 @@ export class ClientService {
     );
   }
 
-  register(): Observable<object> {
-    if (!this.client) {
+  register(client: Client): Observable<object> {
+    if (!client) {
       return throwError('No client data provided');
     }
-    return this.http.post(environment.apiClientUrl + 'register', this.client);
+    return this.http.post(environment.apiClientUrl + 'register', client);
   }
 
   freeRecord(): void {
@@ -40,8 +43,8 @@ export class ClientService {
     const token = localStorage.getItem('token');
     formData.append('Authorization', 'Bearer ' + token);
     navigator.sendBeacon(environment.apiClientUrl + 'freeRecord', formData);
-
     this.deleteToken();
+    this.store.dispatch(clientPreregisterStatus({preregisterStatus: ActionStatusesEnum.Default}));
   }
 
   deleteToken(): void {

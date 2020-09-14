@@ -13,7 +13,9 @@ import { en_US, NZ_I18N } from 'ng-zorro-antd';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { environment } from 'src/environments/environment';
 import { httpInterceptorProviders } from './core/interceptors/httpInterceptorProvider';
-import { NavComponent } from './shared/components/nav/nav.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 
 registerLocaleData(en);
 
@@ -26,6 +28,12 @@ export function tokenGetter(): string {
     AppComponent
    ],
    imports: [
+     StoreModule.forRoot({}),
+     EffectsModule.forRoot([]),
+     StoreDevtoolsModule.instrument({
+       maxAge: 25, // Retains last 25 states
+       logOnly: environment.production, // Restrict extension to log-only mode
+     }),
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,

@@ -28,6 +28,12 @@ import { AgreementsComponent } from './components/agreements/agreements.componen
 import { ClientComponent } from './client.component';
 import { ClientServiceModule } from './services/client-service.module';
 import { SharedModule } from '../shared/shared.module';
+import {StoreModule} from '@ngrx/store';
+import {reducers} from './store';
+import {EffectsModule} from '@ngrx/effects';
+import {ClientEffects} from './store/clientStore/effects/client.effects';
+import {clientModuleFeatureKey} from './store';
+import {StepEffects} from './store/stepStore/effects/step.effects';
 
 
 @NgModule({
@@ -42,6 +48,8 @@ import { SharedModule } from '../shared/shared.module';
     TimeComponent,
   ],
   imports: [
+    StoreModule.forFeature(clientModuleFeatureKey, reducers),
+    EffectsModule.forFeature([ClientEffects, StepEffects]),
     ClientServiceModule,
     SharedModule,
     CommonModule,

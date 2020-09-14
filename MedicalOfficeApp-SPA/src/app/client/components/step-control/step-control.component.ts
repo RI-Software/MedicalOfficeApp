@@ -1,47 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { StepService } from '../../services/step.service';
-import { MoveType } from '../../shared/models/MoveTypeEnum';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {select, Store} from '@ngrx/store';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {selectNextBtnValue} from '../../store/stepStore/selectors/step.selectors';
+import {stepBtnPressStatus} from '../../store/stepStore/actions/step.actions';
+
 
 @Component({
   selector: 'app-step-control',
   templateUrl: './step-control.component.html',
   styleUrls: ['./step-control.component.scss'],
 })
-export class StepControlComponent implements OnInit {
+export class StepControlComponent implements OnInit, OnDestroy {
   previousButtonIsActive = false;
   nextButtonIsActive = false;
+  unsubscribe$: Subject<void> = new Subject<void>();
 
-  constructor(private stepService: StepService) {}
-
-  ngOnInit() {
-    this.stepService.moveType.subscribe((moveType) => {
-      switch (moveType) {
-        case MoveType.None: {
-          this.buttonsAvailable(false, false);
-          break;
-        }
-        case MoveType.MoveNext: {
-          this.buttonsAvailable(false, true);
-          break;
-        }
-        case MoveType.MovePrevious: {
-          this.buttonsAvailable(true, false);
-          break;
-        }
-        case MoveType.MoveAny: {
-          this.buttonsAvailable(true, true);
-          break;
-        }
-      }
-    });
+  constructor(private store: Store) {
   }
 
-  private buttonsAvailable(previousButtonIsActive: boolean = false, nextButtonIsActive: boolean = false): void {
-    this.previousButtonIsActive = previousButtonIsActive;
-    this.nextButtonIsActive = nextButtonIsActive;
+  ngOnInit() {
+    this.store.pipe(
+      takeUntil(this.unsubscribe$),
+      select(selectNextBtnValue)).subscribe((value: boolean) => this.nextButtonIsActive = value);
   }
 
   step() {
-    this.stepService.Step();
+    this.store.dispatch(stepBtnPressStatus({isPressed: true}));
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

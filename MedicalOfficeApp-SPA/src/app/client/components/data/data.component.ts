@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener} from '@angular/core';
+import {Component, OnInit, HostListener, OnDestroy} from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -6,19 +6,24 @@ import {
   ValidatorFn,
   FormControl
 } from '@angular/forms';
-import { StepService } from '../../services/step.service';
-import { AgreementsComponent } from '../agreements/agreements.component';
-import { MoveType } from '../../shared/models/MoveTypeEnum';
-import { ClientService } from '../../services/client.service';
-import { PreventMoveBackService } from 'src/app/core/services/prevent-move-back.service';
-import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
+import {ClientService} from '../../services/client.service';
+import {PreventMoveBackService} from 'src/app/core/services/prevent-move-back.service';
+import {BaseFormComponent} from 'src/app/shared/components/base-form/base-form.component';
+import {select, Store} from '@ngrx/store';
+import {nextBtnAvailability, step} from '../../store/stepStore/actions/step.actions';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {selectIsNextBtnPressed} from '../../store/stepStore/selectors/step.selectors';
+import {setClient} from '../../store/clientStore/actions/client.actions';
+import {Client} from '../../shared/models/Client';
+import {selectClient} from '../../store/clientStore/selectors/client.selectors';
 
 @Component({
   selector: 'app-data-adult',
   templateUrl: './data.component.html',
   styleUrls: ['./data.component.scss'],
 })
-export class DataComponent extends BaseFormComponent implements OnInit {
+export class DataComponent extends BaseFormComponent implements OnInit, OnDestroy {
   //#region settings and defaults
 
   minAge = 0;
@@ -87,30 +92,70 @@ export class DataComponent extends BaseFormComponent implements OnInit {
 
   form: FormGroup;
 
+  unsubscribe$: Subject<void> = new Subject<void>();
+
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
     $event.returnValue = true;
   }
+
   constructor(
     private formBuilder: FormBuilder,
-    private stepService: StepService,
     private clientService: ClientService,
-    private preventMoveBackService: PreventMoveBackService) {
+    private preventMoveBackService: PreventMoveBackService,
+    private store: Store) {
     super();
   }
 
   ngOnInit() {
     this.preventMoveBackService.preventBackButton();
     this.setUpRegisterForm();
-    this.form.statusChanges.subscribe((status) => {
+    this.form.statusChanges.subscribe((status: string) => {
       this.onStatusChange(status);
+    });
+
+    this.store.pipe(
+      takeUntil(this.unsubscribe$),
+      select(selectIsNextBtnPressed)
+    ).subscribe((isPressed: boolean) => {
+      if (isPressed) {
+        const formValue = this.form.value;
+        const client: Client = {
+          name: formValue.name,
+          surname: formValue.surname,
+          age: formValue.age.years,
+          months: formValue.age?.months,
+          email: formValue.email,
+          phone: formValue.phone
+        };
+        this.store.dispatch(setClient({client}));
+        this.store.dispatch(step({path: 'agreements'}));
+      }
+    });
+
+    this.store.pipe(
+      takeUntil(this.unsubscribe$),
+      select(selectClient)
+    ).subscribe((client) => {
+      if (client) {
+        this.form.patchValue({
+          name: client.name,
+          surname: client.surname,
+          age: {
+            years: client.age,
+            months: client.months,
+          },
+          email: client.email,
+          phone: client.phone
+        });
+        this.onStatusChange('VALID');
+      }
     });
   }
 
   private setUpRegisterForm(): void {
     this.createRegisterForm();
     this.form.get('age.months').disable();
-    this.restoreValues();
   }
 
   private createRegisterForm(): void {
@@ -150,12 +195,12 @@ export class DataComponent extends BaseFormComponent implements OnInit {
             Validators.max(this.maxMonths)
           ]
         ],
-      }, { validator: this.ageValidator }),
+      }, {validator: this.ageValidator}),
       email: [
         '',
         [
-           Validators.required,
-           this.customValidityCheck({pattern: this.regexPatternForEmail, msg: this.incorrectEmailError})
+          Validators.required,
+          this.customValidityCheck({pattern: this.regexPatternForEmail, msg: this.incorrectEmailError})
         ],
       ],
       phone: [
@@ -202,38 +247,16 @@ export class DataComponent extends BaseFormComponent implements OnInit {
     };
   }
 
-  onStatusChange(status: any) {
+  onStatusChange(status: string) {
     if (status === 'VALID') {
-      const formValue = this.form.value;
-      this.clientService.client = {
-        name: formValue.name,
-        surname: formValue.surname,
-        age: formValue.age.years,
-        months: formValue.age?.months,
-        email: formValue.email,
-        phone: formValue.phone
-      };
-
-      this.stepService.StepPreparing(AgreementsComponent, MoveType.MoveNext);
-
+      this.store.dispatch(nextBtnAvailability({isAvailable: true}));
       return;
     }
-    this.stepService.disableTheStep();
+    this.store.dispatch(nextBtnAvailability({isAvailable: false}));
   }
 
-  restoreValues() {
-    if (this.clientService.client){
-      this.form.patchValue({
-        name: this.clientService.client.name,
-        surname: this.clientService.client.surname,
-        age: {
-          years: this.clientService.client.age,
-          months: this.clientService.client.months,
-        },
-        email: this.clientService.client.email,
-        phone: this.clientService.client.phone
-      });
-      this.onStatusChange('VALID');
-    }
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

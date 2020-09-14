@@ -1,18 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { StepService } from '../../services/step.service';
-import { TimeService } from '../../services/time.service';
-import { AvailableDate, AvailableTime } from '../../shared/models/Date&Times';
-import { MoveType } from '../../shared/models/MoveTypeEnum';
-import { DataComponent } from '../data/data.component';
-import { ClientService } from '../../services/client.service';
-import { NotificationService } from 'src/app/core/services/notification.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {StepService} from '../../services/step.service';
+import {TimeService} from '../../services/time.service';
+import {AvailableDate, AvailableTime} from '../../shared/models/Date&Times';
+import {ClientService} from '../../services/client.service';
+import {NotificationService} from 'src/app/core/services/notification.service';
+import {Store} from '@ngrx/store';
+import {clientPreregister} from '../../store/clientStore/actions/client.actions';
+import {combineLatest, Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {selectIsNextBtnPressed} from '../../store/stepStore/selectors/step.selectors';
+import {nextBtnAvailability, step} from '../../store/stepStore/actions/step.actions';
+import {selectPreregisterStatus} from '../../store/clientStore/selectors/client.selectors';
+import {ActionStatusesEnum} from '../../shared/models/ActionStatusesEnum';
 
 @Component({
   selector: 'app-time',
   templateUrl: './time.component.html',
   styleUrls: ['./time.component.scss'],
 })
-export class TimeComponent implements OnInit {
+export class TimeComponent implements OnInit, OnDestroy {
   get currentDate(): Date {
     return this._currentDate;
   }
@@ -21,7 +27,7 @@ export class TimeComponent implements OnInit {
     if (value) {
       this.timeService.getAvailableTime(value);
       this._currentDate = value;
-      this.resetChoosenTime();
+      this.resetChosenTime();
     }
   }
 
@@ -32,16 +38,21 @@ export class TimeComponent implements OnInit {
 
   currentTime: AvailableTime;
 
+  unsubscribe$: Subject<void> = new Subject<void>();
+
   constructor(
     private stepService: StepService,
     private timeService: TimeService,
     private clientService: ClientService,
-    private notificationService: NotificationService
-  ) { }
+    private notificationService: NotificationService,
+    private store: Store) {
+  }
 
   ngOnInit() {
     this.timeService.getAvailableDates();
-    this.timeService.availableDates.subscribe((value => {
+    this.timeService.availableDates.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe((value => {
       this.availableDates = value;
       if (this.availableDates.length) {
         this.currentDate = this.availableDates.find((date) => {
@@ -49,9 +60,46 @@ export class TimeComponent implements OnInit {
         })?.date;
       }
     }));
-    this.timeService.availableTimes.subscribe((value => {
+    this.timeService.availableTimes.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe((value => {
       this.availableTimes = value;
     }));
+
+    combineLatest([
+      this.store.select(selectIsNextBtnPressed),
+      this.store.select(selectPreregisterStatus)
+    ]).pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(([isPressed, preregisterStatus]) => {
+      if (isPressed) {
+        if (preregisterStatus === ActionStatusesEnum.Done) {
+          this.store.dispatch(step({path: 'data'}));
+          return;
+        }
+        this.store.dispatch(clientPreregister({selectedDate: this.currentDate, selectedTime: this.currentTime.time}));
+      }
+    });
+
+    //#region combineLatest or 2 subscriptions
+    // this.store.pipe(
+    //   select(selectIsNextBtnPressed),
+    //   takeUntil(this.unsubscribe$)
+    // ).subscribe((buttonPressed: boolean) => {
+    //   if (buttonPressed) {
+    //     this.store.dispatch(clientPreregister({selectedDate: this.currentDate, selectedTime: this.currentTime.time}));
+    //   }
+    // });
+    //
+    // this.store.pipe(
+    //   select(selectPreregisterStatus),
+    //   takeUntil(this.unsubscribe$)
+    // ).subscribe((preregisterStatus: ActionStatusesEnum) => {
+    //   if (preregisterStatus === ActionStatusesEnum.Done) {
+    //     this.store.dispatch(step({path: 'data'}));
+    //   }
+    // });
+    //#endregion
   }
 
   disabledDate = (current: Date): boolean => {
@@ -74,30 +122,18 @@ export class TimeComponent implements OnInit {
     this.currentDate = this.timeService.changeDate(this.currentDate, 0, -1);
   }
 
-  timeSelected($event): void {
-    this.currentTime = $event;
-
-    const callbackParams = {
-      date: this.currentDate,
-      time: this.currentTime.time
-    };
-
-    const callback = (params: any): Promise<boolean> => {
-      return new Promise(resolve => {
-        this.clientService.preregister(params.date, params.time).subscribe(next => {
-          resolve(true);
-        }, error => {
-          this.notificationService.error(error + '\n' + 'Try again.');
-          resolve(false);
-        });
-      });
-    };
-
-    this.stepService.StepPreparing(DataComponent, MoveType.MoveNext, callbackParams, callback);
+  private resetChosenTime(): void {
+    this.currentTime = null;
+    this.store.dispatch(nextBtnAvailability({isAvailable: false}));
   }
 
-  private resetChoosenTime(): void {
-    this.currentTime = null;
-    this.stepService.disableTheStep();
+  timeSelected($event): void {
+    this.store.dispatch(nextBtnAvailability({isAvailable: true}));
+    this.currentTime = $event;
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }
