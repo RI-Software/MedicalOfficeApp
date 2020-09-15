@@ -26,3 +26,8 @@ export const selectIsNextBtnPressed = createSelector(
   selectStep,
   (state: StepState) => state.isNextBtnPressed
 );
+
+export const selectCurrentStep = createSelector(
+  selectStep,
+  (state: StepState) => state.currentStep
+);
