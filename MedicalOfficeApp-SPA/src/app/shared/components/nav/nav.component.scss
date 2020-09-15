@@ -5,4 +5,15 @@
     cursor: pointer;
   }
 }
-  
+
+@media (max-width: 767px) {
+  #logo {
+    display: none;
+  }
+}
+
+@media (min-width: 767px) {
+  #small_logo {
+    display: none;
+  }
+}

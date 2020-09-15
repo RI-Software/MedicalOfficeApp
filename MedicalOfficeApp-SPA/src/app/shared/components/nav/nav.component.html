@@ -1,7 +1,11 @@
 <nav class="navbar navbar-expand-md bg-secondary">
   <div class="container">
     <div class="navbar-brand-wrapper">
-      <img class="navbar-brand" (click)="sendToMain()" src="../../../../assets/Logo-BY.png" alt="Logo">
+      <img class="navbar-brand" id="logo" (click)="sendToMain()" src="../../../../assets/Logo-BY.png" alt="Logo">
+      <img class="navbar-brand" id="small_logo" (click)="sendToMain()" src="../../../../assets/small-logo.png" alt="Logo">
+    </div>
+    <div>
+      <ng-content></ng-content>
     </div>
   </div>
 </nav>

@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
-import { Observable, throwError } from 'rxjs';
-import { Client } from '../shared/models/Client';
-import { ClientServiceModule } from './client-service.module';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {map} from 'rxjs/operators';
+import {environment} from 'src/environments/environment';
+import {Observable, throwError} from 'rxjs';
+import {Client} from '../shared/models/Client';
+import {ClientServiceModule} from './client-service.module';
 import {Store} from '@ngrx/store';
-import {clientPreregisterStatus} from '../store/clientStore/actions/client.actions';
+import {clientPreregisterStatus, clientRegisterStatus} from '../store/clientStore/actions/client.actions';
 import {ActionStatusesEnum} from '../shared/models/ActionStatusesEnum';
 
 @Injectable({
@@ -43,7 +43,9 @@ export class ClientService {
     const token = localStorage.getItem('token');
     formData.append('Authorization', 'Bearer ' + token);
     navigator.sendBeacon(environment.apiClientUrl + 'freeRecord', formData);
+
     this.deleteToken();
+
     this.store.dispatch(clientPreregisterStatus({preregisterStatus: ActionStatusesEnum.Default}));
   }
 

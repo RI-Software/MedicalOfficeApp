@@ -3,16 +3,16 @@ import {ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateChild, Router} f
 import {select, Store} from '@ngrx/store';
 import {selectCurrentStep} from '../store/stepStore/selectors/step.selectors';
 import {step} from '../store/stepStore/actions/step.actions';
+import {ClientGuardsModule} from './client-guards.module';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: ClientGuardsModule
 })
 export class PreventIllegalStepGuard implements CanActivateChild {
 
   currentStep: string;
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean{
-    console.log(childRoute.routeConfig.path);
     if (this.currentStep === childRoute.routeConfig.path) {
       return true;
     }

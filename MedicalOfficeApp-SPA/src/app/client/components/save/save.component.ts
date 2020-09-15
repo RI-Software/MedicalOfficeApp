@@ -40,7 +40,7 @@ export class SaveComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.preventMoveBackService.preventBackButton();
 
-    const token = this.authService.token;
+    const token = this.authService.getDecodedToken();
     this.dateTime = {
       date: token.date,
       time: token.time

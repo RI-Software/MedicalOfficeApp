@@ -1,0 +1,6 @@
+<nz-countdown
+  *ngIf="canDisplayCountdown"
+  (nzCountdownFinish)="deleteUser()"
+  [nzValue]="deadline"
+  [nzFormat]="'mm:ss'">
+</nz-countdown>
