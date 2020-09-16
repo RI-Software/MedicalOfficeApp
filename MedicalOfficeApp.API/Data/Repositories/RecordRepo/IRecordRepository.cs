@@ -1,5 +1,6 @@
 ﻿using MedicalOfficeApp.API.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MedicalOfficeApp.API.Data.Repositories
@@ -8,7 +9,7 @@ namespace MedicalOfficeApp.API.Data.Repositories
     {
         void Add(DbRecord entity);
 
-        Task<List<DbRecord>> GetRecordsFromDb();
+        IQueryable<DbRecord> GetRecordsFromDb();
 
         Task<DbRecord> GetRecord(int id);
 

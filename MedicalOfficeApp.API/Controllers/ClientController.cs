@@ -9,11 +9,10 @@ using MedicalOfficeApp.API.Models;
 using MedicalOfficeApp.API.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -51,7 +50,48 @@ namespace MedicalOfficeApp.API.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        public async Task<IActionResult> PreRegister(RecordDto record)
+        {
+            var recordsFromDb = await repo.GetRecordsFromDb().Where(r => r.Date == record.Date).ToListAsync();
+            var recordsFromMemory = recordsInMemory.Value.Records;
+            DateTime dateUpperBound = DateTime.Now.Date.AddCalendarDays(workingDays, numOfDaysInAdvance);
+            var allowedTime = recordSettings
+                .Value
+                .WorkingDays
+                .Where(d => d.DayOfWeek == record.Date.DayOfWeek)
+                .First()
+                .AllowedTime;
+
+
+            if (record.Date < DateTime.Now.Date || record.Date > dateUpperBound)
+                return BadRequest("Date out of bounds of allowed dates");
+
+            if (record.Date == DateTime.Now.Date && record.Time < DateTime.Now.TimeOfDay)
+                return BadRequest("This time has already passed");
+
+            if (!allowedTime.Where(t => t == record.Time).Any())
+                return BadRequest("Time out of bounds of allowed times");
+
+            if (recordsFromDb.Where(r => r.Time == record.Time).Any())
+                return BadRequest("This time is already taken");
+
+            if (recordsFromMemory.Where(r => r.Date == record.Date && r.Time == record.Time && r.TimeCreated < DateTime.Now).Any())
+                return BadRequest("Somebody is trying to book this time");
+
+
+            recordsInMemory.Value.Records.Add(new DateRecord(record.Date, record.Time));
+
+
+            var generatedToken = GenerateToken(record);
+
+            return Ok(new
+            {
+                token = generatedToken
+            });
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "client")]
         public async Task<IActionResult> Register (ClientDto client)
         {
             DateTime date = DateTime.Parse(User.Claims.Single(c => c.Type == "date").Value);
@@ -82,48 +122,7 @@ namespace MedicalOfficeApp.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PreRegister (RecordDto record)
-        {
-            var recordsFromDb = await repo.GetRecordsFromDb();
-            var recordsFromMemory = recordsInMemory.Value.Records;
-            DateTime dateUpperBound = DateTime.Now.Date.AddCalendarDays(workingDays, numOfDaysInAdvance);
-            var allowedTime = recordSettings
-                .Value
-                .WorkingDays
-                .Where(d => d.DayOfWeek == record.Date.DayOfWeek)
-                .First()
-                .AllowedTime;
-
-
-            if (record.Date < DateTime.Now.Date || record.Date > dateUpperBound)
-                return BadRequest("Date out of bounds of allowed dates");
-
-            if (record.Date == DateTime.Now.Date && record.Time < DateTime.Now.TimeOfDay)
-                return BadRequest("This time has already passed");
-
-            if (!allowedTime.Where(t => t == record.Time).Any())
-                return BadRequest("Time out of bounds of allowed times");
-
-            if (recordsFromDb.Where(r => r.Date == record.Date && r.Time == record.Time).Any())
-                return BadRequest("This time is already taken");
-
-            if (recordsFromMemory.Where(r => r.Date == record.Date && r.Time == record.Time && r.TimeCreated < DateTime.Now).Any())
-                return BadRequest("Somebody is trying to book this time");
-
-
-            recordsInMemory.Value.Records.Add(new DateRecord(record.Date, record.Time));
-
-
-            var generatedToken = GenerateToken(record);
-
-            return Ok(new
-            {
-                token = generatedToken
-            });
-        }
-
-        [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "client")]
         public IActionResult FreeRecord ()
         {
             DateTime date = DateTime.Parse(User.Claims.Single(c => c.Type == "date").Value);

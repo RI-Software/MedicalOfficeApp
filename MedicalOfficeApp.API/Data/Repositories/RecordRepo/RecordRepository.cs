@@ -1,6 +1,7 @@
 ﻿using MedicalOfficeApp.API.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MedicalOfficeApp.API.Data.Repositories
@@ -18,8 +19,8 @@ namespace MedicalOfficeApp.API.Data.Repositories
         public async Task<DbRecord> GetRecord(int id) =>
             await context.Records.FirstOrDefaultAsync(r => r.RecordId == id);
 
-        public async Task<List<DbRecord>> GetRecordsFromDb() =>
-           await context.Records.ToListAsync();
+        public IQueryable<DbRecord> GetRecordsFromDb() =>
+            context.Records;
 
         public async Task<bool> SaveAll() =>
             await context.SaveChangesAsync() > 0;

@@ -10,6 +10,7 @@ using MedicalOfficeApp.API.Data.Repositories;
 using MedicalOfficeApp.API.Dtos;
 using MedicalOfficeApp.API.Shared;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace MedicalOfficeApp.API.Controllers
@@ -44,7 +45,7 @@ namespace MedicalOfficeApp.API.Controllers
             DateTime dateUpperBound = DateTime.Now.Date.AddCalendarDays(workingDays, numOfDaysInAdvance);
             List<DateForListDto> recordsToReturn = new List<DateForListDto>();
 
-            var recordsFromDb = (await repo.GetRecordsFromDb())
+            var recordsFromDb = (await repo.GetRecordsFromDb().Where(r => r.Date <= dateUpperBound).ToListAsync())
                 .Cast<IRecord>();
             var recordsFromMemory = recordsInMemory
                 .Value
@@ -97,8 +98,11 @@ namespace MedicalOfficeApp.API.Controllers
                 return BadRequest("That day is not supported");
 
 
-            var todayRecordsFromDb = (await repo.GetRecordsFromDb())
-                .Where(r => r.Date == requestedDate);
+            var todayRecordsFromDb = await repo
+                .GetRecordsFromDb()
+                .Where(r => r.Date == requestedDate)
+                .ToListAsync();
+
             var todayRecordsFromMemory = recordsInMemory
                 .Value
                 .Records
