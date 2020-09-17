@@ -12,13 +12,5 @@ namespace MedicalOfficeApp.API.Dtos
 
         [Required]
         public long Time { get; set; }
-
-        [JsonConstructor]
-        public RecordDto(DateTime date, TimeSpan time) 
-            : base()
-        {
-            Date = date;
-            Time = time.Ticks;
-        }
     }
 }

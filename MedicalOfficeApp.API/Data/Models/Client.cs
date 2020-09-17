@@ -23,7 +23,5 @@ namespace MedicalOfficeApp.API.Models
 
         [Required]
         public string Phone { get; set; }
-
-        // public int DeviceId { get; set; } to be releazed
     }
 }
