@@ -6,19 +6,30 @@ namespace MedicalOfficeApp.API.Core.RecordCollection
     {
         public DateTime Date { get; set; }
 
-        public TimeSpan Time { get; set; }
+        public long Time { get; set; }
 
         public DateTime TimeCreated { get; set; }
 
-        public DateRecord()
+        private DateRecord()
         {
             TimeCreated = DateTime.Now;
         }
 
-        public DateRecord(DateTime date, TimeSpan time)
+        private DateRecord(DateTime date)
             : this()
         {
             Date = date;
+        }
+
+        public DateRecord(DateTime date, TimeSpan time)
+            :this(date)
+        {
+            Time = time.Ticks;
+        }
+
+        public DateRecord(DateTime date, long time)
+            :this(date)
+        {
             Time = time;
         }
     }

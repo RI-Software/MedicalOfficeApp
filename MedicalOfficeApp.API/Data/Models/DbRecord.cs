@@ -1,4 +1,5 @@
 ﻿using MedicalOfficeApp.API.Core;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,7 +14,7 @@ namespace MedicalOfficeApp.API.Models
         public DateTime Date { get; set; }
 
         [Required]
-        public virtual TimeSpan Time { get; set; }
+        public virtual long Time { get; set; }
 
         [Required]
         public virtual Client Client { get; set; }
@@ -22,5 +23,18 @@ namespace MedicalOfficeApp.API.Models
         public DateTime RowVersion { get; set; }
 
         public DateTime TimeCreated { get; set; }
+
+        public DbRecord()
+        {
+        }
+
+        [JsonConstructor]
+        public DbRecord(DateTime date, TimeSpan time, Client client)
+            :this()
+        {
+            Date = date;
+            Time = time.Ticks;
+            Client = client;
+        }
     }
 }

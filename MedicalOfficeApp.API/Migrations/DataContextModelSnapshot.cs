@@ -98,8 +98,8 @@ namespace MedicalOfficeApp.API.Migrations
                         .HasColumnType("TEXT")
                         .HasDefaultValueSql("STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')");
 
-                    b.Property<TimeSpan>("Time")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("Time")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("TimeCreated")
                         .ValueGeneratedOnAddOrUpdate()

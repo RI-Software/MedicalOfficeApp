@@ -66,7 +66,7 @@ namespace MedicalOfficeApp.API.Controllers
             if (record.Date < DateTime.Now.Date || record.Date > dateUpperBound)
                 return BadRequest("Date out of bounds of allowed dates");
 
-            if (record.Date == DateTime.Now.Date && record.Time < DateTime.Now.TimeOfDay)
+            if (record.Date == DateTime.Now.Date && record.Time < DateTime.Now.TimeOfDay.Ticks)
                 return BadRequest("This time has already passed");
 
             if (!allowedTime.Where(t => t == record.Time).Any())
@@ -95,7 +95,7 @@ namespace MedicalOfficeApp.API.Controllers
         public async Task<IActionResult> Register (ClientDto client)
         {
             DateTime date = DateTime.Parse(User.Claims.Single(c => c.Type == "date").Value);
-            TimeSpan time = TimeSpan.Parse(User.Claims.Single(c => c.Type == "time").Value);
+            long time = long.Parse(User.Claims.Single(c => c.Type == "time").Value);
 
             var recordFromMemory = recordsInMemory
                 .Value
@@ -126,7 +126,7 @@ namespace MedicalOfficeApp.API.Controllers
         public IActionResult FreeRecord ()
         {
             DateTime date = DateTime.Parse(User.Claims.Single(c => c.Type == "date").Value);
-            TimeSpan time = TimeSpan.Parse(User.Claims.Single(c => c.Type == "time").Value);
+            long time = long.Parse(User.Claims.Single(c => c.Type == "time").Value);
 
             var recordsFromMemory = recordsInMemory.Value.Records;
 

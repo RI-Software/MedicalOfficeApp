@@ -65,10 +65,10 @@ namespace MedicalOfficeApp.API.Controllers
                     
                 var allowedTime = recordSettings.Value.WorkingDays.Where(d => d.DayOfWeek == date.DayOfWeek).First().AllowedTime;
                 var records = allRecords.Where(r => r.Date == date);
-                TimeSpan timeNow = TimeSpan.Zero;
+                long timeNow = TimeSpan.Zero.Ticks;
 
                 if (date == DateTime.Now.Date)
-                    timeNow = DateTime.Now.TimeOfDay;
+                    timeNow = DateTime.Now.TimeOfDay.Ticks;
 
                 if (records.Where(t => t.Time > timeNow)?.Count() >= allowedTime.Where(t => t > timeNow)?.Count())
                 {
@@ -83,7 +83,7 @@ namespace MedicalOfficeApp.API.Controllers
         }
 
         [HttpGet("{requestedDate}", Name = "Dates")]
-        public async Task<IActionResult> Dates (DateTime requestedDate) 
+        public async Task<IActionResult> Dates(DateTime requestedDate)
         {
             DayOfWeek requestedDayOfWeek = requestedDate.DayOfWeek;
 
@@ -120,13 +120,13 @@ namespace MedicalOfficeApp.API.Controllers
             foreach (var time in allowedTime)
             {
                 //if the time has already passed today
-                if (requestedDate == DateTime.Now.Date && time < DateTime.Now.TimeOfDay)
+                if (requestedDate == DateTime.Now.Date && time < DateTime.Now.TimeOfDay.Ticks)
                 {
                     AddTimeToReturnList(time, TimeStatus.Expired);
                     continue;
                 }
 
-                if(todayRecordsFromDb.Where(r => r.Time == time).FirstOrDefault() != null)
+                if (todayRecordsFromDb.Where(r => r.Time == time).FirstOrDefault() != null)
                 {
                     AddTimeToReturnList(time, TimeStatus.Taken);
                     continue;
@@ -142,8 +142,8 @@ namespace MedicalOfficeApp.API.Controllers
             }
 
 
-            void AddTimeToReturnList(TimeSpan time, TimeStatus timeStatus) =>
-                timesToReturn.Add(new TimeForListDto() { Time = time.ToString(), Status = timeStatus.ToString() });
+            void AddTimeToReturnList(long time, TimeStatus timeStatus) =>
+                timesToReturn.Add(new TimeForListDto(time, timeStatus.ToString()));
 
             return Ok(timesToReturn);
         }

@@ -1,8 +1,5 @@
-﻿using MedicalOfficeApp.API.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
+
 
 namespace MedicalOfficeApp.API.Dtos
 {
@@ -11,5 +8,14 @@ namespace MedicalOfficeApp.API.Dtos
         public string Time { get; set; }
 
         public string Status { get; set; }
+
+        public TimeForListDto() { }
+
+        public TimeForListDto(long time, string status)
+            :this()
+        {
+            Time = new TimeSpan(time).ToString();
+            Status = status;
+        }
     }
 }

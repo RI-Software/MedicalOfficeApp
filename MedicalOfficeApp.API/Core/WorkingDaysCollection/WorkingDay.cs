@@ -11,6 +11,6 @@ namespace MedicalOfficeApp.API.Core.WorkingDaysCollection
 
         public TimeSpan Stop { get; set; }
 
-        public List<TimeSpan> AllowedTime { get; set; }
+        public List<long> AllowedTime { get; set; }
     }
 }

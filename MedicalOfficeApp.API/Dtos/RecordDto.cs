@@ -1,4 +1,5 @@
 ﻿using MedicalOfficeApp.API.Core;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,13 +11,14 @@ namespace MedicalOfficeApp.API.Dtos
         public DateTime Date { get; set; }
 
         [Required]
-        public TimeSpan Time { get; set; }
+        public long Time { get; set; }
 
+        [JsonConstructor]
         public RecordDto(DateTime date, TimeSpan time) 
             : base()
         {
             Date = date;
-            Time = time;
+            Time = time.Ticks;
         }
     }
 }

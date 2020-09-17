@@ -8,6 +8,22 @@ namespace MedicalOfficeApp.API.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Admins",
+                columns: table => new
+                {
+                    AdminId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Username = table.Column<string>(nullable: false),
+                    PasswordHash = table.Column<byte[]>(nullable: false),
+                    PasswordSalt = table.Column<byte[]>(nullable: false),
+                    TimeCreated = table.Column<DateTime>(nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Admins", x => x.AdminId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Clients",
                 columns: table => new
                 {
@@ -32,7 +48,7 @@ namespace MedicalOfficeApp.API.Migrations
                     RecordId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Date = table.Column<DateTime>(nullable: false),
-                    Time = table.Column<TimeSpan>(nullable: false),
+                    Time = table.Column<long>(nullable: false),
                     ClientId = table.Column<int>(nullable: false),
                     RowVersion = table.Column<DateTime>(nullable: false, defaultValueSql: "STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')"),
                     TimeCreated = table.Column<DateTime>(nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
@@ -49,6 +65,12 @@ namespace MedicalOfficeApp.API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Admins_Username",
+                table: "Admins",
+                column: "Username",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Records_ClientId",
                 table: "Records",
                 column: "ClientId");
@@ -62,6 +84,9 @@ namespace MedicalOfficeApp.API.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Admins");
+
             migrationBuilder.DropTable(
                 name: "Records");
 

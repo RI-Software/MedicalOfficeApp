@@ -13,9 +13,9 @@ namespace MedicalOfficeApp.API.Core.WorkingDaysCollection
         {
             foreach (var day in WorkingDays)
             {
-                day.AllowedTime = new List<TimeSpan>();
+                day.AllowedTime = new List<long>();
 
-                for (TimeSpan i = day.Start; i < day.Stop; i += TimePerClient)
+                for (long i = day.Start.Ticks; i < day.Stop.Ticks; i += TimePerClient.Ticks)
                 {
                     day.AllowedTime.Add(i);
                 }

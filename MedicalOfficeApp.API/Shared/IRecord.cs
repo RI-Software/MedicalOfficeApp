@@ -6,6 +6,6 @@ namespace MedicalOfficeApp.API.Core
     {
         public DateTime Date { get; set; }
 
-        public TimeSpan Time { get; set; }
+        public long Time { get; set; }
     }
 }
