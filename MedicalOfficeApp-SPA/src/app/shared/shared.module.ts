@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavComponent } from './components/nav/nav.component';
-import {TimePipe} from './pipes/time.pipe';
+import { TicksPipe } from './pipes/ticksPipe/ticks.pipe';
 
 
 @NgModule({
   declarations: [
     NavComponent,
-    TimePipe
+    TicksPipe
   ],
   imports: [
     CommonModule
   ],
   exports: [
     NavComponent,
-    TimePipe
+    TicksPipe
   ]
 })
 export class SharedModule { }

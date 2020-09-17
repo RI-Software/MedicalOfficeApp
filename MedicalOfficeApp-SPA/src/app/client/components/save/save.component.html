@@ -1,5 +1,5 @@
 <div class="mt-3">
-  <div class="row justify-content-center">  
+  <div class="row justify-content-center">
     <div class="col-12">
       <h2 class="text-center text-primary">Check data</h2>
       <hr>
@@ -12,7 +12,7 @@
         </p>
         <p>
           Time:&nbsp;
-          <span>{{dateTime.time | time}}</span>
+          <span>{{dateTime.time | ticks | date: 'HH:mm'}}</span>
         </p>
       </nz-card>
       <ng-template #dateTimeEditTemplate>
