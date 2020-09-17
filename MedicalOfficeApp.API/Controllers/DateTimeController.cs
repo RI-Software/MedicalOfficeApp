@@ -45,7 +45,7 @@ namespace MedicalOfficeApp.API.Controllers
             DateTime dateUpperBound = DateTime.Now.Date.AddCalendarDays(workingDays, numOfDaysInAdvance);
             List<DateForListDto> recordsToReturn = new List<DateForListDto>();
 
-            var recordsFromDb = (await repo.GetRecordsFromDb().Where(r => r.Date <= dateUpperBound).ToListAsync())
+            var recordsFromDb = (await repo.GetRecords().Where(r => r.Date <= dateUpperBound).ToListAsync())
                 .Cast<IRecord>();
             var recordsFromMemory = recordsInMemory
                 .Value
@@ -99,7 +99,7 @@ namespace MedicalOfficeApp.API.Controllers
 
 
             var todayRecordsFromDb = await repo
-                .GetRecordsFromDb()
+                .GetRecords()
                 .Where(r => r.Date == requestedDate)
                 .ToListAsync();
 

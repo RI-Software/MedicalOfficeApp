@@ -9,7 +9,7 @@ namespace MedicalOfficeApp.API.Data.Repositories
     {
         void Add(DbRecord entity);
 
-        IQueryable<DbRecord> GetRecordsFromDb();
+        IQueryable<DbRecord> GetRecords();
 
         Task<DbRecord> GetRecord(int id);
 

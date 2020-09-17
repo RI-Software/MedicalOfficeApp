@@ -19,7 +19,7 @@ namespace MedicalOfficeApp.API.Data.Repositories
         public async Task<DbRecord> GetRecord(int id) =>
             await context.Records.FirstOrDefaultAsync(r => r.RecordId == id);
 
-        public IQueryable<DbRecord> GetRecordsFromDb() =>
+        public IQueryable<DbRecord> GetRecords() =>
             context.Records;
 
         public async Task<bool> SaveAll() =>

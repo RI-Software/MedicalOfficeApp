@@ -52,7 +52,7 @@ namespace MedicalOfficeApp.API.Controllers
         [HttpPost]
         public async Task<IActionResult> PreRegister(RecordDto record)
         {
-            var recordsFromDb = await repo.GetRecordsFromDb().Where(r => r.Date == record.Date).ToListAsync();
+            var recordsFromDb = await repo.GetRecords().Where(r => r.Date == record.Date).ToListAsync();
             var recordsFromMemory = recordsInMemory.Value.Records;
             DateTime dateUpperBound = DateTime.Now.Date.AddCalendarDays(workingDays, numOfDaysInAdvance);
             var allowedTime = recordSettings
