@@ -20,7 +20,7 @@ namespace MedicalOfficeApp.API.Data
 
         public int TotalPages { get; private set; }
 
-        public string SortColum { get; private set; }
+        public List<string> SortColums { get; private set; }
 
         public string SortOrder { get; private set; }
 
@@ -40,13 +40,13 @@ namespace MedicalOfficeApp.API.Data
             }
         }
 
-        private ApiResult(List<T> data, int count, int pageIndex, int pageSize, string sortColum, string sortOrder)
+        private ApiResult(List<T> data, int count, int pageIndex, int pageSize, List<string> sortColums, string sortOrder)
         {
             Data = data;
             TotalCount = count;
             PageIndex = pageIndex;
             PageSize = pageSize;
-            SortColum = sortColum;
+            SortColums = sortColums;
             SortOrder = sortOrder;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
         }
@@ -54,23 +54,35 @@ namespace MedicalOfficeApp.API.Data
         public static async Task<ApiResult<T>> CreateAsync(
             IQueryable<T> source, 
             int pageIndex, 
-            int pageSize, 
-            string sortColumn = null, 
+            int pageSize,
+            List<string> sortColumns = null, 
             string sortOrder = null)
         {
             int count = await source.CountAsync();
 
-            if(!string.IsNullOrEmpty(sortColumn) && IsValidProperty(sortColumn))
+            string orderByString = PrepareValidOrderByString(sortColumns);
+
+            if(!string.IsNullOrEmpty(orderByString))
             {
                 sortOrder = !string.IsNullOrEmpty(sortOrder) && sortOrder.ToUpper() == "ASC" ? "ASC" : "DESC";
-                source = source.OrderBy(string.Format("{0} {1}", sortColumn, sortOrder)); //have to implement orderColumns[]
+                source = source.OrderBy(string.Format("{0} {1}", orderByString, sortOrder));
             }
 
             source = source.Skip(pageIndex * pageSize).Take(pageSize);
 
             List<T> data = await source.ToListAsync();
 
-            return new ApiResult<T>(data, count, pageIndex, pageSize, sortColumn, sortOrder);
+            return new ApiResult<T>(data, count, pageIndex, pageSize, sortColumns, sortOrder);
+        }
+
+        private static string PrepareValidOrderByString(List<string> columns)
+        {
+            columns.RemoveAll((col) => !IsValidProperty(col));
+
+            if(columns.Count > 0)
+                return string.Join(", ", columns);
+
+            return string.Empty;
         }
 
         private static bool IsValidProperty(string propertyName, bool throwExceptionIfNotFound = true)
