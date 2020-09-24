@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 
 namespace MedicalOfficeApp.API.Controllers.Admin
 {
-    [Route("api/admin/[controller]")]
+    [Route("api/admin/[controller]/[action]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -33,9 +33,11 @@ namespace MedicalOfficeApp.API.Controllers.Admin
             if (adminFromRepo == null)
                 return Unauthorized();
 
-            string token = GenerateToken();
+            string generatedToken = GenerateToken();
 
-            return Ok(token);
+            return Ok(new {
+            token = generatedToken
+            });
         }
 
         private string GenerateToken()
