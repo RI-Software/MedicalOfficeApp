@@ -20,7 +20,7 @@ namespace MedicalOfficeApp.API.Data.Repositories
             await context.Records.FirstOrDefaultAsync(r => r.RecordId == id);
 
         public IQueryable<DbRecord> GetRecords() =>
-            context.Records;
+            context.Records.Include(r => r.Client);
 
         public async Task<bool> SaveAll() =>
             await context.SaveChangesAsync() > 0;
