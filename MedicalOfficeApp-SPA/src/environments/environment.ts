@@ -8,7 +8,7 @@ export const mainUrl = {
 
 export const environment = {
   production: false,
-  backEndTimeZone: +3,
+  backEndTimeZone: '+0300',
   allowedDomains: ['45.80.69.247:5001', 'localhost:5000'], // tmp
   mainPageUrl: 'https://vimpa.by',
   apiUrl: mainUrl.url,

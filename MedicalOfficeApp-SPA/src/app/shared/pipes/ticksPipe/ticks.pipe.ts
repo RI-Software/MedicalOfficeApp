@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {environment} from '../../../../environments/environment';
+import {formatDate} from '@angular/common';
 
 @Pipe({
   name: 'ticks'
@@ -10,8 +10,6 @@ export class TicksPipe implements PipeTransform {
 
     const dateToReturn = new Date(netTicks / 10000);
 
-    dateToReturn.setHours(dateToReturn.getHours() - environment.backEndTimeZone);
-
-    return dateToReturn;
+    return new Date(formatDate(dateToReturn, 'medium', 'en-US', '+0000'));
   }
 }

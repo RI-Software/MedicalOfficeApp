@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { NotificationService } from '../../core/services/notification.service';
 import { environment } from '../../../environments/environment';
 import { ClientServiceModule } from './client-service.module';
+import { formatDate } from '@angular/common';
 
 @Injectable({
   providedIn: ClientServiceModule
@@ -18,7 +19,9 @@ export class TimeService {
   getAvailableDates(): void {
     this.httpClient.get(environment.apiDatetimeUrl).subscribe(
       (response: AvailableDate[]) => {
-        response.forEach(value => value.date = new Date(value.date));
+        response.forEach(value => {
+          value.date = new Date(formatDate(value.date, 'mediumDate', 'en-US', environment.backEndTimeZone));
+        });
         this.availableDates.next(response);
       },
       (err: HttpErrorResponse) => {
