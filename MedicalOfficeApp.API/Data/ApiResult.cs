@@ -20,7 +20,7 @@ namespace MedicalOfficeApp.API.Data
 
         public int TotalPages { get; private set; }
 
-        public List<string> SortColums { get; private set; }
+        public List<string> SortColumns { get; private set; }
 
         public string SortOrder { get; private set; }
 
@@ -40,13 +40,13 @@ namespace MedicalOfficeApp.API.Data
             }
         }
 
-        private ApiResult(List<T> data, int count, int pageIndex, int pageSize, List<string> sortColums, string sortOrder)
+        private ApiResult(List<T> data, int count, int pageIndex, int pageSize, List<string> sortColumns, string sortOrder)
         {
             Data = data;
             TotalCount = count;
             PageIndex = pageIndex;
             PageSize = pageSize;
-            SortColums = sortColums;
+            SortColumns = sortColumns;
             SortOrder = sortOrder;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
         }
