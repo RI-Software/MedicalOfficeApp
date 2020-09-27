@@ -12,6 +12,7 @@ export const adminRoutes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
       { path: 'home', component: HomeComponent, canActivate: [AuthGuard] }
-    ]
-  }
+    ],
+    loadChildren: './services/admin-service.module#AdminServiceModule'
+  },
 ];

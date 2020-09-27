@@ -3,9 +3,10 @@ import {CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot, Router, C
 import {select, Store} from '@ngrx/store';
 import {selectIsAdminLoggedIn} from '../store/adminStore/selectors/admin.selectors';
 import {navigateAdmin} from '../store/adminStore/actions/admin.actions';
+import {AdminGuardsModule} from './admin-guards.module';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: AdminGuardsModule
 })
 export class AuthGuard implements CanActivate {
 

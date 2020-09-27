@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {Router} from '@angular/router';
+import {AdminServiceModule} from './admin-service.module';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: AdminServiceModule
 })
 export class NavigationService {
 

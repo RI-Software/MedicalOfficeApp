@@ -3,7 +3,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import * as RecordActions from '../actions/records.actions';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {RecordsService} from '../../../services/records.service';
-import {EMPTY, of} from 'rxjs';
+import {EMPTY} from 'rxjs';
 import {setRecords} from '../actions/records.actions';
 import {NotificationService} from '../../../../core/services/notification.service';
 

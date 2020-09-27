@@ -14,6 +14,7 @@ import {RecordsEffects} from './store/recordsStore/effects/records.effects';
 import {RecordsComponent} from './components/records/records.component';
 import {AdminEffects} from './store/adminStore/effects/admin.effects';
 import {AdminServiceModule} from './services/admin-service.module';
+import {AdminGuardsModule} from './guards/admin-guards.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {AdminServiceModule} from './services/admin-service.module';
     StoreModule.forFeature(adminModuleFeatureKey, reducers),
     EffectsModule.forFeature([RecordsEffects, AdminEffects]),
     AdminServiceModule,
+    AdminGuardsModule,
     SharedModule,
     CommonModule,
     ReactiveFormsModule,
