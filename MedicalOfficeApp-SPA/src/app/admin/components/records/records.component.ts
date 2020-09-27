@@ -14,9 +14,12 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class RecordsComponent implements OnInit, OnDestroy {
 
+  apiResult: ApiResult<Record>;
+
   unsubscribe$: Subject<void> = new Subject<void>();
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {
+  }
 
   ngOnInit(): void {
     this.store.dispatch(seedRecords({}));
@@ -25,7 +28,7 @@ export class RecordsComponent implements OnInit, OnDestroy {
       select(selectRecords),
       takeUntil(this.unsubscribe$)
     ).subscribe((records: ApiResult<Record>) => {
-      console.log(records);
+      this.apiResult = records;
     });
   }
 
