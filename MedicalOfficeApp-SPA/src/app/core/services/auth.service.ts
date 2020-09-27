@@ -10,8 +10,12 @@ export class AuthService {
   constructor(private jwtHelperService: JwtHelperService) {
   }
 
+  static getTokenString(): string {
+    return localStorage.getItem('token');
+  }
+
   getDecodedToken(): any | null {
-    const tokenString = localStorage.getItem('token');
+    const tokenString = AuthService.getTokenString();
     if (tokenString) {
       return this.jwtHelperService.decodeToken(tokenString);
     }
@@ -19,10 +23,35 @@ export class AuthService {
   }
 
   getTokenExpirationTime(): Date | null {
-    const tokenString = localStorage.getItem('token');
+    const tokenString = AuthService.getTokenString();
     if (tokenString) {
       return this.jwtHelperService.getTokenExpirationDate(tokenString);
     }
     return null;
+  }
+
+  getUserRoles(): string[] | null {
+    const token = this.getDecodedToken();
+
+    if (token) {
+      return Array.isArray(token.role) ? token.role : [token.role];
+    }
+
+    return null;
+  }
+
+  isTokenValid(roleToBeChecked?: string): boolean {
+
+    if (roleToBeChecked) {
+      const roles = this.getUserRoles();
+
+      if (!roles || !roles.find((role: string) => role === roleToBeChecked)) {
+        return false;
+      }
+    }
+
+    const tokenString = AuthService.getTokenString();
+
+    return !this.jwtHelperService.isTokenExpired(tokenString);
   }
 }

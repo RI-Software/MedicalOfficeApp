@@ -8,7 +8,7 @@
       <nz-card nzTitle="Date and time" [nzExtra]="dateTimeEditTemplate">
         <p>
           Date:&nbsp;
-          <span>{{dateTime.date | customDate}}</span>
+          <span>{{dateTime.date | date:'dd.MM.y'}}</span>
         </p>
         <p>
           Time:&nbsp;

@@ -3,8 +3,7 @@ import {AdminState} from '../../../shared/models/AdminState';
 import {setLoginStatus} from '../actions/admin.actions';
 
 export const initialState: AdminState = {
-  isLoggedIn: false,
-  token: null
+  isLoggedIn: false
 };
 
 const adminReducer = createReducer(

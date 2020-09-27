@@ -3,8 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const mainUrl = {
-  // url: 'http://45.80.69.247:5001/'
-  url: 'http://localhost:5000/'
+  url: 'http://45.80.69.247:5001/'
+  // url: 'http://localhost:5000/'
 };
 
 export const environment = {

@@ -14,3 +14,8 @@ export const navigateAdmin = createAction(
   '[Admin] Navigate Admin',
   props<{path: string}>()
 );
+
+export const checkTokenValidity = createAction(
+  '[Admin] Is Token Valid',
+  props<{role: string}>()
+);

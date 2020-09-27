@@ -6,7 +6,7 @@ import {Observable, throwError} from 'rxjs';
 import {Client} from '../../shared/models/Client';
 import {ClientServiceModule} from './client-service.module';
 import {Store} from '@ngrx/store';
-import {clientPreregisterStatus, clientRegisterStatus} from '../store/clientStore/actions/client.actions';
+import {clientPreregisterStatus} from '../store/clientStore/actions/client.actions';
 import {ActionStatusesEnum} from '../shared/models/ActionStatusesEnum';
 
 @Injectable({
@@ -44,7 +44,7 @@ export class ClientService {
     formData.append('Authorization', 'Bearer ' + token);
     navigator.sendBeacon(environment.apiClientUrl + 'freeRecord', formData);
 
-    this.deleteToken();
+    // this.deleteToken();
 
     this.store.dispatch(clientPreregisterStatus({preregisterStatus: ActionStatusesEnum.Default}));
   }

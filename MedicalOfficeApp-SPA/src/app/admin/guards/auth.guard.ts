@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanActivate} from '@angular/router';
+import {ActivatedRouteSnapshot, RouterStateSnapshot, CanActivate} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {selectIsAdminLoggedIn} from '../store/adminStore/selectors/admin.selectors';
-import {navigateAdmin} from '../store/adminStore/actions/admin.actions';
+import {checkTokenValidity, navigateAdmin} from '../store/adminStore/actions/admin.actions';
 import {AdminGuardsModule} from './admin-guards.module';
 
 @Injectable({
@@ -15,6 +15,9 @@ export class AuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
+
+    this.store.dispatch(checkTokenValidity({role: 'admin'}));
+
     if (!this.isLoggedIn) {
       this.store.dispatch(navigateAdmin({path: 'login'}));
       return false;
