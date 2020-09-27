@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {environment} from 'src/environments/environment';
 import {Observable, throwError} from 'rxjs';
-import {Client} from '../shared/models/Client';
+import {Client} from '../../shared/models/Client';
 import {ClientServiceModule} from './client-service.module';
 import {Store} from '@ngrx/store';
 import {clientPreregisterStatus, clientRegisterStatus} from '../store/clientStore/actions/client.actions';

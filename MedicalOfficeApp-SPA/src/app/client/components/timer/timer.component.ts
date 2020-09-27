@@ -1,5 +1,5 @@
 import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '../../../core/services/auth.service';
 import {Store} from '@ngrx/store';
 import {selectPreregisterStatus, selectRegisterStatus} from '../../store/clientStore/selectors/client.selectors';
 import {combineLatest, Subject} from 'rxjs';

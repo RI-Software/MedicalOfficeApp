@@ -1,7 +1,7 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {Client} from '../../shared/models/Client';
+import {Client} from '../../../shared/models/Client';
 import {PreventMoveBackService} from 'src/app/core/services/prevent-move-back.service';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '../../../core/services/auth.service';
 import {DateTime} from '../../shared/models/Date&Times';
 import {select, Store} from '@ngrx/store';
 import {takeUntil} from 'rxjs/operators';

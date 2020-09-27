@@ -1,4 +1,4 @@
-import {Client} from './Client';
+import {Client} from '../../../shared/models/Client';
 import {ActionStatusesEnum} from './ActionStatusesEnum';
 
 export interface ClientState {

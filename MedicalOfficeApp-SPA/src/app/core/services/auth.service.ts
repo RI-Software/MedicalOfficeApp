@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {JwtHelperService} from '@auth0/angular-jwt';
-import {ClientServiceModule} from './client-service.module';
+import {ClientServiceModule} from '../../client/services/client-service.module';
 
 @Injectable({
-  providedIn: ClientServiceModule
+  providedIn: 'root'
 })
 export class AuthService {
 

@@ -15,7 +15,7 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {selectIsNextBtnPressed} from '../../store/stepStore/selectors/step.selectors';
 import {setClient} from '../../store/clientStore/actions/client.actions';
-import {Client} from '../../shared/models/Client';
+import {Client} from '../../../shared/models/Client';
 import {selectClient} from '../../store/clientStore/selectors/client.selectors';
 
 @Component({

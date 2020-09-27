@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const mainUrl = {
-  url: 'http://45.80.69.247:5001/'
+  // url: 'http://45.80.69.247:5001/'
+  url: 'http://localhost:5000/'
 };
 
 export const environment = {
@@ -13,7 +14,9 @@ export const environment = {
   mainPageUrl: 'https://vimpa.by',
   apiUrl: mainUrl.url,
   apiClientUrl: mainUrl.url + 'api/client/',
-  apiDatetimeUrl: mainUrl.url + 'api/datetime/'
+  apiDatetimeUrl: mainUrl.url + 'api/datetime/',
+  apiRecordsUrl: mainUrl.url + 'api/records/',
+  apiAdminLogin: mainUrl.url + 'api/admin/auth/login'
 };
 
 /*

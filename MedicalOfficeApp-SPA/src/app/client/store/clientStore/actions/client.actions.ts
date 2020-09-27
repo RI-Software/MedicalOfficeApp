@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import {Client} from '../../../shared/models/Client';
+import {Client} from '../../../../shared/models/Client';
 import {ActionStatusesEnum} from '../../../shared/models/ActionStatusesEnum';
 
 export const clientRegister = createAction(
