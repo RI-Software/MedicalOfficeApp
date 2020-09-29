@@ -1,0 +1,29 @@
+nz-pagination {
+  ::ng-deep svg {
+    vertical-align: 0;
+  }
+}
+
+nz-card.custom-padding {
+    ::ng-deep .ant-card-body {
+      padding: 0;
+    }
+}
+
+div.time-picker {
+  max-width: 350px;
+}
+
+nz-card span {
+  color: #007bff;
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+@media (min-width: 375px) {
+  .close-btn {
+    display: none;
+  }
+}

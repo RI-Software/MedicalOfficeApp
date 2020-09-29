@@ -1,2 +1,12 @@
-<p>home works!</p>
-<app-records></app-records>
+<nz-layout class="layout right-layout">
+  <nz-sider nzCollapsible [nzWidth]="320" [nzTheme]="'light'" nzBreakpoint="lg" [nzCollapsedWidth]="0">
+    <app-records-controls></app-records-controls>
+  </nz-sider>
+  <nz-layout>
+    <nz-content>
+      <div class="inner-content mt-2">
+        <app-records></app-records>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

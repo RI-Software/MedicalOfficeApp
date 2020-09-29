@@ -6,6 +6,11 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {NzButtonModule} from 'ng-zorro-antd/button';
+import {NzPaginationModule} from 'ng-zorro-antd/pagination';
+import {NzDropDownModule} from 'ng-zorro-antd/dropdown';
+import {NzCalendarModule} from 'ng-zorro-antd/calendar';
+import {NzMenuModule} from 'ng-zorro-antd/menu';
+import {NzLayoutModule} from 'ng-zorro-antd/layout';
 
 import {AdminComponent} from './admin.component';
 import {adminRoutes} from './admin.routes';
@@ -18,13 +23,15 @@ import {RecordsComponent} from './components/records/records.component';
 import {AdminEffects} from './store/adminStore/effects/admin.effects';
 import {AdminServiceModule} from './services/admin-service.module';
 import {AdminGuardsModule} from './guards/admin-guards.module';
+import {RecordsControlsComponent} from './components/records-controls/records-controls.component';
 
 @NgModule({
   declarations: [
     AdminComponent,
     LoginComponent,
     HomeComponent,
-    RecordsComponent
+    RecordsComponent,
+    RecordsControlsComponent
   ],
   imports: [
     StoreModule.forFeature(adminModuleFeatureKey, reducers),
@@ -36,6 +43,11 @@ import {AdminGuardsModule} from './guards/admin-guards.module';
     ReactiveFormsModule,
     NzCardModule,
     NzButtonModule,
+    NzPaginationModule,
+    NzDropDownModule,
+    NzCalendarModule,
+    NzMenuModule,
+    NzLayoutModule,
     RouterModule.forChild(adminRoutes)
   ]
 })
