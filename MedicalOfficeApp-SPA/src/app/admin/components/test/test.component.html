@@ -1,0 +1,42 @@
+<!--<div class="main">-->
+<!--  <div class="sidebar-base">-->
+<!--    <div class="sidebar"-->
+<!--         [ngClass]="{scrollable: isScrollable}"-->
+<!--         (mouseenter)="isScrollable = true"-->
+<!--         (mouseleave)="isScrollable = false">-->
+<!--      -->
+<!--      <nz-sider nzCollapsible [nzWidth]="320" [nzTheme]="'light'" nzBreakpoint="lg" [nzCollapsedWidth]="0">-->
+<!--        <app-records-controls></app-records-controls>-->
+<!--      </nz-sider>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="content">-->
+<!--    <app-records></app-records>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+<div class="main">
+  <div class="sidebar-base">
+    <div class="sidebar-inner">
+
+      <nz-sider
+        class="sidebar"
+        nzCollapsible
+        [nzWidth]="340"
+        [nzTheme]="'light'"
+        nzBreakpoint="lg"
+        [nzCollapsedWidth]="0"
+        [ngClass]="{scrollable: isScrollable}"
+        (mouseenter)="isScrollable = true"
+        (mouseleave)="isScrollable = false">
+        <app-records-controls></app-records-controls>
+      </nz-sider>
+    </div>
+  </div>
+  <div class="content">
+    <div class=" mt-2">
+      <app-records></app-records>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,7 @@ import {AdminComponent} from './admin.component';
 import {LoginComponent} from './components/login/login.component';
 import {HomeComponent} from './components/home/home.component';
 import {AuthGuard} from './guards/auth.guard';
+import {TestComponent} from './components/test/test.component';
 
 export const adminRoutes: Routes = [
   {
@@ -15,4 +16,7 @@ export const adminRoutes: Routes = [
     ],
     loadChildren: './services/admin-service.module#AdminServiceModule'
   },
+  {
+    path: 'test', component: TestComponent
+  }
 ];

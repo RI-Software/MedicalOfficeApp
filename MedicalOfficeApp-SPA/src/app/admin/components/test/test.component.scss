@@ -1,0 +1,34 @@
+.main {
+  display: flex;
+  justify-content: space-around;
+
+  .sidebar-base {
+    width: 340px;
+    // transition: background 1s cubic-bezier(.075, .82, .165, 1); ToDo: implement
+
+    .sidebar {
+      position: fixed;
+      width: 340px;
+      height: 100vh;
+
+      &.scrollable {
+        overflow-y: scroll;
+      }
+    }
+  }
+
+  .content {
+    width: calc(100% - 340px);
+  }
+
+  @media (max-width: 992px) {
+
+    .sidebar-base {
+      width: 0;
+    }
+
+    .content {
+      width: 100%;
+    }
+  }
+}

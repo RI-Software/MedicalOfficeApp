@@ -24,6 +24,8 @@ import {AdminEffects} from './store/adminStore/effects/admin.effects';
 import {AdminServiceModule} from './services/admin-service.module';
 import {AdminGuardsModule} from './guards/admin-guards.module';
 import {RecordsControlsComponent} from './components/records-controls/records-controls.component';
+import { TestComponent } from './components/test/test.component';
+import {NzAffixModule, NzIconModule} from 'ng-zorro-antd';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import {RecordsControlsComponent} from './components/records-controls/records-co
     LoginComponent,
     HomeComponent,
     RecordsComponent,
-    RecordsControlsComponent
+    RecordsControlsComponent,
+    TestComponent
   ],
   imports: [
     StoreModule.forFeature(adminModuleFeatureKey, reducers),
@@ -48,7 +51,9 @@ import {RecordsControlsComponent} from './components/records-controls/records-co
     NzCalendarModule,
     NzMenuModule,
     NzLayoutModule,
-    RouterModule.forChild(adminRoutes)
+    RouterModule.forChild(adminRoutes),
+    NzAffixModule,
+    NzIconModule
   ]
 })
 export class AdminModule {
