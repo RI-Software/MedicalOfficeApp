@@ -6,11 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./test.component.scss']
 })
 export class TestComponent implements OnInit {
+  isScrollInvisible = true;
+  isCollapsed: boolean;
+  constructor() {}
 
-  constructor() { }
-  isScrollable = false;
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

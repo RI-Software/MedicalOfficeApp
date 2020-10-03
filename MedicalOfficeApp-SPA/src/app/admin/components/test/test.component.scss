@@ -1,34 +1,104 @@
-.main {
-  display: flex;
-  justify-content: space-around;
 
-  .sidebar-base {
+.sidebar {
+  &.ant-layout-sider-zero-width {
+    .settings-wrapper {
+      display: none;
+    }
+  }
+
+  .settings-wrapper {
+    position: fixed;
     width: 340px;
-    // transition: background 1s cubic-bezier(.075, .82, .165, 1); ToDo: implement
+    height: 100vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
 
-    .sidebar {
-      position: fixed;
-      width: 340px;
-      height: 100vh;
+    &.scroll-visible::-webkit-scrollbar {
+      opacity: 0;
+    }
 
-      &.scrollable {
-        overflow-y: scroll;
+  }
+}
+
+.inner-content {
+  background: #fff;
+}
+
+
+.menu-hide-icon {
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 322px;
+  z-index: 1030;
+  padding: 5px 8px;
+  background-color: white;
+  border: 1px solid #f0f0f0;
+  border-radius: 0 5px 5px 0;
+  transition: all 0.3s;
+  transition-timing-function: ease;
+
+  &.collapsed {
+    left: 0;
+  }
+}
+
+
+@media (max-width: 340px) {
+  :host {
+    nz-layout.layout {
+      nz-sider.sidebar:not(.ant-layout-sider-zero-width) {
+        flex: 0 0 320px !important;
+        max-width: 320px !important;
+        min-width: 320px !important;
+        width: 320px !important;
+
+        .settings-wrapper {
+          width: 320px;
+        }
+
+        ::ng-deep nz-card {
+          width: 320px;
+        }
       }
     }
   }
+}
 
-  .content {
-    width: calc(100% - 340px);
+@media (max-width: 380px) {
+  .menu-hide-icon {
+    left: 0;
   }
+}
 
-  @media (max-width: 992px) {
+@media (max-width: 992px) {
+  nz-content {
+    position: relative;
 
-    .sidebar-base {
-      width: 0;
+    .dark-mask {
+      opacity: 0;
+      transition: all 0.5s;
+      transition-timing-function: ease;
+      background: url('/assets/mask.jpg');
     }
 
-    .content {
+    .dark-mask.active {
+      position: absolute;
       width: 100%;
+      height: 100%;
+      z-index: 1000;
+    }
+  }
+
+  .menu-hide-icon {
+    display: block;
+  }
+}
+
+@media (max-width: 730px) {
+  nz-content {
+    .dark-mask.active {
+      opacity: 1;
     }
   }
 }
