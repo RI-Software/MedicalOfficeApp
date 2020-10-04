@@ -1,10 +1,27 @@
-<nz-layout class="layout right-layout">
-  <nz-sider nzCollapsible [nzWidth]="320" [nzTheme]="'light'" nzBreakpoint="lg" [nzCollapsedWidth]="0">
-    <app-records-controls></app-records-controls>
+<nz-layout class="layout">
+  <nz-sider class="sidebar"
+            nzCollapsible
+            [nzWidth]="340"
+            nzTheme="light"
+            nzBreakpoint="lg"
+            [nzCollapsedWidth]="0"
+            [(nzCollapsed)]="isCollapsed"
+            [nzTrigger]="null"
+  >
+    <div class="settings-wrapper"
+         [ngClass]="{'scroll-visible': isScrollInvisible}"
+         (mouseenter)="isScrollInvisible = false"
+         (mouseleave)="isScrollInvisible = true">
+      <app-records-controls></app-records-controls>
+    </div>
+    <div class="menu-hide-icon" [ngClass]="{'collapsed': isCollapsed}">
+      <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" (click)="isCollapsed = !isCollapsed"></i>
+    </div>
   </nz-sider>
   <nz-layout>
     <nz-content>
-      <div class="inner-content mt-2">
+      <div class="dark-mask" [ngClass]="{'active': !isCollapsed}"></div>
+      <div class="inner-content">
         <app-records></app-records>
       </div>
     </nz-content>
