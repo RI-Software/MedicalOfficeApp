@@ -34,6 +34,8 @@ namespace MedicalOfficeApp.API.Models
             }
         }
 
+        public string WhereStatements { get; set; } = string.Empty;
+
         public List<string> SortColumns { get; set; } = new List<string>() { "date" };
 
         public string SortOrder { get; set; } = string.Empty;

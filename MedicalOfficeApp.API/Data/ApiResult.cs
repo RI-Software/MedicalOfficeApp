@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
+using MedicalOfficeApp.API.Dtos.AdminDtos;
 
 namespace MedicalOfficeApp.API.Data
 {
@@ -19,6 +20,8 @@ namespace MedicalOfficeApp.API.Data
         public int PageSize { get; private set; }
 
         public int TotalPages { get; private set; }
+
+        public List<WhereStatement> WhereStatements { get; private set; }
 
         public List<string> SortColumns { get; private set; }
 
@@ -40,12 +43,20 @@ namespace MedicalOfficeApp.API.Data
             }
         }
 
-        private ApiResult(List<T> data, int count, int pageIndex, int pageSize, List<string> sortColumns, string sortOrder)
+        private ApiResult(
+            List<T> data,
+            int count,
+            int pageIndex,
+            int pageSize,
+            List<WhereStatement> whereStatements,
+            List<string> sortColumns,
+            string sortOrder)
         {
             Data = data;
             TotalCount = count;
             PageIndex = pageIndex;
             PageSize = pageSize;
+            WhereStatements = whereStatements;
             SortColumns = sortColumns;
             SortOrder = sortOrder;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
@@ -55,10 +66,24 @@ namespace MedicalOfficeApp.API.Data
             IQueryable<T> source, 
             int pageIndex, 
             int pageSize,
+            List<WhereStatement> whereStatements = null,
             List<string> sortColumns = null, 
             string sortOrder = null)
         {
-            int count = await source.CountAsync();
+            #region Where logic
+
+            if (whereStatements != null)
+            {
+                whereStatements = RemoveInvalidStatements(whereStatements);
+
+                foreach (var statement in whereStatements)
+                {
+                    source = source.Where(statement.Column + " == @0", statement.Value);
+                }
+            }
+            #endregion
+
+            #region Ordering logic
 
             string orderByString = PrepareValidOrderByString(sortColumns);
 
@@ -67,12 +92,22 @@ namespace MedicalOfficeApp.API.Data
                 sortOrder = !string.IsNullOrEmpty(sortOrder) && sortOrder.ToUpper() == "ASC" ? "ASC" : "DESC";
                 source = source.OrderBy(string.Format("{0} {1}", orderByString, sortOrder));
             }
+            #endregion
+
+            int count = await source.CountAsync();
 
             source = source.Skip(pageIndex * pageSize).Take(pageSize);
 
             List<T> data = await source.ToListAsync();
 
-            return new ApiResult<T>(data, count, pageIndex, pageSize, sortColumns, sortOrder);
+            return new ApiResult<T>(data, count, pageIndex, pageSize, whereStatements, sortColumns, sortOrder);
+        }
+
+        private static List<WhereStatement> RemoveInvalidStatements (List<WhereStatement> statements)
+        {
+            statements.RemoveAll(s => !IsValidProperty(s.Column));
+
+            return statements;
         }
 
         private static string PrepareValidOrderByString(List<string> columns)

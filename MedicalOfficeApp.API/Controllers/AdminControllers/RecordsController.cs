@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using MedicalOfficeApp.API.Core;
 using MedicalOfficeApp.API.Data;
 using MedicalOfficeApp.API.Data.Repositories;
+using MedicalOfficeApp.API.Dtos.AdminDtos;
 using MedicalOfficeApp.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace MedicalOfficeApp.API.Controllers.AdminControllers
 {
@@ -32,10 +34,13 @@ namespace MedicalOfficeApp.API.Controllers.AdminControllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Records([FromQuery]RecordParams recordParams)
         {
+            var whereStatements = JsonConvert.DeserializeObject<List<WhereStatement>>(recordParams.WhereStatements);
+
             return Ok(await ApiResult<DbRecord>.CreateAsync(
                 repo.GetRecords(),
                 recordParams.PageIndex,
                 recordParams.PageSize,
+                whereStatements,
                 recordParams.SortColumns,
                 recordParams.SortOrder));
         }
