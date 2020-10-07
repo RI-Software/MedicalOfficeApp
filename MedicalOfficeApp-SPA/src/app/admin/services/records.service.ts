@@ -4,6 +4,7 @@ import {environment} from '../../../environments/environment';
 import {ApiResult} from '../shared/models/ApiResult';
 import {Record} from '../shared/models/Record';
 import {AdminServiceModule} from './admin-service.module';
+import {WhereStatement} from '../shared/models/WhereStatement';
 
 @Injectable({
   providedIn: AdminServiceModule
@@ -13,7 +14,7 @@ export class RecordsService {
   constructor(private http: HttpClient) {
   }
 
-  getRecords(pageSize?: number, pageIndex?: number, sortColumns?: string[], sortOrder?: string) {
+  getRecords(pageSize?: number, pageIndex?: number, whereStatements?: WhereStatement[], sortColumns?: string[], sortOrder?: string) {
     let params = new HttpParams();
 
     if (pageSize) {
@@ -22,6 +23,10 @@ export class RecordsService {
 
     if (pageIndex) {
       params = params.append('pageIndex', String(pageIndex));
+    }
+
+    if (whereStatements) {
+      params = params.append('whereStatements', JSON.stringify(whereStatements));
     }
 
     if (sortColumns) {

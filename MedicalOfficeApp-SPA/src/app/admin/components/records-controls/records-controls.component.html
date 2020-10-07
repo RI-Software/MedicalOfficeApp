@@ -7,7 +7,7 @@
 
       <hr>
 
-      <div class="d-flex justify-content-center mb-3">
+      <div class="d-flex justify-content-center">
         <nz-pagination
           [(nzPageIndex)]="currentPage"
           [nzTotal]="apiResult.totalCount"
@@ -16,7 +16,7 @@
         </nz-pagination>
       </div>
 
-      <hr>
+      <hr *ngIf="this.apiResult.data?.length">
 
       <div>
         <p>
@@ -27,6 +27,12 @@
         </p>
         <p>
           Records/page: {{apiResult.pageSize}}
+        </p>
+        <p *ngIf="apiResult.whereStatements">
+          Where:
+          <span *ngFor="let statement of apiResult.whereStatements">
+            {{statement.column}} == {{statement.value}}
+          </span>
         </p>
         <p>
           Sort Columns: {{apiResult.sortColumns}}
@@ -45,6 +51,7 @@
 
     <div class="time-picker row col-12 mx-auto mb-3">
       <nz-calendar
+        (nzSelectChange)="onDatePicked($event)"
         [nzFullscreen]="false">
       </nz-calendar>
     </div>

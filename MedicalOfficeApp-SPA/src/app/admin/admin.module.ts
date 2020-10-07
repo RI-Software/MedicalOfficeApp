@@ -11,6 +11,8 @@ import {NzDropDownModule} from 'ng-zorro-antd/dropdown';
 import {NzCalendarModule} from 'ng-zorro-antd/calendar';
 import {NzMenuModule} from 'ng-zorro-antd/menu';
 import {NzLayoutModule} from 'ng-zorro-antd/layout';
+import {NzAffixModule, NzIconModule} from 'ng-zorro-antd';
+import {NzEmptyModule} from 'ng-zorro-antd/empty';
 
 import {AdminComponent} from './admin.component';
 import {adminRoutes} from './admin.routes';
@@ -24,7 +26,6 @@ import {AdminEffects} from './store/adminStore/effects/admin.effects';
 import {AdminServiceModule} from './services/admin-service.module';
 import {AdminGuardsModule} from './guards/admin-guards.module';
 import {RecordsControlsComponent} from './components/records-controls/records-controls.component';
-import {NzAffixModule, NzIconModule} from 'ng-zorro-antd';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import {NzAffixModule, NzIconModule} from 'ng-zorro-antd';
     NzLayoutModule,
     RouterModule.forChild(adminRoutes),
     NzAffixModule,
-    NzIconModule
+    NzIconModule,
+    NzEmptyModule
   ]
 })
 export class AdminModule {

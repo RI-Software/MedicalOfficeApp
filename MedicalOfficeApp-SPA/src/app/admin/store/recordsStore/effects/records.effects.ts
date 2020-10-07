@@ -15,7 +15,12 @@ export class RecordsEffects {
     this.actions$.pipe(
       ofType(RecordActions.seedRecords),
       switchMap((action) =>
-        this.recordsService.getRecords(action.pageSize, action.pageIndex, action.sortColumns, action.sortOrder).pipe(
+        this.recordsService.getRecords(
+          action.pageSize,
+          action.pageIndex,
+          action.whereStatements,
+          action.sortColumns,
+          action.sortOrder).pipe(
           map((response) => {
             return setRecords({records: response.body});
           }),
