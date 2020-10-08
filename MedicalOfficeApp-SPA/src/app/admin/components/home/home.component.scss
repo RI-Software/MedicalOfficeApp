@@ -3,6 +3,10 @@
   --height: 100vh -71px;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 .sidebar {
 
   &.ant-layout-sider-zero-width {
@@ -16,12 +20,12 @@
     margin-top: var(--vertical-offset);
     height: var(--height);
     width: 340px;
-    overflow-y: scroll;
+    // overflow-y: scroll;
     overflow-x: hidden;
 
-    &.scroll-visible::-webkit-scrollbar {
-      opacity: 0;
-    }
+    //&.scroll-visible::-webkit-scrollbar {
+    //  opacity: 0;
+    //}
   }
 }
 
