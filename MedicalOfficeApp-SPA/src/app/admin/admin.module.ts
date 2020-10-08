@@ -2,17 +2,18 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {NzCardModule} from 'ng-zorro-antd/card';
 import {RouterModule} from '@angular/router';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {NzButtonModule} from 'ng-zorro-antd/button';
 import {NzPaginationModule} from 'ng-zorro-antd/pagination';
-import {NzDropDownModule} from 'ng-zorro-antd/dropdown';
 import {NzCalendarModule} from 'ng-zorro-antd/calendar';
 import {NzMenuModule} from 'ng-zorro-antd/menu';
 import {NzLayoutModule} from 'ng-zorro-antd/layout';
 import {NzAffixModule, NzIconModule} from 'ng-zorro-antd';
 import {NzEmptyModule} from 'ng-zorro-antd/empty';
+import {NzSelectModule} from 'ng-zorro-antd/select';
+import {NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 import {AdminComponent} from './admin.component';
 import {adminRoutes} from './admin.routes';
@@ -41,19 +42,21 @@ import {RecordsControlsComponent} from './components/records-controls/records-co
     AdminServiceModule,
     AdminGuardsModule,
     SharedModule,
+    FormsModule,
     CommonModule,
     ReactiveFormsModule,
     NzCardModule,
     NzButtonModule,
     NzPaginationModule,
-    NzDropDownModule,
     NzCalendarModule,
     NzMenuModule,
     NzLayoutModule,
     RouterModule.forChild(adminRoutes),
     NzAffixModule,
     NzIconModule,
-    NzEmptyModule
+    NzEmptyModule,
+    NzSelectModule,
+    NzToolTipModule
   ]
 })
 export class AdminModule {

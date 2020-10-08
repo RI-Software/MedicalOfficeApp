@@ -5,17 +5,39 @@ nz-pagination {
 }
 
 nz-card.custom-padding {
-    ::ng-deep .ant-card-body {
-      padding: 0;
-    }
+  ::ng-deep .ant-card-body {
+    padding: 0;
+  }
+}
+
+nz-select {
+  &.left-select {
+    margin-left: 25px;
+  }
+
+  &.right-select {
+    margin-right: 25px;
+  }
 }
 
 div.time-picker {
   max-width: 350px;
 }
 
+h5.reset {
+  color: red;
+  font-size: 16px;
+}
+
+button {
+  ::ng-deep {
+    i.anticon.anticon-stop {
+      padding: 0 3px 7px;
+    }
+  }
+}
+
 //nz-card span { // ToDo: decide should values be colored or no
 //  color: #007bff;
 //
 //}
-

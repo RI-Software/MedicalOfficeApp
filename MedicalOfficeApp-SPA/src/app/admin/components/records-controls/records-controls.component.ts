@@ -18,6 +18,8 @@ export class RecordsControlsComponent implements OnInit, OnDestroy {
   currentPage;
   apiResult: ApiResult<Record>;
 
+  currentDate: Date = null;
+
   //#region seedParams
   pageIndex: number;
   pageSize: number;
@@ -45,9 +47,14 @@ export class RecordsControlsComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+  settingsChanged() {
+    this.seedRecords();
+  }
+
+  onPageIndexChanged(index: number) {
+    this.pageIndex = index - 1;
+
+    this.seedRecords();
   }
 
   onDatePicked(datePicked: Date) {
@@ -64,6 +71,17 @@ export class RecordsControlsComponent implements OnInit, OnDestroy {
     this.seedRecords();
   }
 
+  resetBtnPressed() {
+    this.pageIndex = null;
+    this.pageSize = null;
+    this.whereStatements = null;
+    this.sortColumns = null;
+    this.sortOrder = null;
+    this.currentDate = null;
+
+    this.seedRecords();
+  }
+
   private seedRecords() {
     this.store.dispatch(seedRecords({
       pageSize: this.pageSize,
@@ -72,5 +90,10 @@ export class RecordsControlsComponent implements OnInit, OnDestroy {
       sortOrder: this.sortOrder,
       sortColumns: this.sortColumns
     }));
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

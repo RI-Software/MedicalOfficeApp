@@ -1,5 +1,4 @@
 <div nz-menu nzMode="vertical" class="menu ml-0">
-
   <nz-card *ngIf="apiResult" class="custom-padding">
 
     <div class="col-12 mx-auto mt-3">
@@ -12,7 +11,8 @@
           [(nzPageIndex)]="currentPage"
           [nzTotal]="apiResult.totalCount"
           [nzPageSize]="apiResult.pageSize"
-          [nzSize]="'small'">
+          [nzSize]="'small'"
+          (nzPageIndexChange)="onPageIndexChanged($event)">
         </nz-pagination>
       </div>
 
@@ -52,47 +52,75 @@
     <div class="time-picker row col-12 mx-auto mb-3">
       <nz-calendar
         (nzSelectChange)="onDatePicked($event)"
-        [nzFullscreen]="false">
+        [nzFullscreen]="false"
+        [(ngModel)]="currentDate"
+      >
       </nz-calendar>
     </div>
 
+    <div class="mb-2 row">
 
-    <div class="mb-2 d-flex justify-content-center">
+      <nz-select
+        class="left-select col p-0"
+        nzMode="multiple"
+        nzPlaceHolder="Sort by"
+        [(ngModel)]="sortColumns"
+        (ngModelChange)="settingsChanged()"
+      >
+        <nz-option nzLabel="Date" nzValue="date"></nz-option>
+        <nz-option nzLabel="Time" nzValue="time"></nz-option>
+      </nz-select>
 
-      <button class="mr-2 mb-2" nz-button nz-dropdown [nzDropdownMenu]="sortByColumn">Sort by</button>
-      <nz-dropdown-menu #sortByColumn="nzDropdownMenu">
-        <ul nz-menu>
-          <li nz-menu-item>Date</li>
-          <li nz-menu-item>Time</li>
-        </ul>
-      </nz-dropdown-menu>
+      <nz-select
+        class="col p-0 mx-2"
+        nzAllowClear
+        [nzShowArrow]="false"
+        nzPlaceHolder="Sort order"
+        [(ngModel)]="sortOrder"
+        (ngModelChange)="settingsChanged()"
+      >
+        <nz-option nzLabel="ASC" nzValue="asc"></nz-option>
+        <nz-option nzLabel="DESC" nzValue="desc"></nz-option>
+      </nz-select>
 
-      <button class="mr-2 mb-2" nz-button nz-dropdown [nzDropdownMenu]="sortOrderMenu">Sort order</button>
-      <nz-dropdown-menu #sortOrderMenu="nzDropdownMenu">
-        <ul nz-menu>
-          <li nz-menu-item>ASC</li>
-          <li nz-menu-item>DESC</li>
-        </ul>
-      </nz-dropdown-menu>
-
-      <button class="mb-2" nz-button nz-dropdown [nzDropdownMenu]="itemsPerPage">Items / page</button>
-      <nz-dropdown-menu #itemsPerPage="nzDropdownMenu">
-        <ul nz-menu>
-          <li nz-menu-item>5</li>
-          <li nz-menu-item>10</li>
-          <li nz-menu-item>20</li>
-          <li nz-menu-item>30</li>
-        </ul>
-      </nz-dropdown-menu>
+      <nz-select
+        class="right-select col p-0"
+        nzAllowClear
+        [nzShowArrow]="false"
+        nzPlaceHolder="Items / page"
+        [(ngModel)]="pageSize"
+        (ngModelChange)="settingsChanged()"
+      >
+        <nz-option nzLabel="5" nzValue="5"></nz-option>
+        <nz-option nzLabel="10" nzValue="10"></nz-option>
+        <nz-option nzLabel="20" nzValue="20"></nz-option>
+        <nz-option nzLabel="30" nzValue="30"></nz-option>
+      </nz-select>
 
     </div>
+
+    <div class="d-flex justify-content-center my-2">
+
+      <button
+        nz-tooltip
+        nzTooltipTitle="reset settings"
+        nzTooltipPlacement="right"
+        nz-button nzType="danger"
+        nzShape="circle"
+        (click)="resetBtnPressed()"
+      >
+        <i nz-icon nzType="stop" nzTheme="outline"></i>
+      </button>
+    </div>
+
 
     <div class="d-flex justify-content-center mb-3">
       <nz-pagination
         [(nzPageIndex)]="currentPage"
         [nzTotal]="apiResult.totalCount"
         [nzPageSize]="apiResult.pageSize"
-        [nzSize]="'small'">
+        [nzSize]="'small'"
+        (nzPageIndexChange)="onPageIndexChanged($event)">
       </nz-pagination>
     </div>
   </nz-card>
