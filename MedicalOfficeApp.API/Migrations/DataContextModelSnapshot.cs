@@ -102,7 +102,7 @@ namespace MedicalOfficeApp.API.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue("New");
+                        .HasDefaultValue("new");
 
                     b.Property<long>("Time")
                         .HasColumnType("INTEGER");

@@ -2,6 +2,7 @@
 using MedicalOfficeApp.API.Models;
 using MedicalOfficeApp.API.Shared;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace MedicalOfficeApp.API.Data
 {
@@ -33,7 +34,14 @@ namespace MedicalOfficeApp.API.Data
 
             modelBuilder.Entity<DbRecord>()
                 .Property(r => r.Status)
-                .HasDefaultValue(RecordStatuses.New.ToString());
+                .HasDefaultValue(RecordStatuses.New.ToString().ToLower());
+
+            modelBuilder.Entity<DbRecord>()
+              .Property(r => r.Status)
+              .HasDefaultValue(RecordStatuses.New.ToString())
+              .HasConversion(
+                s => s.ToLower(),
+                s => s);
 
             modelBuilder.Entity<Admin>()
                 .Property(a => a.TimeCreated)

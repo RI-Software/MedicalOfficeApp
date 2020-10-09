@@ -10,7 +10,7 @@ namespace MedicalOfficeApp.API.Migrations
                 name: "Status",
                 table: "Records",
                 nullable: false,
-                defaultValue: "New");
+                defaultValue: "new");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

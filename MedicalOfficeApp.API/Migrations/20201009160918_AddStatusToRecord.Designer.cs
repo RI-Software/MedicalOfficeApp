@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalOfficeApp.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201009134447_AddStatusToRecord")]
+    [Migration("20201009160918_AddStatusToRecord")]
     partial class AddStatusToRecord
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,7 +104,7 @@ namespace MedicalOfficeApp.API.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue("New");
+                        .HasDefaultValue("new");
 
                     b.Property<long>("Time")
                         .HasColumnType("INTEGER");
