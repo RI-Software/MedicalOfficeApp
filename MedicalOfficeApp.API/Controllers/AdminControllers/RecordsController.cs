@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MedicalOfficeApp.API.Core;
 using MedicalOfficeApp.API.Data;
 using MedicalOfficeApp.API.Data.Repositories;
 using MedicalOfficeApp.API.Dtos.AdminDtos;
 using MedicalOfficeApp.API.Models;
+using MedicalOfficeApp.API.Shared;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -43,6 +42,25 @@ namespace MedicalOfficeApp.API.Controllers.AdminControllers
                 whereStatements,
                 recordParams.SortColumns,
                 recordParams.SortOrder));
+        }
+
+        [HttpPatch("{id}")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> ChangeStatus (int id, [FromBody]RecordStatuses status)
+        {
+            var record = await repo.GetRecord(id);
+
+            if (record == null)
+                return BadRequest("Record does not exist.");
+
+            record.Status = status.ToString();
+
+            if (await repo.SaveAll())
+            {
+                return NoContent();
+            }
+
+            return BadRequest($"Updating record {id} failed on save.");
         }
     }
 }

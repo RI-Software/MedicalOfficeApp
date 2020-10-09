@@ -26,6 +26,8 @@ namespace MedicalOfficeApp.API.Models
         [JsonIgnore]
         public DateTime TimeCreated { get; set; }
 
+        public string Status { get; set; }
+
         public DbRecord()
         {
         }

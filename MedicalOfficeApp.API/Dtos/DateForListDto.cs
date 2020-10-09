@@ -6,6 +6,6 @@ namespace MedicalOfficeApp.API.Dtos
     {
         public DateTime Date { get; set; }
 
-        public string Status { get; set; }
+        public DateStatuses Status { get; set; }
     }
 }

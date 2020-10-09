@@ -59,7 +59,7 @@ namespace MedicalOfficeApp.API.Controllers
             {
                 if (!workingDays.Contains(date.DayOfWeek))
                 {
-                    recordsToReturn.Add(new DateForListDto() { Date = date, Status = DateStatuses.Busy.ToString() });
+                    recordsToReturn.Add(new DateForListDto() { Date = date, Status = DateStatuses.Busy });
                     continue;
                 }
                     
@@ -72,11 +72,11 @@ namespace MedicalOfficeApp.API.Controllers
 
                 if (records.Where(t => t.Time > timeNow)?.Count() >= allowedTime.Where(t => t > timeNow)?.Count())
                 {
-                    recordsToReturn.Add(new DateForListDto() { Date = date, Status = DateStatuses.Busy.ToString() });
+                    recordsToReturn.Add(new DateForListDto() { Date = date, Status = DateStatuses.Busy });
                     continue;
                 }
 
-                recordsToReturn.Add(new DateForListDto() { Date = date, Status = DateStatuses.Free.ToString() });
+                recordsToReturn.Add(new DateForListDto() { Date = date, Status = DateStatuses.Free });
             }
 
             return Ok(recordsToReturn);
@@ -143,7 +143,7 @@ namespace MedicalOfficeApp.API.Controllers
 
 
             void AddTimeToReturnList(long time, TimeStatus timeStatus) =>
-                timesToReturn.Add(new TimeForListDto{Time = time.ToString(), Status = timeStatus.ToString()});
+                timesToReturn.Add(new TimeForListDto{Time = time.ToString(), Status = timeStatus});
 
             return Ok(timesToReturn);
         }

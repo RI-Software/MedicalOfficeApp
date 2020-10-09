@@ -47,6 +47,9 @@ namespace MedicalOfficeApp.API
             services.AddAutoMapper(typeof(RecordRepository).Assembly);
             services.AddControllers().AddNewtonsoftJson(opt =>
             {
+                opt.SerializerSettings.Converters
+                    .Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+
                 opt.SerializerSettings.ReferenceLoopHandling =
                     ReferenceLoopHandling.Ignore;
             });

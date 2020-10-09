@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MedicalOfficeApp.API.Core;
+using System;
 
 
 namespace MedicalOfficeApp.API.Dtos
@@ -7,6 +8,6 @@ namespace MedicalOfficeApp.API.Dtos
     {
         public string Time { get; set; }
 
-        public string Status { get; set; }
+        public TimeStatus Status { get; set; }
     }
 }

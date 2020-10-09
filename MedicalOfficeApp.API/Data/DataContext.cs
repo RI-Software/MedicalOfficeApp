@@ -1,5 +1,6 @@
 ﻿using MedicalOfficeApp.API.Data.Models;
 using MedicalOfficeApp.API.Models;
+using MedicalOfficeApp.API.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace MedicalOfficeApp.API.Data
@@ -29,6 +30,10 @@ namespace MedicalOfficeApp.API.Data
             modelBuilder.Entity<DbRecord>()
                 .HasIndex(p => new { p.Date, p.Time })
                 .IsUnique();
+
+            modelBuilder.Entity<DbRecord>()
+                .Property(r => r.Status)
+                .HasDefaultValue(RecordStatuses.New.ToString());
 
             modelBuilder.Entity<Admin>()
                 .Property(a => a.TimeCreated)
