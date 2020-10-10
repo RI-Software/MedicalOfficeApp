@@ -46,14 +46,14 @@ namespace MedicalOfficeApp.API.Controllers.AdminControllers
 
         [HttpPatch("{id}")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> ChangeStatus (int id, [FromBody]RecordStatuses status)
+        public async Task<IActionResult> ChangeStatus (int id, [FromBody]RecordStatusDto status)
         {
             var record = await repo.GetRecord(id);
 
             if (record == null)
                 return BadRequest("Record does not exist.");
 
-            record.Status = status.ToString();
+            record.Status = status.Status.ToString();
 
             if (await repo.SaveAll())
             {
