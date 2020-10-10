@@ -53,6 +53,9 @@ namespace MedicalOfficeApp.API.Controllers.AdminControllers
             if (record == null)
                 return BadRequest("Record does not exist.");
 
+            if (record.Status == status.Status.ToString().ToLower())
+                return BadRequest("You are trying to assign the same status.");
+
             record.Status = status.Status.ToString();
 
             if (await repo.SaveAll())
