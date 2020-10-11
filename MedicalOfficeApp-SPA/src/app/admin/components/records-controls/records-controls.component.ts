@@ -5,7 +5,7 @@ import {Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {selectRecords} from '../../store/recordsStore/selectors/records.selectors';
 import {takeUntil} from 'rxjs/operators';
-import {seedRecords} from '../../store/recordsStore/actions/records.actions';
+import {getRecords} from '../../store/recordsStore/actions/records.actions';
 import {WhereStatement} from '../../shared/models/WhereStatement';
 
 @Component({
@@ -26,6 +26,7 @@ export class RecordsControlsComponent implements OnInit, OnDestroy {
   whereStatements: WhereStatement[];
   sortColumns: string[];
   sortOrder: string;
+  status: string;
   //#endregion
 
   unsubscribe$: Subject<void> = new Subject<void>();
@@ -34,7 +35,7 @@ export class RecordsControlsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(seedRecords({}));
+    this.store.dispatch(getRecords({}));
 
     this.store.pipe(
       select(selectRecords),
@@ -48,13 +49,27 @@ export class RecordsControlsComponent implements OnInit, OnDestroy {
   }
 
   settingsChanged() {
-    this.seedRecords();
+    this.getRecords();
   }
 
   onPageIndexChanged(index: number) {
     this.pageIndex = index - 1;
 
-    this.seedRecords();
+    this.getRecords();
+  }
+
+  onStatusPicked() {
+    if (this.whereStatements) {
+      this.whereStatements = this.whereStatements.map((s) => {
+        if (s.column === 'Status') {
+          return {column: 'Status', value: this.status};
+        }
+      });
+    } else {
+      this.whereStatements = [{column: 'Status', value: this.status}];
+    }
+
+    this.getRecords();
   }
 
   onDatePicked(datePicked: Date) {
@@ -68,7 +83,7 @@ export class RecordsControlsComponent implements OnInit, OnDestroy {
       this.whereStatements = [{column: 'Date', value: datePicked.toDateString()}];
     }
 
-    this.seedRecords();
+    this.getRecords();
   }
 
   resetBtnPressed() {
@@ -79,11 +94,11 @@ export class RecordsControlsComponent implements OnInit, OnDestroy {
     this.sortOrder = null;
     this.currentDate = null;
 
-    this.seedRecords();
+    this.getRecords();
   }
 
-  private seedRecords() {
-    this.store.dispatch(seedRecords({
+  private getRecords() {
+    this.store.dispatch(getRecords({
       pageSize: this.pageSize,
       pageIndex: this.pageIndex,
       whereStatements: this.whereStatements,

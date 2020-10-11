@@ -16,7 +16,7 @@ export const environment = {
   apiClientUrl: mainUrl.url + 'api/client/',
   apiDatetimeUrl: mainUrl.url + 'api/datetime/',
   apiRecordsUrl: mainUrl.url + 'api/records/',
-  apiAdminLogin: mainUrl.url + 'api/admin/auth/login'
+  apiAdminLoginUrl: mainUrl.url + 'api/admin/auth/login'
 };
 
 /*

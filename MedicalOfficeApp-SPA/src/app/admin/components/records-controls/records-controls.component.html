@@ -58,6 +58,24 @@
       </nz-calendar>
     </div>
 
+
+    <div class="mb-2 row">
+
+      <nz-select
+        class="left-select right-select col p-0 "
+        nzAllowClear
+        [nzShowArrow]="false"
+        nzPlaceHolder="Status"
+        [(ngModel)]="status"
+        (ngModelChange)="onStatusPicked()"
+      >
+        <nz-option nzLabel="New" nzValue="new"></nz-option>
+        <nz-option nzLabel="Accepted" nzValue="accepted"></nz-option>
+      </nz-select>
+
+    </div>
+
+
     <div class="mb-2 row">
 
       <nz-select

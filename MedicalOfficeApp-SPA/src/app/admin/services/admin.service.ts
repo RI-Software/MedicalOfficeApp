@@ -12,7 +12,7 @@ export class AdminService {
   constructor(private http: HttpClient) { }
 
   login(username: string, password: string) {
-    return this.http.post(environment.apiAdminLogin, {
+    return this.http.post(environment.apiAdminLoginUrl, {
       username,
       password
     }).pipe(

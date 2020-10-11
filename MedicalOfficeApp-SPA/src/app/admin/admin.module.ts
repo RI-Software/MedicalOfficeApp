@@ -13,7 +13,8 @@ import {NzLayoutModule} from 'ng-zorro-antd/layout';
 import {NzAffixModule, NzIconModule} from 'ng-zorro-antd';
 import {NzEmptyModule} from 'ng-zorro-antd/empty';
 import {NzSelectModule} from 'ng-zorro-antd/select';
-import {NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
+import {NzSpinModule} from 'ng-zorro-antd/spin';
 
 import {AdminComponent} from './admin.component';
 import {adminRoutes} from './admin.routes';
@@ -56,7 +57,8 @@ import {RecordsControlsComponent} from './components/records-controls/records-co
     NzIconModule,
     NzEmptyModule,
     NzSelectModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NzSpinModule
   ]
 })
 export class AdminModule {

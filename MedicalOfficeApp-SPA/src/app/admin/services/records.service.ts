@@ -39,4 +39,12 @@ export class RecordsService {
 
     return this.http.get<ApiResult<Record>>(environment.apiRecordsUrl, {observe: 'response', params});
   }
+
+  changeRecordStatus(recordId: number, status: string) {
+    return this.http.patch(environment.apiRecordsUrl + recordId, {status});
+  }
+
+  getRecord(recordId: number) {
+    return this.http.get<Record>(environment.apiRecordsUrl + recordId, {observe: 'response'});
+  }
 }

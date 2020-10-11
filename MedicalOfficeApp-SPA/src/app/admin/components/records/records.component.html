@@ -1,5 +1,5 @@
 <div *ngIf="apiResult?.data?.length; else noContent">
-<!--  ToDo: create resolver and remove that-->
+  <!--  ToDo: create resolver and remove that-->
   <nz-card class="mb-2" *ngFor="let record of apiResult?.data">
     <div class="row">
       <div class="col-6 text-left">
@@ -21,8 +21,18 @@
       </div>
 
       <div class="col-sm-6 col-md-4 d-flex justify-content-end align-items-end">
+
         <button nz-button nzType="primary" nzDanger class="mr-1">Delete</button>
-        <button nz-button nzType="primary">Accept</button>
+        <nz-spin [nzSpinning]="isLoaderOn(record.recordId)">
+
+          <button
+            nz-button
+            nzType="primary"
+            (click)="onAcceptBtnPress(record.recordId)"
+            [disabled]="record.status === 'accepted'"
+          >Accept
+          </button>
+        </nz-spin>
       </div>
     </div>
   </nz-card>

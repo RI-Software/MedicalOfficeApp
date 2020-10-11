@@ -5,6 +5,7 @@ export interface Record {
   date: Date;
   time: string;
   client: Client;
+  status: string;
 }
 
 

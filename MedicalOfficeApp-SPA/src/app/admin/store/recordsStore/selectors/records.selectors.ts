@@ -9,3 +9,8 @@ export const selectRecords = createSelector(
   selectClientState,
   (state: RecordsState) => state.records
 );
+
+export const selectIdsAcceptBtnLoaderIsOn = createSelector(
+  selectClientState,
+  (state: RecordsState) => state.acceptBtnLoaderIsOnIds
+);
