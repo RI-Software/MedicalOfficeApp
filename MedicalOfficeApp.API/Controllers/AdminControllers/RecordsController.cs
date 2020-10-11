@@ -44,6 +44,18 @@ namespace MedicalOfficeApp.API.Controllers.AdminControllers
                 recordParams.SortOrder));
         }
 
+        [HttpGet("{id}")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> Records(int id)
+        {
+            var record = await repo.GetRecord(id);
+
+            if (record == null)
+                return BadRequest("This record does not exists.");
+
+            return Ok(record);
+        }
+
         [HttpPatch("{id}")]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> ChangeStatus (int id, [FromBody]RecordStatusDto status)

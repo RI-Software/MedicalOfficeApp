@@ -17,7 +17,7 @@ namespace MedicalOfficeApp.API.Data.Repositories
             context.Add(entity);
 
         public async Task<DbRecord> GetRecord(int id) =>
-            await context.Records.FirstOrDefaultAsync(r => r.RecordId == id);
+            await context.Records.Include(r => r.Client).FirstOrDefaultAsync(r => r.RecordId == id);
 
         public IQueryable<DbRecord> GetRecords() =>
             context.Records.Include(r => r.Client);
