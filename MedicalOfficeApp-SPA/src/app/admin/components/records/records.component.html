@@ -1,6 +1,10 @@
 <div *ngIf="apiResult?.data?.length; else noContent">
   <!--  ToDo: create resolver and remove that-->
-  <nz-card class="mb-2" *ngFor="let record of apiResult?.data">
+  <nz-card
+    class="mb-2"
+    *ngFor="let record of apiResult?.data"
+    [ngClass]="record.status === 'accepted' ? 'accepted' : 'new'"
+  >
     <div class="row">
       <div class="col-6 text-left">
         <h5 class="text-primary">{{record.time | ticks | date: 'HH:mm'}}</h5>

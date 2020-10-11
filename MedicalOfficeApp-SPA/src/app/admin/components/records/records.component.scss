@@ -3,6 +3,15 @@ nz-card {
     padding-top: 15px;
     padding-bottom: 15px;
   }
+
+  &.new {
+    border: 1px solid #595b6833;
+  }
+
+  &.accepted {
+    background: #f6f6ff94;
+    border: 1px dashed #d0ceef;
+  }
 }
 
 @media (max-width: 767px) {
