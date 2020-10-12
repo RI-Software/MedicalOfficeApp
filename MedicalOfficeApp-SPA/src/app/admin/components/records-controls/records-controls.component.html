@@ -28,7 +28,7 @@
         <p>
           Records/page: {{apiResult.pageSize}}
         </p>
-        <p *ngIf="apiResult.whereStatements">
+        <p *ngIf="apiResult.whereStatements?.length">
           Where:
           <span *ngFor="let statement of apiResult.whereStatements">
             {{statement.column}} == {{statement.value}}

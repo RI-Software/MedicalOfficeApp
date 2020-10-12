@@ -60,10 +60,13 @@ export class RecordsControlsComponent implements OnInit, OnDestroy {
 
   onStatusPicked() {
     if (this.whereStatements) {
-      this.whereStatements = this.whereStatements.map((s) => {
-        if (s.column === 'Status') {
-          return {column: 'Status', value: this.status};
-        }
+      const tmpStatements = this.whereStatements.slice();
+      tmpStatements.unshift({column: 'Status', value: this.status});
+      this.whereStatements = tmpStatements.filter((s, index) => {
+        const isNotNull = s.value !== null;
+        const isFirstOccurrence = tmpStatements.findIndex(st => st.column === s.column) === index;
+
+        return isNotNull && isFirstOccurrence;
       });
     } else {
       this.whereStatements = [{column: 'Status', value: this.status}];
