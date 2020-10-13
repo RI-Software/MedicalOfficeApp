@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using MedicalOfficeApp.API.Core;
 using MedicalOfficeApp.API.Data;
 using MedicalOfficeApp.API.Data.Repositories;
 using MedicalOfficeApp.API.Dtos.AdminDtos;
 using MedicalOfficeApp.API.Models;
-using MedicalOfficeApp.API.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -54,6 +52,23 @@ namespace MedicalOfficeApp.API.Controllers.AdminControllers
                 return BadRequest("This record does not exists.");
 
             return Ok(record);
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> DeleteRecord(int id)
+        {
+            var record = await repo.GetRecord(id);
+
+            if (record == null)
+                return BadRequest("This record does not exists");
+
+            repo.DeleteRecord(record);
+
+            if(await repo.SaveAll())
+                return NoContent();
+
+            return BadRequest($"Deleting record {id} failed on save.");
         }
 
         [HttpPatch("{id}")]

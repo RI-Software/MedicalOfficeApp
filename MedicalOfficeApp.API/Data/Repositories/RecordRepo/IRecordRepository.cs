@@ -1,5 +1,5 @@
 ﻿using MedicalOfficeApp.API.Models;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,6 +12,8 @@ namespace MedicalOfficeApp.API.Data.Repositories
         IQueryable<DbRecord> GetRecords();
 
         Task<DbRecord> GetRecord(int id);
+
+        EntityEntry<DbRecord> DeleteRecord(DbRecord record);
 
         Task<bool> SaveAll();
     }

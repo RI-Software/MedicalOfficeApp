@@ -1,5 +1,6 @@
 ﻿using MedicalOfficeApp.API.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,6 +22,9 @@ namespace MedicalOfficeApp.API.Data.Repositories
 
         public IQueryable<DbRecord> GetRecords() =>
             context.Records.Include(r => r.Client);
+
+        public EntityEntry<DbRecord> DeleteRecord(DbRecord record) =>
+            context.Remove(record);
 
         public async Task<bool> SaveAll() =>
             await context.SaveChangesAsync() > 0;
