@@ -59,32 +59,13 @@ export class RecordsControlsComponent implements OnInit, OnDestroy {
   }
 
   onStatusPicked() {
-    if (this.whereStatements) {
-      const tmpStatements = this.whereStatements.slice();
-      tmpStatements.unshift({column: 'Status', value: this.status});
-      this.whereStatements = tmpStatements.filter((s, index) => {
-        const isNotNull = s.value !== null;
-        const isFirstOccurrence = tmpStatements.findIndex(st => st.column === s.column) === index;
-
-        return isNotNull && isFirstOccurrence;
-      });
-    } else {
-      this.whereStatements = [{column: 'Status', value: this.status}];
-    }
+    this.addWhereStatement({column: 'Status', value: this.status});
 
     this.getRecords();
   }
 
   onDatePicked(datePicked: Date) {
-    if (this.whereStatements) {
-      this.whereStatements = this.whereStatements.map((s) => {
-        if (s.column === 'Date') {
-          return {column: 'Date', value: datePicked.toDateString()};
-        }
-      });
-    } else {
-      this.whereStatements = [{column: 'Date', value: datePicked.toDateString()}];
-    }
+    this.addWhereStatement({column: 'Date', value: datePicked.toDateString()});
 
     this.getRecords();
   }
@@ -99,6 +80,22 @@ export class RecordsControlsComponent implements OnInit, OnDestroy {
 
     this.getRecords();
   }
+
+  private addWhereStatement(statement: WhereStatement) {
+    if (this.whereStatements) {
+      const tmpStatements = this.whereStatements.slice();
+      tmpStatements.unshift(statement);
+      this.whereStatements = tmpStatements.filter((s, index) => {
+        const isNotNull = s.value !== null;
+        const isFirstOccurrence = tmpStatements.findIndex(st => st.column === s.column) === index;
+
+        return isNotNull && isFirstOccurrence;
+      });
+    } else {
+      this.whereStatements = [statement];
+    }
+  }
+
 
   private getRecords() {
     this.store.dispatch(getRecords({
