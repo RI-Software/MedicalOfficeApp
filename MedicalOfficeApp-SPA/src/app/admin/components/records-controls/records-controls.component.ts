@@ -77,6 +77,7 @@ export class RecordsControlsComponent implements OnInit, OnDestroy {
     this.sortColumns = null;
     this.sortOrder = null;
     this.currentDate = null;
+    this.status = null;
 
     this.getRecords();
   }
