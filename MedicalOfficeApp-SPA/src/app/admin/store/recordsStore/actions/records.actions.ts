@@ -14,6 +14,10 @@ export const getRecords = createAction(
   }>()
 );
 
+export const getRecordsFailed = createAction(
+  '[Records] Get Records Failed'
+);
+
 export const getRecord = createAction(
   '[Records] Get Record',
   props<{ recordId: number }>()
@@ -21,12 +25,37 @@ export const getRecord = createAction(
 
 export const getRecordSucceed = createAction(
   '[Records] Get Record Succeed',
-  props<{record: Record}>()
+  props<{ record: Record }>()
 );
 
 export const getRecordFailed = createAction(
   '[Records] Get Record Failed',
-  props<{recordId: number}>()
+  props<{ recordId: number }>()
+);
+
+export const acceptRecord = createAction(
+  '[Records] Accept Record',
+  props<{ recordId: number }>()
+);
+
+export const deleteRecord = createAction(
+  '[Records] Delete Record',
+  props<{ recordId: number }>()
+);
+
+export const performDeleteRecordRequest = createAction(
+  '[Records] Perform Delete Record Request',
+  props<{ recordId: number }>()
+);
+
+export const deleteRecordSucceed = createAction(
+  '[Records] Delete Record Succeed',
+  props<{ recordId: number }>()
+);
+
+export const deleteRecordFailed = createAction(
+  '[Records] Delete Record Failed',
+  props<{ recordId: number }>()
 );
 
 export const setRecords = createAction(
@@ -41,7 +70,7 @@ export const setRecord = createAction(
 
 export const setRecordSucceed = createAction(
   '[Records] Set Record Succeed',
-  props<{recordId: number}>()
+  props<{ recordId: number }>()
 );
 
 export const setRecordStatus = createAction(
@@ -49,18 +78,18 @@ export const setRecordStatus = createAction(
   props<{ recordId: number, status: string }>()
 );
 
-export const setRecordStatusSucceed = createAction(
-  '[Records] On Set Record Status Succeed',
-  props<{ notificationText: string }>()
-);
-
 export const setRecordStatusFailed = createAction(
   '[Records] On Set Record Status Failed',
-  props<{recordId: number}>()
+  props<{ recordId: number }>()
 );
 
-export const setIdsBtnLoaderIsOn = createAction(
-  '[Records] Set Ids Btn Loader Is On',
+export const setIdsAcceptBtnLoaderIsOn = createAction(
+  '[Records] Set Ids Accept Btn Loader Is On',
+  props<{ recordIds: number[] }>()
+);
+
+export const setIdsDeleteBtnLoaderIsOn = createAction(
+  '[Records] Set Ids Delete Btn Loader Is On',
   props<{ recordIds: number[] }>()
 );
 
@@ -74,7 +103,7 @@ export const turnOffAcceptBtnLoader = createAction(
   props<{ recordId: number }>()
 );
 
-export const acceptRecord = createAction(
-  '[Records] Accept Record',
-  props<{ recordId: number }>()
+export const displaySucceedMessage = createAction(
+  '[Records] Display Succeed Message',
+  props<{ notificationText: string }>()
 );

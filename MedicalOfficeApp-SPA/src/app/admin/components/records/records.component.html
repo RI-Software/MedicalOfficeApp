@@ -26,8 +26,23 @@
 
       <div class="col-sm-6 col-md-4 d-flex justify-content-end align-items-end">
 
-        <button nz-button nzType="primary" nzDanger class="mr-1">Delete</button>
-        <nz-spin [nzSpinning]="isLoaderOn(record.recordId)">
+        <nz-spin [nzSpinning]="isDeleteLoaderOn(record.recordId)">
+
+          <button
+            nz-button
+            nzType="primary"
+            nzDanger
+            nz-popconfirm
+            nzPopconfirmTitle="Are you sure delete this record?"
+            (nzOnConfirm)="onDeleteBtnPress(record.recordId)"
+            nzPopconfirmPlacement="left"
+            class="mr-1"
+          >Delete
+          </button>
+
+        </nz-spin>
+
+        <nz-spin [nzSpinning]="isAcceptLoaderOn(record.recordId)">
 
           <button
             nz-button
@@ -36,6 +51,7 @@
             [disabled]="record.status === 'accepted'"
           >Accept
           </button>
+
         </nz-spin>
       </div>
     </div>

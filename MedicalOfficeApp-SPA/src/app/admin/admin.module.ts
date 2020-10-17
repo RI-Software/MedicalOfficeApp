@@ -15,6 +15,7 @@ import {NzEmptyModule} from 'ng-zorro-antd/empty';
 import {NzSelectModule} from 'ng-zorro-antd/select';
 import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
 import {NzSpinModule} from 'ng-zorro-antd/spin';
+import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
 
 import {AdminComponent} from './admin.component';
 import {adminRoutes} from './admin.routes';
@@ -28,6 +29,8 @@ import {AdminEffects} from './store/adminStore/effects/admin.effects';
 import {AdminServiceModule} from './services/admin-service.module';
 import {AdminGuardsModule} from './guards/admin-guards.module';
 import {RecordsControlsComponent} from './components/records-controls/records-controls.component';
+import {RecordsAcceptRecordEffects} from './store/recordsStore/effects/records.acceptRecord.effects';
+import {RecordsDeleteRecordEffects} from './store/recordsStore/effects/records.deleteRecord.effects';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,7 @@ import {RecordsControlsComponent} from './components/records-controls/records-co
   ],
   imports: [
     StoreModule.forFeature(adminModuleFeatureKey, reducers),
-    EffectsModule.forFeature([RecordsEffects, AdminEffects]),
+    EffectsModule.forFeature([RecordsEffects, RecordsAcceptRecordEffects, RecordsDeleteRecordEffects, AdminEffects]),
     AdminServiceModule,
     AdminGuardsModule,
     SharedModule,
@@ -58,7 +61,8 @@ import {RecordsControlsComponent} from './components/records-controls/records-co
     NzEmptyModule,
     NzSelectModule,
     NzToolTipModule,
-    NzSpinModule
+    NzSpinModule,
+    NzPopconfirmModule
   ]
 })
 export class AdminModule {

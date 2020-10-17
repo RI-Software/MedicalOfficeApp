@@ -47,4 +47,8 @@ export class RecordsService {
   getRecord(recordId: number) {
     return this.http.get<Record>(environment.apiRecordsUrl + recordId, {observe: 'response'});
   }
+
+  deleteRecord(recordId: number) {
+    return this.http.delete(environment.apiRecordsUrl + recordId, {observe: 'response'});
+  }
 }
