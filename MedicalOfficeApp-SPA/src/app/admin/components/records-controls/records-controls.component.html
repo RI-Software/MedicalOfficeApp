@@ -8,11 +8,11 @@
 
       <div class="d-flex justify-content-center">
         <nz-pagination
-          [(nzPageIndex)]="currentPage"
+          [(nzPageIndex)]="pageIndex"
           [nzTotal]="apiResult.totalCount"
           [nzPageSize]="apiResult.pageSize"
           [nzSize]="'small'"
-          (nzPageIndexChange)="onPageIndexChanged($event)">
+          (nzPageIndexChange)="onPageIndexChanged()">
         </nz-pagination>
       </div>
 
@@ -41,7 +41,7 @@
           Sort Order: {{apiResult.sortOrder}}
         </p>
         <p>
-          Page index: {{currentPage}}
+          Page index: {{pageIndex}}
         </p>
       </div>
 
@@ -83,7 +83,7 @@
         nzMode="multiple"
         nzPlaceHolder="Sort by"
         [(ngModel)]="sortColumns"
-        (ngModelChange)="settingsChanged()"
+        (ngModelChange)="onSortColumnChange()"
       >
         <nz-option nzLabel="Date" nzValue="date"></nz-option>
         <nz-option nzLabel="Time" nzValue="time"></nz-option>
@@ -95,7 +95,7 @@
         [nzShowArrow]="false"
         nzPlaceHolder="Sort order"
         [(ngModel)]="sortOrder"
-        (ngModelChange)="settingsChanged()"
+        (ngModelChange)="onSortOrderChange()"
       >
         <nz-option nzLabel="ASC" nzValue="asc"></nz-option>
         <nz-option nzLabel="DESC" nzValue="desc"></nz-option>
@@ -107,7 +107,7 @@
         [nzShowArrow]="false"
         nzPlaceHolder="Items / page"
         [(ngModel)]="pageSize"
-        (ngModelChange)="settingsChanged()"
+        (ngModelChange)="onPageSizeChange()"
       >
         <nz-option nzLabel="5" nzValue="5"></nz-option>
         <nz-option nzLabel="10" nzValue="10"></nz-option>
@@ -134,11 +134,11 @@
 
     <div class="d-flex justify-content-center mb-3">
       <nz-pagination
-        [(nzPageIndex)]="currentPage"
+        [(nzPageIndex)]="pageIndex"
         [nzTotal]="apiResult.totalCount"
         [nzPageSize]="apiResult.pageSize"
         [nzSize]="'small'"
-        (nzPageIndexChange)="onPageIndexChanged($event)">
+        (nzPageIndexChange)="onPageIndexChanged()">
       </nz-pagination>
     </div>
   </nz-card>

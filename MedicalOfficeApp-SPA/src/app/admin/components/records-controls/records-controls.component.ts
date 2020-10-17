@@ -3,10 +3,17 @@ import {ApiResult} from '../../shared/models/ApiResult';
 import {Record} from '../../shared/models/Record';
 import {Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
-import {selectRecords} from '../../store/recordsStore/selectors/records.selectors';
+import {selectRecords, selectRecordsSettings} from '../../store/recordsStore/selectors/records.selectors';
 import {takeUntil} from 'rxjs/operators';
-import {getRecords} from '../../store/recordsStore/actions/records.actions';
+import {
+  getRecords,
+  resetRecordsSettings,
+  setPageIndex, setPageSize,
+  setSortColumns, setSortOrder,
+  setWhereStatements
+} from '../../store/recordsStore/actions/records.actions';
 import {WhereStatement} from '../../shared/models/WhereStatement';
+import {RecordsSettings} from '../../shared/models/RecordsSettings';
 
 @Component({
   selector: 'app-records-controls',
@@ -15,9 +22,8 @@ import {WhereStatement} from '../../shared/models/WhereStatement';
 })
 export class RecordsControlsComponent implements OnInit, OnDestroy {
 
-  currentPage;
   apiResult: ApiResult<Record>;
-
+  recordsSettings: RecordsSettings;
   currentDate: Date = null;
 
   //#region seedParams
@@ -35,7 +41,7 @@ export class RecordsControlsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(getRecords({}));
+    this.store.dispatch(getRecords());
 
     this.store.pipe(
       select(selectRecords),
@@ -43,34 +49,57 @@ export class RecordsControlsComponent implements OnInit, OnDestroy {
     ).subscribe((records: ApiResult<Record>) => {
       if (records) {
         this.apiResult = records;
-        this.currentPage = records.pageIndex + 1;
+        this.pageIndex = records.pageIndex + 1;
       }
+    });
+
+
+    this.store.pipe(
+      select(selectRecordsSettings),
+      takeUntil(this.unsubscribe$)
+    ).subscribe((settings: RecordsSettings) => {
+      this.recordsSettings = settings;
     });
   }
 
-  settingsChanged() {
+  onPageIndexChanged() {
+    this.pageIndex = this.pageIndex - 1;
+    this.store.dispatch(setPageIndex({pageIndex: this.pageIndex}));
     this.getRecords();
   }
 
-  onPageIndexChanged(index: number) {
-    this.pageIndex = index - 1;
+  onPageSizeChange() {
+    this.store.dispatch(setPageSize({pageSize: this.pageSize}));
+    this.getRecords();
+  }
 
+  onSortColumnChange() {
+    this.store.dispatch(setSortColumns({sortColumns: this.sortColumns}));
+    this.getRecords();
+  }
+
+  onSortOrderChange() {
+    this.store.dispatch(setSortOrder({sortOrder: this.sortOrder}));
     this.getRecords();
   }
 
   onStatusPicked() {
     this.addWhereStatement({column: 'Status', value: this.status});
 
+    this.store.dispatch(setWhereStatements({whereStatements: this.whereStatements}));
+
     this.getRecords();
   }
 
   onDatePicked(datePicked: Date) {
     this.addWhereStatement({column: 'Date', value: datePicked.toDateString()});
-
+    this.store.dispatch(setWhereStatements({whereStatements: this.whereStatements}));
     this.getRecords();
   }
 
   resetBtnPressed() {
+    this.store.dispatch(resetRecordsSettings());
+
     this.pageIndex = null;
     this.pageSize = null;
     this.whereStatements = null;
@@ -97,15 +126,8 @@ export class RecordsControlsComponent implements OnInit, OnDestroy {
     }
   }
 
-
   private getRecords() {
-    this.store.dispatch(getRecords({
-      pageSize: this.pageSize,
-      pageIndex: this.pageIndex,
-      whereStatements: this.whereStatements,
-      sortOrder: this.sortOrder,
-      sortColumns: this.sortColumns
-    }));
+    this.store.dispatch(getRecords());
   }
 
   ngOnDestroy(): void {

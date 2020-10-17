@@ -4,14 +4,12 @@ import {ApiResult} from '../../../shared/models/ApiResult';
 import {WhereStatement} from '../../../shared/models/WhereStatement';
 
 export const getRecords = createAction(
-  '[Records] Get Records',
-  props<{
-    pageSize?: number,
-    pageIndex?: number,
-    whereStatements?: WhereStatement[],
-    sortColumns?: string[],
-    sortOrder?: string
-  }>()
+  '[Records] Get Records'
+);
+
+export const getRecordsSucceed = createAction(
+  '[Records] Get Records Succeed',
+  props<{ records: ApiResult<Record> }>()
 );
 
 export const getRecordsFailed = createAction(
@@ -106,4 +104,33 @@ export const turnOffAcceptBtnLoader = createAction(
 export const displaySucceedMessage = createAction(
   '[Records] Display Succeed Message',
   props<{ notificationText: string }>()
+);
+
+export const setPageIndex = createAction(
+  '[Records] Set Page Index',
+  props<{ pageIndex: number }>()
+);
+
+export const setPageSize = createAction(
+  '[Records] Set Page Size',
+  props<{ pageSize: number }>()
+);
+
+export const setWhereStatements = createAction(
+  '[Records] Set Where Statements',
+  props<{ whereStatements: WhereStatement[] }>()
+);
+
+export const setSortColumns = createAction(
+  '[Records] Set Sort Columns',
+  props<{ sortColumns: string[] }>()
+);
+
+export const setSortOrder = createAction(
+  '[Records] Set Sort Order',
+  props<{ sortOrder: string }>()
+);
+
+export const resetRecordsSettings = createAction(
+  '[Records] Reset Records Settings'
 );

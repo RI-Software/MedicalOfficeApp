@@ -19,3 +19,8 @@ export const selectIdsDeleteBtnLoaderIsOn = createSelector(
   selectClientState,
   (state: RecordsState) => state.deleteBtnLoaderIsOnIds
 );
+
+export const selectRecordsSettings = createSelector(
+  selectClientState,
+  (state: RecordsState) => state.recordsSettings
+);

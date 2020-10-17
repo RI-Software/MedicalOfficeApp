@@ -25,7 +25,7 @@ export class RecordsDeleteRecordEffects {
         this.recordsService.deleteRecord(action.recordId).pipe(
           concatMapTo(
             [
-              RecordActions.getRecords({}),
+              RecordActions.getRecords(),
               RecordActions.displaySucceedMessage({notificationText: 'Successfully deleted'})
             ]),
           catchError((error) => {

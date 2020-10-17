@@ -2,36 +2,48 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import * as RecordActions from '../actions/records.actions';
 import {
-  catchError,
+  catchError, concatMap,
   map,
-  switchMap, tap,
+  switchMap, tap, withLatestFrom,
 } from 'rxjs/operators';
 import {RecordsService} from '../../../services/records.service';
-import {EMPTY} from 'rxjs';
+import {of} from 'rxjs';
 import {NotificationService} from '../../../../core/services/notification.service';
+import {select, Store} from '@ngrx/store';
+import {selectRecordsSettings} from '../selectors/records.selectors';
 
 @Injectable()
 export class RecordsEffects {
 
-  seedRecords$ = createEffect(() =>
+  getRecords$ = createEffect(() =>
     this.actions$.pipe(
       ofType(RecordActions.getRecords),
-      switchMap((action) =>
+      concatMap(action => of(action).pipe(
+        withLatestFrom(this.store.pipe(select(selectRecordsSettings)))
+      )),
+      switchMap(([action, settings]) =>
         this.recordsService.getRecords(
-          action.pageSize,
-          action.pageIndex,
-          action.whereStatements,
-          action.sortColumns,
-          action.sortOrder).pipe(
+          settings.pageSize,
+          settings.pageIndex,
+          settings.whereStatements,
+          settings.sortColumns,
+          settings.sortOrder).pipe(
           map((response) => {
-            return RecordActions.setRecords({records: response.body});
+            return RecordActions.getRecordsSucceed({records: response.body});
           }),
           catchError((error) => {
             this.notificationService.error(error + '\n' + 'Try again.');
-            return EMPTY;
+            return of(RecordActions.getRecordsFailed);
           })
         )
       )
+    )
+  );
+
+  getRecordsSucceed$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RecordActions.getRecordsSucceed),
+      concatMap((action) => of(RecordActions.setRecords({records: action.records})))
     )
   );
 
@@ -48,6 +60,7 @@ export class RecordsEffects {
   constructor(
     private actions$: Actions,
     private recordsService: RecordsService,
-    private notificationService: NotificationService) {
+    private notificationService: NotificationService,
+    private store: Store) {
   }
 }
