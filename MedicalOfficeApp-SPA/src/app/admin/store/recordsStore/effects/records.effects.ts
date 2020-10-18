@@ -11,6 +11,7 @@ import {of} from 'rxjs';
 import {NotificationService} from '../../../../core/services/notification.service';
 import {select, Store} from '@ngrx/store';
 import {selectRecordsSettings} from '../selectors/records.selectors';
+import {LoaderService} from '../../../services/loader.service';
 
 @Injectable()
 export class RecordsEffects {
@@ -57,10 +58,36 @@ export class RecordsEffects {
     {dispatch: false}
   );
 
+  showMainLoader$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(
+          RecordActions.showMainLoader,
+          RecordActions.getRecords
+        ),
+        tap(() => {
+          this.loaderService.showLoader();
+        })
+      ),
+    {dispatch: false}
+  );
+
+  hideMainLoader$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(
+          RecordActions.hideMainLoader,
+          RecordActions.getRecordsSucceed),
+        tap(() => {
+          this.loaderService.hideLoader();
+        })
+      ),
+    {dispatch: false}
+  );
+
   constructor(
     private actions$: Actions,
     private recordsService: RecordsService,
     private notificationService: NotificationService,
+    private loaderService: LoaderService,
     private store: Store) {
   }
 }

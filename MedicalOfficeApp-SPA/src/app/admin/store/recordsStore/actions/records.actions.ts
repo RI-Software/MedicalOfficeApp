@@ -134,3 +134,11 @@ export const setSortOrder = createAction(
 export const resetRecordsSettings = createAction(
   '[Records] Reset Records Settings'
 );
+
+export const showMainLoader = createAction(
+  '[Records] Show Main Loader'
+);
+
+export const hideMainLoader = createAction(
+  '[Records] Hide Main Loader'
+);

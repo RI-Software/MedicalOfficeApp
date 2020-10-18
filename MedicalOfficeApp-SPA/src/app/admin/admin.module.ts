@@ -16,6 +16,7 @@ import {NzSelectModule} from 'ng-zorro-antd/select';
 import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
 import {NzSpinModule} from 'ng-zorro-antd/spin';
 import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 import {AdminComponent} from './admin.component';
 import {adminRoutes} from './admin.routes';
@@ -62,7 +63,8 @@ import {RecordsDeleteRecordEffects} from './store/recordsStore/effects/records.d
     NzSelectModule,
     NzToolTipModule,
     NzSpinModule,
-    NzPopconfirmModule
+    NzPopconfirmModule,
+    NgxSpinnerModule
   ]
 })
 export class AdminModule {
