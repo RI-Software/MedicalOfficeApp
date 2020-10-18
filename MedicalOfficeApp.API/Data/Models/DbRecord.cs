@@ -19,10 +19,6 @@ namespace MedicalOfficeApp.API.Models
         [Required]
         public virtual Client Client { get; set; }
 
-        [Timestamp]
-        [JsonIgnore]
-        public DateTime RowVersion { get; set; }
-
         [JsonIgnore]
         public DateTime TimeCreated { get; set; }
 

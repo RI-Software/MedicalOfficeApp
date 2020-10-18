@@ -92,12 +92,6 @@ namespace MedicalOfficeApp.API.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValueSql("STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')");
-
                     b.Property<string>("Status")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -108,7 +102,7 @@ namespace MedicalOfficeApp.API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("TimeCreated")
-                        .ValueGeneratedOnAddOrUpdate()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalOfficeApp.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201009160918_AddStatusToRecord")]
-    partial class AddStatusToRecord
+    [Migration("20201018190006_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -94,12 +94,6 @@ namespace MedicalOfficeApp.API.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValueSql("STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')");
-
                     b.Property<string>("Status")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -110,7 +104,7 @@ namespace MedicalOfficeApp.API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("TimeCreated")
-                        .ValueGeneratedOnAddOrUpdate()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 

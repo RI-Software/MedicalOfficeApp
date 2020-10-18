@@ -2,7 +2,6 @@
 using MedicalOfficeApp.API.Models;
 using MedicalOfficeApp.API.Shared;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace MedicalOfficeApp.API.Data
 {
@@ -18,14 +17,8 @@ namespace MedicalOfficeApp.API.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<DbRecord>()
-                .Property(r => r.RowVersion)
-                .ValueGeneratedOnAddOrUpdate()
-                .IsConcurrencyToken()
-                .HasDefaultValueSql("STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')");
-
-            modelBuilder.Entity<DbRecord>()
                 .Property(r => r.TimeCreated)
-                .ValueGeneratedOnAddOrUpdate()
+                .ValueGeneratedOnAdd()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             modelBuilder.Entity<DbRecord>()

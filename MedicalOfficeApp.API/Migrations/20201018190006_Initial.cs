@@ -50,8 +50,8 @@ namespace MedicalOfficeApp.API.Migrations
                     Date = table.Column<DateTime>(nullable: false),
                     Time = table.Column<long>(nullable: false),
                     ClientId = table.Column<int>(nullable: false),
-                    RowVersion = table.Column<DateTime>(nullable: false, defaultValueSql: "STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')"),
-                    TimeCreated = table.Column<DateTime>(nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                    TimeCreated = table.Column<DateTime>(nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    Status = table.Column<string>(nullable: false, defaultValue: "new")
                 },
                 constraints: table =>
                 {
