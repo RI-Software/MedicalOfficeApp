@@ -7,6 +7,8 @@ const initialState: StepState = {
   isBackBtnAvailable: false,
   isNextBtnAvailable: false,
   isNextBtnPressed: false,
+  availableDates: [],
+  availableTime: [],
   currentStep: 'time',
   steps: [
     {path: 'time', stepName: 'Time', icon: 'clock-circle'},
@@ -22,7 +24,10 @@ const stepReducer = createReducer(
   on(StepActions.nextBtnAvailability, (state, {isAvailable}) => ({...state, isNextBtnAvailable: isAvailable})),
   on(StepActions.backBtnAvailability, (state, {isAvailable}) => ({...state, isBackBtnAvailable: isAvailable})),
   on(StepActions.stepBtnPressStatus, (state, {isPressed}) => ({...state, isNextBtnPressed: isPressed})),
-  on(StepActions.step, (state, {path}) => ({...state, currentStep: path, isNextBtnAvailable: false, isNextBtnPressed: false}))
+  on(StepActions.step, (state, {path}) =>
+    ({...state, currentStep: path, isNextBtnAvailable: false, isNextBtnPressed: false})),
+  on(StepActions.setAvailableDates, (state, {availableDates}) => ({...state, availableDates})),
+  on(StepActions.setAvailableTime, (state, {availableTime}) => ({...state, availableTime}))
 );
 
 export function reducer(state: StepState | undefined, action: Action) {

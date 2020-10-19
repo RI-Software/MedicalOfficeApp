@@ -4,12 +4,12 @@ import {TimeService} from '../../services/time.service';
 import {AvailableDate, AvailableTime} from '../../shared/models/Date&Times';
 import {ClientService} from '../../services/client.service';
 import {NotificationService} from 'src/app/core/services/notification.service';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {clientPreregister} from '../../store/clientStore/actions/client.actions';
 import {combineLatest, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {selectIsNextBtnPressed} from '../../store/stepStore/selectors/step.selectors';
-import {nextBtnAvailability, step} from '../../store/stepStore/actions/step.actions';
+import {selectAvailableDates, selectAvailableTime, selectIsNextBtnPressed} from '../../store/stepStore/selectors/step.selectors';
+import {getAvailableDates, getAvailableTime, nextBtnAvailability, step} from '../../store/stepStore/actions/step.actions';
 import {selectPreregisterStatus} from '../../store/clientStore/selectors/client.selectors';
 import {ActionStatusesEnum} from '../../shared/models/ActionStatusesEnum';
 
@@ -25,7 +25,8 @@ export class TimeComponent implements OnInit, OnDestroy {
 
   set currentDate(value: Date) {
     if (value) {
-      this.timeService.getAvailableTime(value);
+      // this.timeService.getAvailableTime(value);
+      this.store.dispatch(getAvailableTime({date: value}));
       this._currentDate = value;
       this.resetChosenTime();
     }
@@ -49,22 +50,29 @@ export class TimeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.timeService.getAvailableDates();
-    this.timeService.availableDates.pipe(
+    this.store.dispatch(getAvailableDates());
+
+    this.store.pipe(
+      select(selectAvailableDates),
       takeUntil(this.unsubscribe$)
-    ).subscribe((value => {
-      this.availableDates = value;
-      if (this.availableDates.length) {
-        this.currentDate = this.availableDates.find((date) => {
-          return date.status === 'Free';
-        })?.date;
+    ).subscribe((availableDates) => {
+      if (availableDates) {
+        this.availableDates = availableDates;
+        if (this.availableDates.length) {
+          this.currentDate = this.availableDates.find((date) => {
+            return date.status === 'Free';
+          })?.date;
+        }
       }
-    }));
-    this.timeService.availableTimes.pipe(
-      takeUntil(this.unsubscribe$)
-    ).subscribe((value => {
-      this.availableTimes = value;
-    }));
+    });
+
+    this.store.pipe(
+      select(selectAvailableTime)
+    ).subscribe((availableTime) => {
+      if (availableTime) {
+        this.availableTimes = availableTime;
+      }
+    });
 
     combineLatest([
       this.store.select(selectIsNextBtnPressed),
@@ -76,7 +84,7 @@ export class TimeComponent implements OnInit, OnDestroy {
         if (preregisterStatus === ActionStatusesEnum.Done) {
           this.store.dispatch(step({path: 'data'}));
         } else {
-        this.store.dispatch(clientPreregister({selectedDate: this.currentDate, selectedTime: this.currentTime.time}));
+          this.store.dispatch(clientPreregister({selectedDate: this.currentDate, selectedTime: this.currentTime.time}));
         }
       }
     });

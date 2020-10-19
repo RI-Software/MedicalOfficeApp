@@ -31,3 +31,13 @@ export const selectCurrentStep = createSelector(
   selectStep,
   (state: StepState) => state.currentStep
 );
+
+export const selectAvailableDates = createSelector(
+  selectStep,
+  (state: StepState) => state.availableDates
+);
+
+export const selectAvailableTime = createSelector(
+  selectStep,
+  (state: StepState) => state.availableTime
+);

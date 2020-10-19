@@ -11,7 +11,7 @@ import {of} from 'rxjs';
 import {NotificationService} from '../../../../core/services/notification.service';
 import {select, Store} from '@ngrx/store';
 import {selectRecordsSettings} from '../selectors/records.selectors';
-import {LoaderService} from '../../../services/loader.service';
+import {LoaderService} from '../../../../core/services/loader.service';
 
 @Injectable()
 export class RecordsEffects {
@@ -65,7 +65,7 @@ export class RecordsEffects {
           RecordActions.getRecords
         ),
         tap(() => {
-          this.loaderService.showLoader();
+          this.loaderService.showLoader('mainAdminSpinner');
         })
       ),
     {dispatch: false}
@@ -77,7 +77,7 @@ export class RecordsEffects {
           RecordActions.hideMainLoader,
           RecordActions.getRecordsSucceed),
         tap(() => {
-          this.loaderService.hideLoader();
+          this.loaderService.hideLoader('mainAdminSpinner');
         })
       ),
     {dispatch: false}

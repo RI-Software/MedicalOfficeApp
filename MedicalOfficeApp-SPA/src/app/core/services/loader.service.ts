@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {AdminServiceModule} from '../../admin/services/admin-service.module';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +10,11 @@ export class LoaderService {
   constructor(private spinner: NgxSpinnerService) {
   }
 
-  showLoader() {
-    this.spinner.show();
+  showLoader(spinnerName: string) {
+    this.spinner.show(spinnerName);
   }
 
-  hideLoader() {
-    this.spinner.hide();
+  hideLoader(spinnerName: string) {
+    this.spinner.hide(spinnerName);
   }
 }

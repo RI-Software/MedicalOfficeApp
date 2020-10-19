@@ -1,42 +1,43 @@
-import { Injectable } from '@angular/core';
-import { AvailableDate, AvailableTime } from '../shared/models/Date&Times';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
-import { NotificationService } from '../../core/services/notification.service';
-import { environment } from '../../../environments/environment';
-import { ClientServiceModule } from './client-service.module';
-import { formatDate } from '@angular/common';
+import {Injectable} from '@angular/core';
+import {AvailableDate, AvailableTime} from '../shared/models/Date&Times';
+import {HttpClient} from '@angular/common/http';
+import {NotificationService} from '../../core/services/notification.service';
+import {environment} from '../../../environments/environment';
+import {ClientServiceModule} from './client-service.module';
+import {select, Store} from '@ngrx/store';
+import {selectAvailableDates, selectAvailableTime} from '../store/stepStore/selectors/step.selectors';
 
 @Injectable({
   providedIn: ClientServiceModule
 })
 export class TimeService {
-  availableDates: BehaviorSubject<AvailableDate[]> = new BehaviorSubject([]);
-  availableTimes: BehaviorSubject<AvailableTime[]> = new BehaviorSubject([]);
 
-  constructor(private httpClient: HttpClient, private notification: NotificationService) { }
+  availableDates: AvailableDate[];
+  availableTimes: AvailableTime[];
 
-  getAvailableDates(): void {
-    this.httpClient.get(environment.apiDatetimeUrl).subscribe(
-      (response: AvailableDate[]) => {
-        response.forEach(value => {
-          value.date = new Date(formatDate(value.date, 'mediumDate', 'en-US', environment.backEndTimeZone));
-        });
-        this.availableDates.next(response);
-      },
-      (err: HttpErrorResponse) => {
-        this.notification.error(err.message);
-      });
+  constructor(private httpClient: HttpClient, private notification: NotificationService, private store: Store) {
+
+    this.store.pipe(
+      select(selectAvailableDates)
+    ).subscribe((availableDates) => {
+      this.availableDates = availableDates;
+    });
+
+    this.store.pipe(
+      select(selectAvailableTime)
+    ).subscribe((availableTime) => {
+      this.availableTimes = availableTime;
+    });
   }
 
-  getAvailableTime(date: Date): void {
-    this.httpClient.get(environment.apiDatetimeUrl + date.toDateString()).subscribe(
-      (response: AvailableTime[]) => {
-        this.availableTimes.next(response);
-      },
-      (err: HttpErrorResponse) => {
-        this.notification.error(err.message);
-      });
+  getAvailableDates() {
+    return this.httpClient
+      .get<AvailableDate[]>(environment.apiDatetimeUrl, {observe: 'response'});
+  }
+
+  getAvailableTime(date: Date) {
+    return this.httpClient
+      .get<AvailableTime[]>(environment.apiDatetimeUrl + date.toDateString(), {observe: 'response'});
   }
 
   /**
@@ -56,13 +57,13 @@ export class TimeService {
    */
   changeDate(currentDate: Date, cDay = 0, cMonth = 0): Date | null {
 
-    const availableDates = this.availableDates.getValue();
+    const availableDates = this.availableDates;
 
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth() + cMonth;
     const day = currentDate.getDate() + cDay;
 
-    if (cMonth !== 0 ) {
+    if (cMonth !== 0) {
       return availableDates.find((date) => {
         return date.date.getMonth() === month && date.status === 'Free';
       })?.date;
@@ -94,7 +95,7 @@ export class TimeService {
   }
 
   checkAvailableDate(checkDate: Date): boolean {
-    return !!this.availableDates.getValue().find((val) => {
+    return !!this.availableDates.find((val) => {
       if (val.status === 'Free') {
         return this.isDatesEqual(checkDate, val.date);
       } else {

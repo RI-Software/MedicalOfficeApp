@@ -39,7 +39,7 @@
 
   <nz-radio-group class="time-buttons col-lg-6 col-md-12 mx-auto row" [ngModel]="currentTime"
                   (ngModelChange)="timeSelected($event)"
-                  nzButtonStyle="solid" *ngIf="availableTimes.length; else loader">
+                  nzButtonStyle="solid" *ngIf="availableTimes.length">
     <div [ngSwitch]="time.status" class="time-button-wrapper d-flex justify-content-center col-4 mb-3"
          *ngFor="let time of availableTimes">
       <label nz-radio-button
@@ -66,8 +66,4 @@
       </label>
     </div>
   </nz-radio-group>
-
-  <ng-template #loader>
-    <button nz-button nzType="default" nzLoading><i nz-icon nzType="poweroff"></i>Loading...</button>
-  </ng-template>
 </div>
