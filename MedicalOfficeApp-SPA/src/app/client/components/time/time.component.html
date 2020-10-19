@@ -40,6 +40,17 @@
                   [ngModel]="currentTime"
                   (ngModelChange)="timeSelected($event)"
                   nzButtonStyle="solid" *ngIf="availableTimes.length">
+    <div>
+      <ngx-spinner
+        bdColor="#fff"
+        [name]="'timeBtnsSpinner'"
+        size="medium"
+        color="#595959"
+        [fullScreen]="false"
+        type="square-loader"
+      >
+      </ngx-spinner>
+    </div>
     <div [ngSwitch]="time.status" class="time-button-wrapper d-flex justify-content-center col-4 mb-3"
          *ngFor="let time of availableTimes">
       <label nz-radio-button
@@ -66,5 +77,4 @@
       </label>
     </div>
   </nz-radio-group>
-
 </div>

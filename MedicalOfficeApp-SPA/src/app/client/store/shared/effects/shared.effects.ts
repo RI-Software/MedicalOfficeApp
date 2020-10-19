@@ -41,6 +41,33 @@ export class SharedEffects {
     {dispatch: false}
   );
 
+  showTimeBtnsLoader$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(
+          SharedActions.showTimeBtnsLoader,
+          StepActions.getAvailableTime
+        ),
+        tap(() => {
+          this.loaderService.showLoader('timeBtnsSpinner');
+        })
+      ),
+    {dispatch: false}
+  );
+
+  hideTimeBtnsLoader$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(
+          SharedActions.hideTimeBtnsLoader,
+          StepActions.getAvailableTimeSucceed,
+          StepActions.getAvailableDatesFailed
+        ),
+        tap(() => {
+          this.loaderService.hideLoader('timeBtnsSpinner');
+        })
+      ),
+    {dispatch: false}
+  );
+
   constructor(
     private actions$: Actions,
     private loaderService: LoaderService) {

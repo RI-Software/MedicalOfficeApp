@@ -7,3 +7,11 @@ export const showMainClientLoader = createAction(
 export const hideMainClientLoader = createAction(
   '[Loader] Hide Main Client Loader'
 );
+
+export const showTimeBtnsLoader = createAction(
+  '[Loader] Show Time Btns Loader'
+);
+
+export const hideTimeBtnsLoader = createAction(
+  '[Loader] Hide Time Btns Loader'
+);
