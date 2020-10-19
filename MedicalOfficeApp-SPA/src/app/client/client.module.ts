@@ -19,6 +19,7 @@ import {NzDividerModule} from 'ng-zorro-antd/divider';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {NzStatisticModule} from 'ng-zorro-antd/statistic';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 import {SaveComponent} from './components/save/save.component';
 import {StepControlComponent} from './components/step-control/step-control.component';
@@ -37,6 +38,7 @@ import {clientModuleFeatureKey} from './store';
 import {StepEffects} from './store/stepStore/effects/step.effects';
 import {ClientGuardsModule} from './guards/client-guards.module';
 import {TimerComponent} from './components/timer/timer.component';
+import {SharedEffects} from './store/shared/effects/shared.effects';
 
 
 @NgModule({
@@ -53,7 +55,7 @@ import {TimerComponent} from './components/timer/timer.component';
   ],
   imports: [
     StoreModule.forFeature(clientModuleFeatureKey, reducers),
-    EffectsModule.forFeature([ClientEffects, StepEffects]),
+    EffectsModule.forFeature([ClientEffects, StepEffects, SharedEffects]),
     ClientServiceModule,
     ClientGuardsModule,
     SharedModule,
@@ -74,6 +76,7 @@ import {TimerComponent} from './components/timer/timer.component';
     NzResultModule,
     NzDividerModule,
     NzStatisticModule,
+    NgxSpinnerModule,
   ],
   providers: [],
 })

@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {NgxSpinnerService} from 'ngx-spinner';
-import {AdminServiceModule} from '../../admin/services/admin-service.module';
 
 @Injectable({
   providedIn: 'root'

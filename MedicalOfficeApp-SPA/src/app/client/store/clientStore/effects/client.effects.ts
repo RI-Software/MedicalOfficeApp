@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {ClientService} from '../../../services/client.service';
 import * as ClientActions from '../actions/client.actions';
-import {catchError, concatMap, exhaustMap, map, withLatestFrom} from 'rxjs/operators';
+import {catchError, concatMap, exhaustMap, withLatestFrom} from 'rxjs/operators';
 import {NotificationService} from 'src/app/core/services/notification.service';
 import {of} from 'rxjs';
 import {select, Store} from '@ngrx/store';
@@ -20,10 +20,16 @@ export class ClientEffects {
       )),
       exhaustMap(([action, client]) =>
         this.clientService.register(client).pipe(
-          map(() => ClientActions.clientRegisterStatus({registerStatus: ActionStatusesEnum.Done})),
+          concatMap(() => [
+            ClientActions.clientRegisterSucceed(),
+            ClientActions.clientRegisterStatus({registerStatus: ActionStatusesEnum.Done})
+          ]),
           catchError((error) => {
             this.notificationService.error(error + '\n' + 'Try again.');
-            return of(ClientActions.clientRegisterStatus({registerStatus: ActionStatusesEnum.Failed}));
+            return [
+              ClientActions.clientRegisterFailed(),
+              ClientActions.clientRegisterStatus({registerStatus: ActionStatusesEnum.Failed})
+            ];
           })
         )
       )
@@ -35,10 +41,16 @@ export class ClientEffects {
       ofType(ClientActions.clientPreregister),
       exhaustMap((action) =>
         this.clientService.preregister(action.selectedDate, action.selectedTime).pipe(
-          map(() => ClientActions.clientPreregisterStatus({preregisterStatus: ActionStatusesEnum.Done})),
+          concatMap(() => [
+            ClientActions.clientPreregisterSucceed(),
+            ClientActions.clientPreregisterStatus({preregisterStatus: ActionStatusesEnum.Done})
+          ]),
           catchError((error) => {
             this.notificationService.error(error + '\n' + 'Try again.');
-            return of(ClientActions.clientPreregisterStatus({preregisterStatus: ActionStatusesEnum.Failed}));
+            return [
+              ClientActions.clientPreregisterFailed(),
+              ClientActions.clientPreregisterStatus({preregisterStatus: ActionStatusesEnum.Failed})
+            ];
           })
         )
       )
@@ -50,5 +62,6 @@ export class ClientEffects {
     private clientService: ClientService,
     private notificationService: NotificationService,
     private store: Store
-  ) {}
+  ) {
+  }
 }

@@ -1,7 +1,7 @@
 import {StepState} from '../../../shared/models/StepState';
 import {createReducer, on, Action} from '@ngrx/store';
 import * as StepActions from '../actions/step.actions';
-
+import * as ClientActions from '../../clientStore/actions/client.actions';
 
 const initialState: StepState = {
   isBackBtnAvailable: false,
@@ -27,7 +27,10 @@ const stepReducer = createReducer(
   on(StepActions.step, (state, {path}) =>
     ({...state, currentStep: path, isNextBtnAvailable: false, isNextBtnPressed: false})),
   on(StepActions.setAvailableDates, (state, {availableDates}) => ({...state, availableDates})),
-  on(StepActions.setAvailableTime, (state, {availableTime}) => ({...state, availableTime}))
+  on(StepActions.setAvailableTime, (state, {availableTime}) => ({...state, availableTime})),
+
+  on(ClientActions.clientPreregisterFailed, (state) => ({...state, isNextBtnPressed: false})),
+  on(ClientActions.clientRegisterFailed, (state) => ({...state, isNextBtnPressed: false}))
 );
 
 export function reducer(state: StepState | undefined, action: Action) {

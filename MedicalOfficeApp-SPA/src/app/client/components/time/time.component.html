@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" *ngIf="availableDates.length && availableTimes.length">
 
   <div class="time-picker col-lg-6 col-md-12 mx-auto">
     <div class="time-picker-buttons">
@@ -30,14 +30,14 @@
       </button>
     </div>
     <nz-calendar
-      *ngIf="availableDates.length"
       [(ngModel)]="this.currentDate"
       [nzDisabledDate]="disabledDate"
       [nzFullscreen]="false">
     </nz-calendar>
   </div>
 
-  <nz-radio-group class="time-buttons col-lg-6 col-md-12 mx-auto row" [ngModel]="currentTime"
+  <nz-radio-group class="time-buttons col-lg-6 col-md-12 mx-auto row"
+                  [ngModel]="currentTime"
                   (ngModelChange)="timeSelected($event)"
                   nzButtonStyle="solid" *ngIf="availableTimes.length">
     <div [ngSwitch]="time.status" class="time-button-wrapper d-flex justify-content-center col-4 mb-3"
@@ -66,4 +66,5 @@
       </label>
     </div>
   </nz-radio-group>
+
 </div>

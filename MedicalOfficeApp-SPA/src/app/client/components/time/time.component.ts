@@ -25,7 +25,6 @@ export class TimeComponent implements OnInit, OnDestroy {
 
   set currentDate(value: Date) {
     if (value) {
-      // this.timeService.getAvailableTime(value);
       this.store.dispatch(getAvailableTime({date: value}));
       this._currentDate = value;
       this.resetChosenTime();
@@ -67,7 +66,8 @@ export class TimeComponent implements OnInit, OnDestroy {
     });
 
     this.store.pipe(
-      select(selectAvailableTime)
+      select(selectAvailableTime),
+      takeUntil(this.unsubscribe$)
     ).subscribe((availableTime) => {
       if (availableTime) {
         this.availableTimes = availableTime;
@@ -81,10 +81,13 @@ export class TimeComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscribe$)
     ).subscribe(([isPressed, preregisterStatus]) => {
       if (isPressed) {
-        if (preregisterStatus === ActionStatusesEnum.Done) {
-          this.store.dispatch(step({path: 'data'}));
-        } else {
-          this.store.dispatch(clientPreregister({selectedDate: this.currentDate, selectedTime: this.currentTime.time}));
+        switch (preregisterStatus) {
+          case ActionStatusesEnum.Done:
+            this.store.dispatch(step({path: 'data'}));
+            return;
+          default:
+            this.store.dispatch(clientPreregister({selectedDate: this.currentDate, selectedTime: this.currentTime.time}));
+            return;
         }
       }
     });
