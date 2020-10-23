@@ -55,7 +55,7 @@
          *ngFor="let time of availableTimes">
       <label nz-radio-button
              *ngSwitchCase="time.status === 'Expired' || time.status === 'Taken' ? time.status : ''"
-             nzTooltipTitle="This time is already taken" nzTooltipPlacement="top" nz-tooltip
+             nzTooltipTitle="{{'timeComponent.tooltipTitles.taken' | translate}}" nzTooltipPlacement="top" nz-tooltip
              class="time-button label taken"
              [nzDisabled]="true"
              [nzValue]="time">
@@ -63,7 +63,7 @@
       </label>
       <label nz-radio-button
              *ngSwitchCase="'InProcess'"
-             nzTooltipTitle="Somebody is trying to book this time" nzTooltipPlacement="top" nz-tooltip
+             nzTooltipTitle="{{'timeComponent.tooltipTitles.inProcess' | translate}}" nzTooltipPlacement="top" nz-tooltip
              class="time-button label inProcess"
              [nzDisabled]="true"
              [nzValue]="time">

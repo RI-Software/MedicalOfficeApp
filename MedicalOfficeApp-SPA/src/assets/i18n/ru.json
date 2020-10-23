@@ -1,4 +1,10 @@
 {
+  "timeComponent": {
+    "tooltipTitles": {
+      "taken": "Это время уже занято",
+      "inProcess": "Это время может осовободиться"
+    }
+  },
   "dataComponent": {
     "title": "Регистрация",
     "errors": {

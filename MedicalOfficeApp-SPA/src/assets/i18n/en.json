@@ -1,4 +1,10 @@
 {
+  "timeComponent": {
+    "tooltipTitles": {
+      "taken": "This time is already taken",
+      "inProcess": "Somebody is trying to book this time"
+    }
+  },
   "dataComponent": {
     "title": "Sign Up",
     "errors": {
