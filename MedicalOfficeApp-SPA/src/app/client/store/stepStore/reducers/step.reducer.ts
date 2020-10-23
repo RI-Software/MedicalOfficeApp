@@ -10,12 +10,13 @@ const initialState: StepState = {
   availableDates: [],
   availableTime: [],
   currentStep: 'time',
+  // stepName is being taken from translations
   steps: [
-    {path: 'time', stepName: 'Time', icon: 'clock-circle'},
-    {path: 'data', stepName: 'Data', icon: 'solution'},
-    {path: 'agreements', stepName: 'Agreements', icon: 'file-text'},
-    {path: 'save', stepName: 'Save', icon: 'save'},
-    {path: 'done', stepName: 'Done', icon: 'check'},
+    {path: 'time', stepName: 'steps.stepNames.time', icon: 'clock-circle'},
+    {path: 'data', stepName: 'steps.stepNames.data', icon: 'solution'},
+    {path: 'agreements', stepName: 'steps.stepNames.agreements', icon: 'file-text'},
+    {path: 'save', stepName: 'steps.stepNames.save', icon: 'save'},
+    {path: 'done', stepName: 'steps.stepNames.done', icon: 'check'},
   ]
 };
 

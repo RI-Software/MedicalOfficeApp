@@ -1,5 +1,11 @@
 nz-countdown {
-  ::ng-deep .ant-statistic-content-value {
-    color: white;
+  ::ng-deep {
+    .ant-statistic-content-value {
+      color: white;
+    }
+
+    .ant-statistic-title {
+      display: none;
+    }
   }
 }

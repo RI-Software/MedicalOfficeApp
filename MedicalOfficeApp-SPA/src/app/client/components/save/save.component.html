@@ -1,52 +1,52 @@
 <div class="mt-3">
   <div class="row justify-content-center">
     <div class="col-12 mb-3">
-      <h2 class="text-center text-primary">Check data</h2>
+      <h2 class="text-center text-primary">{{'saveComponent.title' | translate}}</h2>
     </div>
     <div class="col-sm-12 col-md-6 mb-3">
       <nz-card nzTitle="Date and time" [nzExtra]="dateTimeEditTemplate">
         <p>
-          Date:&nbsp;
+          {{'saveComponent.paragraphs.date' | translate}}:&nbsp;
           <span>{{dateTime.date | date:'dd.MM.y'}}</span>
         </p>
         <p>
-          Time:&nbsp;
+          {{'saveComponent.paragraphs.time' | translate}}:&nbsp;
           <span>{{dateTime.time | ticks | date: 'HH:mm'}}</span>
         </p>
       </nz-card>
       <ng-template #dateTimeEditTemplate>
-        <a (click)="dateTimeEditBtnPressed()">Edit</a>
+        <a (click)="dateTimeEditBtnPressed()">{{'saveComponent.btns.edit' | translate}}</a>
       </ng-template>
     </div>
     <div class="col-sm-12 col-md-6">
       <nz-card nzTitle="Client" [nzExtra]="clientEditTemplate">
         <p>
-          Name:&nbsp;
+          {{'saveComponent.paragraphs.name' | translate}}:&nbsp;
           <span>{{client.name}}</span>
         </p>
         <p>
-          Surname:&nbsp;
+          {{'saveComponent.paragraphs.surname' | translate}}:&nbsp;
           <span>{{client.surname}}</span>
         </p>
         <p>
-          Years:&nbsp;
+          {{'saveComponent.paragraphs.years' | translate}}:&nbsp;
           <span>{{client.age}}</span>
         </p>
         <p *ngIf="client.months">
-          Months:&nbsp;
+          {{'saveComponent.paragraphs.months' | translate}}:&nbsp;
           <span>{{client.months}}</span>
         </p>
         <p>
-          Email:&nbsp;
+          {{'saveComponent.paragraphs.email' | translate}}:&nbsp;
           <span>{{client.email}}</span>
         </p>
         <p>
-          Phone:&nbsp;
+          {{'saveComponent.paragraphs.phone' | translate}}:&nbsp;
           <span>{{client.phone}}</span>
         </p>
       </nz-card>
       <ng-template #clientEditTemplate>
-        <a (click)="clientEditBtnPressed()">Edit</a>
+        <a (click)="clientEditBtnPressed()">{{'saveComponent.btns.edit' | translate}}</a>
       </ng-template>
     </div>
   </div>

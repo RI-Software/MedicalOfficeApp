@@ -1,0 +1,98 @@
+{
+  "dataComponent": {
+    "title": "Sign Up",
+    "errors": {
+      "name": {
+        "incorrectNameError": "Incorrect name",
+        "nameIsRequiredError": "Name is required",
+        "nameMinLengthError": "Name must be at least 2 characters",
+        "nameMaxLengthError": "Name cannot exceed 15 characters"
+      },
+      "surname": {
+        "incorrectSurnameError": "Incorrect surname",
+        "surnameIsRequiredError": "Surname is required",
+        "surnameMinLengthError": "Surname must be at least 2 characters",
+        "surnameMaxLengthError": "Surname cannot exceed 15 characters"
+      },
+      "years": {
+        "ageIsRequiredError": "Age is required",
+        "ageMinError": "Age should be positive",
+        "ageMaxError": "Choose your real age"
+      },
+      "months": {
+        "monthsMinError": "Should be greater than 0",
+        "monthsMaxError": "Should be less than 12",
+        "monthsAreRequiredError": "Months are required"
+      },
+      "email": {
+        "incorrectEmailError": "Provide correct email",
+        "emailIsRequiredError": "Email is required"
+      },
+      "phone": {
+        "incorrectPhoneError": "Provide correct phone number(BLR or PL)",
+        "phoneIsRequiredError": "Phone is required"
+      }
+    },
+    "placeholders": {
+      "namePlaceholder": "Patient Name",
+      "surnamePlaceholder": "Patient Surname",
+      "agePlaceholder": "Age",
+      "monthsPlaceholder": "Months",
+      "emailPlaceholder": "Email",
+      "phonePlaceholder": "Phone"
+    }
+  },
+  "agreementsComponent" : {
+    "title": "Remember",
+    "paragraphs" : {
+      "passport": {
+        "title": "Passport",
+        "text": "Please bring your passport with you. It is necessary for registration of documents and prescription."
+      },
+      "sunglasses" : {
+        "title": "Sunglasses",
+        "text" : "You may also need sunglasses for your convenience, as you may have dilated pupils. A cap will also do."
+      },
+      "agreement" : {
+        "title": "Agree",
+        "text": "By clicking next, you agree that you have read and agree to the <a href=\"https://vimpa.by/\">terms</a> of service."
+      }
+    }
+  },
+  "saveComponent": {
+    "title": "Check data",
+    "paragraphs" : {
+      "date": "Date",
+      "time": "Time",
+      "name": "Name",
+      "surname": "Surname",
+      "years": "Years",
+      "months": "Months",
+      "email": "Email",
+      "phone": "Phone"
+    },
+    "btns": {
+      "edit": "Edit"
+    }
+  },
+  "doneComponent": {
+    "title": "You have successfully made an appointment",
+    "subTitle": "Expect a call from our manager for confirmation",
+    "btns": {
+      "goToMainSite": "Go back to the main page"
+    }
+  },
+  "steps": {
+    "stepNames": {
+      "time": "Time",
+      "data": "Data",
+      "agreements": "Agreements",
+      "save": "Save",
+      "done": "Done"
+    },
+    "stepsBtns": {
+      "next": "Next",
+      "past": "Past"
+    }
+  }
+}

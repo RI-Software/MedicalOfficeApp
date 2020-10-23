@@ -24,63 +24,14 @@ import {selectClient} from '../../store/clientStore/selectors/client.selectors';
   styleUrls: ['./data.component.scss'],
 })
 export class DataComponent extends BaseFormComponent implements OnInit, OnDestroy {
-  //#region settings and defaults
 
+  //#region settings and defaults
   minAge = 0;
   maxAge = 120;
   minMonths = 1;
   maxMonths = 11;
   minNameLength = 2;
   maxNameLength = 15;
-
-  //#region errorMessages
-
-  //#region name
-  incorrectNameError = 'Incorrect name';
-  nameIsRequiredError = 'Name is required';
-  nameMinLengthError = 'Name must be at least 2 characters';
-  nameMaxLengthError = 'Name cannot exceed 15 characters';
-  //#endregion
-
-  //#region surname
-  incorrectSurnameError = 'Incorrect surname';
-  surnameIsRequiredError = 'Surname is required';
-  surnameMinLengthError = 'Surname must be at least 2 characters';
-  surnameMaxLengthError = 'Surname cannot exceed 15 characters';
-  //#endregion
-
-  //#region years
-  ageIsRequiredError = 'Age is required';
-  ageMinError = 'Age should be positive';
-  ageMaxError = 'Choose your real age';
-  //#endregion
-
-  //#region months
-  monthsMinError = 'Should be greater than 0';
-  monthsMaxError = 'Should be less than 12';
-  monthsAreRequiredError = 'Months are required';
-  //#endregion
-
-  //#region email
-  incorrectEmailError = 'Provide correct email';
-  emailIsRequiredError = 'Email is required';
-  //#endregion
-
-  //#region phone
-  incorrectPhoneError = 'Privide correct phone number(BLR or PL)';
-  phoneIsRequiredError = 'Phone is required';
-  //#endregion
-
-  //#endregion
-
-  //#region placeholders
-  namePlaceholder = 'Patient Name';
-  surnamePlaceholder = 'Patient Surname';
-  agePlaceholder = 'Age';
-  monthsPlaceholder = 'Months';
-  emailPlaceholder = 'Email';
-  phonePlaceholder = 'Phone';
-  //#endregion
 
   //#region regexes
   private regexPatternForName = /^(([A-Z]{0,1}[a-z]*)|([А-Я]{0,1}[а-я]*))( {0,5}?)$/;
@@ -134,8 +85,8 @@ export class DataComponent extends BaseFormComponent implements OnInit, OnDestro
     });
 
     this.store.pipe(
-      takeUntil(this.unsubscribe$),
-      select(selectClient)
+      select(selectClient),
+      takeUntil(this.unsubscribe$)
     ).subscribe((client) => {
       if (client) {
         this.form.patchValue({
@@ -166,16 +117,16 @@ export class DataComponent extends BaseFormComponent implements OnInit, OnDestro
           Validators.required,
           Validators.minLength(this.minNameLength),
           Validators.maxLength(this.maxNameLength),
-          this.customValidityCheck({pattern: this.regexPatternForName, msg: this.incorrectNameError})
+          this.customValidityCheck({pattern: this.regexPatternForName})
         ],
       ],
       surname: [
         '',
         [
           Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(15),
-          this.customValidityCheck({pattern: this.regexPatternForName, msg: this.incorrectSurnameError})
+          Validators.minLength(this.minNameLength),
+          Validators.maxLength(this.maxNameLength),
+          this.customValidityCheck({pattern: this.regexPatternForName})
         ],
       ],
       age: this.formBuilder.group({
@@ -200,14 +151,14 @@ export class DataComponent extends BaseFormComponent implements OnInit, OnDestro
         '',
         [
           Validators.required,
-          this.customValidityCheck({pattern: this.regexPatternForEmail, msg: this.incorrectEmailError})
+          this.customValidityCheck({pattern: this.regexPatternForEmail})
         ],
       ],
       phone: [
         '',
         [
           Validators.required,
-          this.customValidityCheck({pattern: this.regexPatternForPhoneNumber, msg: this.incorrectPhoneError})
+          this.customValidityCheck({pattern: this.regexPatternForPhoneNumber})
         ]
       ],
     });
@@ -238,9 +189,7 @@ export class DataComponent extends BaseFormComponent implements OnInit, OnDestro
       const regexPattern: RegExp = data.pattern;
       if (control.value && !control.value.match(regexPattern)) {
         return {
-          customError: {
-            errorMsg: data.msg,
-          }
+          customError: {}
         };
       }
       return null;

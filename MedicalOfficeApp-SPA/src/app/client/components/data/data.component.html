@@ -1,44 +1,44 @@
 <div class="mt-3">
   <div class="row justify-content-center">
     <div class="col-lg-6 col-md-8">
-      <h2 class="text-center text-primary">Sign Up</h2>
+      <h2 class="text-center text-primary">{{'dataComponent.title' | translate}}</h2>
       <hr>
       <form [formGroup]="form">
 
         <div class="form-group">
           <input type="text" [ngClass]="{'is-invalid': hasError('name')}" class="form-control" formControlName="name"
-                 placeholder="{{this.namePlaceholder}}">
+                 placeholder="{{'dataComponent.placeholders.namePlaceholder' | translate}}">
           <div *ngIf="hasError('name')" class="invalid-feedback">
             <div *ngIf="getControl('name').hasError('customError')">
-              {{form.controls.name.errors?.customError.errorMsg}}
+              {{'dataComponent.errors.name.incorrectNameError' | translate}}
             </div>
             <div *ngIf="getControl('name').hasError('required')">
-              {{this.nameIsRequiredError}}
+              {{'dataComponent.errors.name.nameIsRequiredError' | translate}}
             </div>
             <div *ngIf="getControl('name').hasError('minlength')">
-              {{this.nameMinLengthError}}
+              {{'dataComponent.errors.name.nameMinLengthError' | translate}}
             </div>
             <div *ngIf="getControl('name').hasError('maxlength')">
-              {{this.nameMaxLengthError}}
+              {{'dataComponent.errors.name.nameMaxLengthError' | translate}}
             </div>
           </div>
         </div>
 
         <div class="form-group">
           <input type="text" [ngClass]="{'is-invalid': hasError('surname')}" class="form-control" formControlName="surname"
-                 placeholder="{{this.surnamePlaceholder}}">
+                 placeholder="{{'dataComponent.placeholders.surnamePlaceholder' | translate}}">
           <div *ngIf="hasError('surname')" class="invalid-feedback">
             <div *ngIf="getControl('surname').hasError('customError')">
-              {{form.controls.surname.errors?.customError.errorMsg}}
+              {{'dataComponent.errors.surname.incorrectSurnameError' | translate}}
             </div>
             <div *ngIf="getControl('surname').hasError('required')">
-              {{this.surnameIsRequiredError}}
+              {{'dataComponent.errors.surname.surnameIsRequiredError' | translate}}
             </div>
             <div *ngIf="getControl('surname').hasError('minlength')">
-              {{this.surnameMinLengthError}}
+              {{'dataComponent.errors.surname.surnameMinLengthError' | translate}}
             </div>
             <div *ngIf="getControl('surname').hasError('maxlength')">
-              {{this.surnameMaxLengthError}}
+              {{'dataComponent.errors.surname.surnameMaxLengthError' | translate}}
             </div>
           </div>
         </div>
@@ -47,33 +47,33 @@
           <div class="row" formGroupName="age">
             <div class="col">
               <input type="number" [ngClass]="{'is-invalid': hasError('age.years')}" class="form-control" formControlName="years"
-                     placeholder="{{this.agePlaceholder}}" min="{{this.minAge}}" max="{{this.maxAge}}">
+                     placeholder="{{'dataComponent.placeholders.agePlaceholder' | translate}}" min="{{this.minAge}}" max="{{this.maxAge}}">
               <div *ngIf="hasError('age.years')" class="invalid-feedback">
                 <div *ngIf="getControl('age.years').hasError('required')">
-                  {{this.ageIsRequiredError}}
+                  {{'dataComponent.errors.years.ageIsRequiredError' | translate}}
                 </div>
                 <div *ngIf="getControl('age.years').hasError('min')">
-                  {{this.ageMinError}}
+                  {{'dataComponent.errors.years.ageMinError' | translate}}
                 </div>
                 <div *ngIf="getControl('age.years').hasError('max')">
-                  {{this.ageMaxError}}
+                  {{'dataComponent.errors.years.ageMaxError' | translate}}
                 </div>
               </div>
             </div>
 
             <div class="col">
               <input type="number" [ngClass]="{'is-invalid': hasError('age.months')}" class="form-control" formControlName="months"
-                     placeholder="{{this.monthsPlaceholder}}" min="{{this.minMonths}}" max="{{this.maxMonths}}">
+                     placeholder="{{'dataComponent.placeholders.monthsPlaceholder' | translate}}" min="{{this.minMonths}}" max="{{this.maxMonths}}">
               <div *ngIf="hasError('age.months')" class="invalid-feedback">
                 <div
                   *ngIf="getControl('age.months').hasError('required')">
-                  {{monthsAreRequiredError}}
+                  {{'dataComponent.errors.months.monthsAreRequiredError' | translate}}
                 </div>
                 <div *ngIf="getControl('age.months').hasError('min')">
-                  {{this.monthsMinError}}
+                  {{'dataComponent.errors.months.monthsMinError' | translate}}
                 </div>
                 <div *ngIf="getControl('age.months').hasError('max')">
-                  {{this.monthsMaxError}}
+                  {{'dataComponent.errors.months.monthsMaxError' | translate}}
                 </div>
               </div>
             </div>
@@ -82,26 +82,26 @@
 
         <div class="form-group">
           <input type="text" [ngClass]="{'is-invalid': hasError('email')}" class="form-control" formControlName="email"
-                 placeholder="{{this.emailPlaceholder}}">
+                 placeholder="{{'dataComponent.placeholders.emailPlaceholder' | translate}}">
           <div *ngIf="hasError('email')" class="invalid-feedback">
             <div *ngIf="getControl('email').hasError('customError')">
-              {{form.controls.email.errors?.customError.errorMsg}}
+              {{'dataComponent.errors.email.incorrectEmailError' | translate}}
             </div>
             <div *ngIf="getControl('email').hasError('required')">
-              {{this.emailIsRequiredError}}
+              {{'dataComponent.errors.email.emailIsRequiredError' | translate}}
             </div>
           </div>
         </div>
 
         <div class="form-group">
           <input type="tel" [ngClass]="{'is-invalid': hasError('phone')}" class="form-control" formControlName="phone"
-                 placeholder="{{this.phonePlaceholder}}">
+                 placeholder="{{'dataComponent.placeholders.phonePlaceholder' | translate}}">
           <div *ngIf="hasError('phone')" class="invalid-feedback">
             <div *ngIf="getControl('phone').hasError('customError')">
-              {{form.controls.phone.errors?.customError.errorMsg}}
+              {{'dataComponent.errors.phone.incorrectPhoneError' | translate}}
             </div>
             <div *ngIf="getControl('phone').hasError('required')">
-              {{this.phoneIsRequiredError}}
+              {{'dataComponent.errors.phone.phoneIsRequiredError' | translate}}
             </div>
           </div>
         </div>

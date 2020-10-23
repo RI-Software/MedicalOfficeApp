@@ -8,6 +8,7 @@ import {
   NzIconModule,
   NzRadioModule,
   NzResultModule,
+  NzSelectModule,
   NzToolTipModule,
   NzWaveModule,
 } from 'ng-zorro-antd';
@@ -20,6 +21,7 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {NzStatisticModule} from 'ng-zorro-antd/statistic';
 import {NgxSpinnerModule} from 'ngx-spinner';
+import {TranslateModule} from '@ngx-translate/core';
 
 import {SaveComponent} from './components/save/save.component';
 import {StepControlComponent} from './components/step-control/step-control.component';
@@ -39,6 +41,8 @@ import {StepEffects} from './store/stepStore/effects/step.effects';
 import {ClientGuardsModule} from './guards/client-guards.module';
 import {TimerComponent} from './components/timer/timer.component';
 import {SharedEffects} from './store/shared/effects/shared.effects';
+import { LanguagePickerComponent } from './components/language-picker/language-picker.component';
+import { NavContolsComponent } from './components/nav-contols/nav-contols.component';
 
 
 @NgModule({
@@ -52,6 +56,8 @@ import {SharedEffects} from './store/shared/effects/shared.effects';
     StepsComponent,
     TimeComponent,
     TimerComponent,
+    LanguagePickerComponent,
+    NavContolsComponent,
   ],
   imports: [
     StoreModule.forFeature(clientModuleFeatureKey, reducers),
@@ -77,6 +83,8 @@ import {SharedEffects} from './store/shared/effects/shared.effects';
     NzDividerModule,
     NzStatisticModule,
     NgxSpinnerModule,
+    TranslateModule.forChild(),
+    NzSelectModule
   ],
   providers: [],
 })

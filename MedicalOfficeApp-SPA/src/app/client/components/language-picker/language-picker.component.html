@@ -1,0 +1,7 @@
+<nz-select
+  [ngModel]="currentLanguage"
+  (ngModelChange)="onLanguagePick($event)"
+>
+  <nz-option [nzLabel]="'Русский'" [nzValue]="'ru'"></nz-option>
+  <nz-option [nzLabel]="'English'" [nzValue]="'en'"></nz-option>
+</nz-select>

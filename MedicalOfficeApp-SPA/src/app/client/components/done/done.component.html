@@ -1,9 +1,9 @@
 <nz-result
   nzStatus="success"
-  nzTitle="You have successfully made an appointment"
-  nzSubTitle="Expect a call from our manager for confirmation"
+  nzTitle="{{'doneComponent.title' | translate}}"
+  nzSubTitle="{{'doneComponent.subTitle' | translate}}"
 >
   <div nz-result-extra>
-    <button nz-button nzType="primary" (click)="sendToMain()">Go back to the main page</button>
+    <button nz-button nzType="primary" (click)="sendToMain()">{{'doneComponent.btns.goToMainSite' | translate}}</button>
   </div>
 </nz-result>

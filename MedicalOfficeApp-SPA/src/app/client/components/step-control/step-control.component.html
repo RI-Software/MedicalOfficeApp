@@ -1,8 +1,8 @@
 <div class="btn-group d-flex justify-content-between px-3">
   <button nz-button nzType="default" (click)="step()" [disabled]="!this.previousButtonIsActive">
-    <i nz-icon nzType="left"></i> Past
+    <i nz-icon nzType="left"></i> {{'steps.stepsBtns.past' | translate}}
   </button>
   <button nz-button nzType="primary" (click)="step()" [disabled]="!this.nextButtonIsActive">
-    Next <i nz-icon nzType="right"></i>
+    {{'steps.stepsBtns.next' | translate}} <i nz-icon nzType="right"></i>
   </button>
 </div>
