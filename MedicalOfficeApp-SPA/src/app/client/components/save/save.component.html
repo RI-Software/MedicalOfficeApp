@@ -4,7 +4,7 @@
       <h2 class="text-center text-primary">{{'saveComponent.title' | translate}}</h2>
     </div>
     <div class="col-sm-12 col-md-6 mb-3">
-      <nz-card nzTitle="Date and time" [nzExtra]="dateTimeEditTemplate">
+      <nz-card nzTitle="{{'saveComponent.paragraphs.date&timeTab' | translate}}" [nzExtra]="dateTimeEditTemplate">
         <p>
           {{'saveComponent.paragraphs.date' | translate}}:&nbsp;
           <span>{{dateTime.date | date:'dd.MM.y'}}</span>
@@ -19,7 +19,7 @@
       </ng-template>
     </div>
     <div class="col-sm-12 col-md-6">
-      <nz-card nzTitle="Client" [nzExtra]="clientEditTemplate">
+      <nz-card nzTitle="{{'saveComponent.paragraphs.clientTab' | translate}}" [nzExtra]="clientEditTemplate">
         <p>
           {{'saveComponent.paragraphs.name' | translate}}:&nbsp;
           <span>{{client.name}}</span>

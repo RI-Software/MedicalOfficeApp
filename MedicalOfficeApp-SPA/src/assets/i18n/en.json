@@ -62,6 +62,8 @@
   "saveComponent": {
     "title": "Check data",
     "paragraphs" : {
+      "date&timeTab": "Date and Time",
+      "clientTab": "Client",
       "date": "Date",
       "time": "Time",
       "name": "Name",

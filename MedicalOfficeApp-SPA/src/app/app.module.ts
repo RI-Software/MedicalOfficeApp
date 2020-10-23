@@ -18,6 +18,7 @@ import {en_US, NZ_I18N} from 'ng-zorro-antd';
 import {NzNotificationModule} from 'ng-zorro-antd/notification';
 import {environment} from 'src/environments/environment';
 import {httpInterceptorProviders} from './core/interceptors/httpInterceptorProvider';
+import {SharedModule} from './shared/shared.module';
 
 registerLocaleData(en);
 
@@ -42,6 +43,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
     BrowserModule,
+    SharedModule,
     BrowserAnimationsModule,
     HttpClientModule,
     NzNotificationModule,
