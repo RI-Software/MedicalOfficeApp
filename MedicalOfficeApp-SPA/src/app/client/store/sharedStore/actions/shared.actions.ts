@@ -1,4 +1,4 @@
-import {createAction} from '@ngrx/store';
+import {createAction, props} from '@ngrx/store';
 
 export const showMainClientLoader = createAction(
   '[Loader] Show Main Client Loader'
@@ -14,4 +14,14 @@ export const showTimeBtnsLoader = createAction(
 
 export const hideTimeBtnsLoader = createAction(
   '[Loader] Hide Time Btns Loader'
+);
+
+export const setMainLoaderStatus = createAction(
+  '[Loader] Set Main Loader Status',
+    props<{isOn: boolean}>()
+);
+
+export const setTimeLoaderStatus = createAction(
+  '[Loader] Set Time Loader Status',
+  props<{isOn: boolean}>()
 );

@@ -40,7 +40,7 @@ import {clientModuleFeatureKey} from './store';
 import {StepEffects} from './store/stepStore/effects/step.effects';
 import {ClientGuardsModule} from './guards/client-guards.module';
 import {TimerComponent} from './components/timer/timer.component';
-import {SharedEffects} from './store/shared/effects/shared.effects';
+import {SharedEffects} from './store/sharedStore/effects/shared.effects';
 import { LanguagePickerComponent } from './components/language-picker/language-picker.component';
 import { NavContolsComponent } from './components/nav-contols/nav-contols.component';
 

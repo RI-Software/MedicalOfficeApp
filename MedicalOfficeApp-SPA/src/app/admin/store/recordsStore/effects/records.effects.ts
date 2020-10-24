@@ -11,7 +11,7 @@ import {of} from 'rxjs';
 import {NotificationService} from '../../../../core/services/notification.service';
 import {select, Store} from '@ngrx/store';
 import {selectRecordsSettings} from '../selectors/records.selectors';
-import {LoaderService} from '../../../../core/services/loader.service';
+import {LoaderService} from '../../../services/loader.service';
 
 @Injectable()
 export class RecordsEffects {
