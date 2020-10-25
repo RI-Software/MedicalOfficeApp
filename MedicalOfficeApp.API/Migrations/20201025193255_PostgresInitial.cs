@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace MedicalOfficeApp.API.Migrations
 {
-    public partial class Initial : Migration
+    public partial class PostgresInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +13,7 @@ namespace MedicalOfficeApp.API.Migrations
                 columns: table => new
                 {
                     AdminId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Username = table.Column<string>(nullable: false),
                     PasswordHash = table.Column<byte[]>(nullable: false),
                     PasswordSalt = table.Column<byte[]>(nullable: false),
@@ -28,7 +29,7 @@ namespace MedicalOfficeApp.API.Migrations
                 columns: table => new
                 {
                     ClientId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(nullable: false),
                     Surname = table.Column<string>(nullable: false),
                     Age = table.Column<int>(nullable: false),
@@ -46,7 +47,7 @@ namespace MedicalOfficeApp.API.Migrations
                 columns: table => new
                 {
                     RecordId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Date = table.Column<DateTime>(nullable: false),
                     Time = table.Column<long>(nullable: false),
                     ClientId = table.Column<int>(nullable: false),

@@ -1,0 +1,36 @@
+{
+  "WorkingHours": {
+    "TimePerClient": "01:00",
+    "WorkingDays": [
+      {
+        "DayOfWeek": "Monday",
+        "Start": "09:00",
+        "Stop": "19:00"
+      },
+      {
+        "DayOfWeek": "Tuesday",
+        "Start": "09:00",
+        "Stop": "19:00"
+      },
+      {
+        "DayOfWeek": "Wednesday",
+        "Start": "09:00",
+        "Stop": "19:00"
+      },
+      {
+        "DayOfWeek": "Thursday",
+        "Start": "09:00",
+        "Stop": "19:00"
+      },
+      {
+        "DayOfWeek": "Friday",
+        "Start": "09:00",
+        "Stop": "19:00"
+      }
+    ]
+  },
+  "BookingSettings": {
+    "NumOfDaysInAdvance": 7,
+    "NumOfDaysOfPreservationHistory": 30
+  }
+}

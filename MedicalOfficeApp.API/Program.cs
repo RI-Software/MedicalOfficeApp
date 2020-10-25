@@ -37,9 +37,15 @@ namespace MedicalOfficeApp.API
             Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((hostingConfig, config) =>
                 {
+
+                    config.AddJsonFile("bookingsettings.json",
+                       optional: false,
+                       reloadOnChange: true);
+
                     config.AddJsonFile("devsecrets.json",
-                        optional: false,
+                        optional: true,
                         reloadOnChange: true);
+
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
