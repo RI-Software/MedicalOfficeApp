@@ -41,15 +41,15 @@ namespace MedicalOfficeApp.API.Data
 
         public static void SeedAdmin(DataContext context, string username, string password)
         {
-            if (!context.Admins.Any())
-            {
-                CreatePasswordHashAndSalt(password, out byte[] passwordHash, out byte[] passwordSalt);
-                Admin admin = new Admin() { Username = username, PasswordHash = passwordHash, PasswordSalt = passwordSalt };
+            var admins = context.Admins;
+            context.Admins.RemoveRange(admins);
 
-                context.Admins.Add(admin);
+            CreatePasswordHashAndSalt(password, out byte[] passwordHash, out byte[] passwordSalt);
+            Admin admin = new Admin() { Username = username, PasswordHash = passwordHash, PasswordSalt = passwordSalt };
 
-                context.SaveChanges();
-            }
+            context.Admins.Add(admin);
+
+            context.SaveChanges();
         }
 
         private static void CreatePasswordHashAndSalt(string password, out byte[] passwordHash, out byte[] passwordSalt)
