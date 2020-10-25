@@ -40,4 +40,11 @@
       }
     }
   }
+
+  @media (max-width: 991px) {
+    .time-buttons {
+      margin-top: 23px;
+      margin-bottom: -23px;
+    }
+  }
 }
