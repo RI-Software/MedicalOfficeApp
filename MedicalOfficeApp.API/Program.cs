@@ -19,6 +19,7 @@ namespace MedicalOfficeApp.API
                 var services = scope.ServiceProvider;
 
                 var context = services.GetRequiredService<DataContext>();
+                var env = services.GetRequiredService<IConfiguration>();
                 var numOfDaysOfPreservation = services
                     .GetRequiredService<IOptions<BookingSettings>>()
                     .Value
@@ -27,7 +28,7 @@ namespace MedicalOfficeApp.API
                 context.Database.Migrate();
                 Seed.SeedRecordsAndClients(context);
                 Seed.DeleteOldRecords(context, numOfDaysOfPreservation);
-                Seed.SeedAdmin(context, "kwetachka", "password");
+                Seed.SeedAdmin(context, env.GetValue<string>("Admin:Login"), env.GetValue<string>("Admin:Password"));
             }
 
             host.Run();

@@ -1,0 +1,106 @@
+{
+  "timeComponent": {
+    "tooltipTitles": {
+      "taken": "Это время уже занято",
+      "inProcess": "Это время может осовободиться"
+    }
+  },
+  "dataComponent": {
+    "title": "Регистрация",
+    "errors": {
+      "name": {
+        "incorrectNameError": "Неверное имя",
+        "nameIsRequiredError": "Поле обязательно",
+        "nameMinLengthError": "Имя должно быть короче 2 символов",
+        "nameMaxLengthError": "Имя не может быть длиннее 15 символов"
+      },
+      "surname": {
+        "incorrectSurnameError": "Неверная фамилия",
+        "surnameIsRequiredError": "Поле обязательно",
+        "surnameMinLengthError": "Фамилия не может быть короче 2 символов",
+        "surnameMaxLengthError": "Фамилия не может быть длиннее 15 символов"
+      },
+      "years": {
+        "ageIsRequiredError": "Поле обязательно",
+        "ageMinError": "Возраст должен быть положительным числом",
+        "ageMaxError": "Выберите Ваш настоящий возраст"
+      },
+      "months": {
+        "monthsMinError": "Должно быть больше 0",
+        "monthsMaxError": "Должно быть меньше 12",
+        "monthsAreRequiredError": "Поле обязательно"
+      },
+      "email": {
+        "incorrectEmailError": "Введите существующий электронный адрес",
+        "emailIsRequiredError": "Поле обязательно"
+      },
+      "phone": {
+        "incorrectPhoneError": "Введите корректный номер телефона(BLR or PL)",
+        "phoneIsRequiredError": "Поле обязательно"
+      }
+    },
+    "placeholders": {
+      "namePlaceholder": "Имя пациента",
+      "surnamePlaceholder": "Фамилия пациента",
+      "agePlaceholder": "Возраст",
+      "monthsPlaceholder": "Месяц(ев)",
+      "emailPlaceholder": "Электронный адрес",
+      "phonePlaceholder": "Номер телефона"
+    }
+  },
+  "agreementsComponent" : {
+    "title": "Не забудьте!",
+    "paragraphs" : {
+      "passport": {
+        "title": "Паспорт",
+        "text": " Пожалуйста, возьмите с собой Ваш паспорт. Он будет необходим для регистрации и рецепта."
+      },
+      "sunglasses" : {
+        "title": "Солнцезащитные очки",
+        "text" : "Для Вашего удобства возьмите с собой очки или головной убор с козырьком."
+      },
+      "agreement" : {
+        "title": "Соглашение",
+        "text": "Нажимая 'вперед', вы подтверждаете, что прочитали <a href=\"https://vimpa.by/\">публичный договор</a> и выражаете согласие на обработку Ваших личных данныых."
+      }
+    }
+  },
+  "saveComponent": {
+    "title": "Проверьте Ваши данные",
+    "paragraphs" : {
+      "date&timeTab": "Дата и время",
+      "clientTab": "Ваши данные",
+      "date": "Дата",
+      "time": "Время",
+      "name": "Имя",
+      "surname": "Фамилия",
+      "years": "Полных лет",
+      "months": "Месяц(ев)",
+      "email": "Электронная почта",
+      "phone": "Номер телефона"
+    },
+    "btns": {
+      "edit": "Изменить"
+    }
+  },
+  "doneComponent": {
+    "title": "Вы успешно зарегистрированы",
+    "subTitle": "Ожидайте звонка от администратора для подтверждения",
+    "btns": {
+      "goToMainSite": "На главную"
+    }
+  },
+  "steps": {
+    "stepNames": {
+      "time": "Время",
+      "data": "Личные данные",
+      "agreements": "Соглашение",
+      "save": "Подтверждение",
+      "done": "Готово"
+    },
+    "stepsBtns": {
+      "next": "Вперед",
+      "past": "Назад"
+    }
+  }
+}
